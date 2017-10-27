@@ -1,0 +1,45 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core">
+    <Popover showHeader="false" contentWidth="240px" contentHeight="320px" placement="Bottom">
+        <NavContainer id="navRoom1-3">
+            <Page id="master" showHeader="false">
+                <ObjectHeader title="Room: {room3>/d/Number}">
+                    <attributes>
+                        <ObjectAttribute text="Room status: {ActualStatus>/status/0/IsFree}" />
+                        <ObjectAttribute text="Floor: 7" />
+                        <ObjectAttribute text="Nearest reservation:" />
+                        <ObjectAttribute text="- {reservation3>/d/EmployeeName}" />
+                        <ObjectAttribute text="- {reservation3>/d/ReservationTime}" />
+                    </attributes>
+                </ObjectHeader>
+                <footer>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://add" text="{i18n>Corpo.popover.reserve}" press="onReservePress3" />
+                        <ToolbarSpacer/>
+                    </Toolbar>
+                </footer>
+            </Page>
+            <Page id="roomDetail3" showNavButton="true" navButtonPress="onPopReservationBack3" title="DOBRY WYBÓR">
+                <DateTimeInput id="DTI1" type="Date" placeholder="{i18n>Corpo.popover.inputDate}" class="sapUiSmallMarginBottom" />
+                <DateTimeInput id="DTI2" type="Time" placeholder="{i18n>Corpo.popover.inputHourFrom}" class="sapUiSmallMarginBottom" />
+                <DateTimeInput id="DTI3" type="Time" placeholder="{i18n>Corpo.popover.inputHourTo}" class="sapUiSmallMarginBottom" />
+                <footer>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <Button type="Accept" text="Add to room 3" press="onAcceptRoomReservation">
+                            <layoutData>
+                                <OverflowToolbarLayoutData moveToOverflow="false" />
+                            </layoutData>
+                        </Button>
+                    </Toolbar>
+                </footer>
+            </Page>
+        </NavContainer>
+    </Popover>
+</core:FragmentDefinition>

@@ -1,0 +1,31 @@
+{
+	"mVersionDependency": {
+		"UR.flash.sap_belize": "10.30.7.274797.0",
+		"UR.flash": "10.30.7.274797.0",
+		"UR": "10.30.7.274797.0"
+	},
+	"sEntity": "Theme",
+	"sId": "ecu",
+	"sLabel": "ecu",
+	"oExtends": "UR.flash.sap_belize",
+	"aBuildFiles": [
+		"standards",
+		"standards_cozy",
+		"standards_condensed",
+		"standards_legacy"
+	],
+	"aFiles": [
+		"base",
+		"standards",
+		"standards_cozy",
+		"standards_condensed",
+		"standards_legacy",
+		"custom"
+	],
+	"aBundled": [
+		"ecu--Contrast"
+	],
+	"sTextDirections": "LTR",
+	"sType": "STANDARD",
+	"sThemability": "PUBLIC"
+}

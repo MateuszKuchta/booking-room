@@ -1,0 +1,24 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core">
+	<Popover showHeader="false" contentWidth="320px" contentHeight="500px" placement="Top">
+		<NavContainer id="navConNav">
+			<Page id="master" showHeader="false">
+				<List id="listFreeRooms">
+					<StandardListItem title="{i18n>Corpo.popover.freeConferenceRooms}" type="Active" press="onFreeMeetingRooms"/>
+				</List>
+				<Image src="https://image.ibb.co/hWyzXQ/separator.png" width="99%" />
+				<List id="listFloors" >
+					<StandardListItem title="{i18n>Corpo.popover.firstFloor}" type="Active" press="onFirstFloorPress"/>
+					<StandardListItem title="{i18n>Corpo.popover.secondFloor}" type="Active" press="onSecondFloorPress"/>
+					<StandardListItem title="{i18n>Corpo.popover.thirdFloor}" type="Active" press="onThirdFloorPress"/>
+				</List>
+			</Page>
+			<Page id="detail" showNavButton="true" navButtonPress="onPopNavBackNav" title="Free conference rooms">
+				<List id="freeConfRoomsList" items="{getFreeRooms>/d/results}">
+					<StandardListItem title="{getFreeRooms>Number} {getFreeRooms>Name}" description="Floor: {getFreeRooms>Level}" type="Active" icon="sap-icon://meeting-room" press="" iconDensityAware="false" iconInset="false" />
+				</List>
+			</Page>
+		</NavContainer>
+	</Popover>
+</core:FragmentDefinition>

@@ -1,0 +1,12 @@
+{
+    "routes": [
+    {
+        "path": "/destinations/ODataRemote",
+        "target":
+        {
+            "type": "destination",
+            "name": "ODataRemote"
+        },
+        "description": "Ecu App OData Service"
+    }]
+}

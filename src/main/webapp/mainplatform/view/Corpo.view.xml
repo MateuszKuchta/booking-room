@@ -1,0 +1,79 @@
+<mvc:View controllerName="ecu.controller.Corpo" 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt">
+    <App id="corpo">
+        <pages>
+            <Page showHeader="false">
+                <content>
+                    <tnt:ToolHeader>
+                        <Button icon="sap-icon://nav-back" press="onNavBack" />
+                        <ToolbarSpacer/>
+                        <Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
+                        <ToolbarSpacer/>
+                    </tnt:ToolHeader>
+                    <l:VerticalLayout id="listId" class="sapUiContentPadding listContent listTile listMaxWidth">
+                        <l:content>
+                            <List> 
+                             <!-- items="{news>/d/results}" -->
+                                <!-- <FeedListItem sender="{news>Author}" 
+                                    icon="sap-icon://hint" 
+                                    senderPress="onPress" 
+                                    iconDensityAware="false" 
+                                    info="{news>Time}" 
+                                    timestamp="{news>Description}" 
+                                    text="{news>Title}" 
+                                    convertLinksToAnchorTags="All" 
+                                    type="Active" 
+                                    press="onNewsListPress" /> -->
+                                    <FeedListItem
+                                    	sender="IT Util &#38; SCRUM"
+                                    	icon="sap-icon://hint" 
+                                   		senderPress="onPress" 
+                                    	iconDensityAware="false" 
+                                    	text="IT Util stawia na zwinne realizowanie projektów przy wykorzystaniu SCRUM"
+                                    	info="10:15"
+                                    	convertLinksToAnchorTags="All" 
+                                    	type="Active" 
+                                    	press="onNewsListPress"
+                                    	>
+                                    </FeedListItem>
+                                    <FeedListItem
+                                    	sender="IT Util SAP ponownie SAP Recognized Expertise in Utilities"
+                                    	icon="sap-icon://hint" 
+                                   		senderPress="onPress" 
+                                    	iconDensityAware="false" 
+                                    	text="IT Util jest najlepszą firmą w Polsce posiadającą status SAP Recognized Expertise in Utilities"
+                                    	
+                                    	info="11:15"
+                                    	convertLinksToAnchorTags="All" 
+                                    	type="Active" 
+                                    	press="onNewsListPress"
+                                    	>
+                                    </FeedListItem>
+                                    <FeedListItem
+                                    	sender="Posiłki Pan Kanapka"
+                                    	icon="sap-icon://hint" 
+                                   		senderPress="onPress" 
+                                    	iconDensityAware="false" 
+                                    	text="W firmie zjawił się dostawca jedzenia: Pan Kanapka."
+                                    	info="12:25"
+                                    	convertLinksToAnchorTags="All" 
+                                    	type="Active" 
+                                    	press="onNewsListPress"
+                                    	>
+                                    </FeedListItem>
+                            </List>
+                        </l:content>
+                    </l:VerticalLayout>
+                    <TileContainer id="container" height="40%">
+                        <StandardTile icon="sap-icon://meal" type="type" number="{i18n>Corpo.food}" numberUnit="-" title="{i18n>Corpo.foodCheck}" info="info" press="onOpenFoodPopover" />
+                        <StandardTile icon="sap-icon://map-3" type="type" number="{i18n>Corpo.navigation}" numberUnit="-" title="{i18n>Corpo.navigationPosition}" press="onNavigationPopover" />
+                        <StandardTile icon="sap-icon://task" type="type" number="{i18n>Corpo.roomReserve}" numberUnit="-" title="{i18n>Corpo.roomReserveDesc}" press="onReservationRoomPopover" />
+                    </TileContainer>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

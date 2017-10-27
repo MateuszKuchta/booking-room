@@ -1,0 +1,111 @@
+package pl.itutil.ecu.web.outlook;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import pl.itutil.ecu.auth.TokenResponse;
+import pl.itutil.ecu.service.Event;
+import pl.itutil.ecu.service.OutlookService;
+import pl.itutil.ecu.service.OutlookServiceBuilder;
+import pl.itutil.ecu.service.PagedResult;
+import pl.itutil.ecu.service.Room;
+import pl.itutil.ecu.util.ISO8601DateParser;
+
+@WebServlet("/freeRooms")
+public class FreeRoomsServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * <h1>End Point zwracajacy wydarzenie pokoje wolne w tym momencie</h1>
+	 * <h2>Method GET</h2>
+	 * <h2>{@code example http://localhost:8080/ecu-web/freeRooms}
+	 * 
+	 * @return Event
+	 * @throws ServletException,
+	 *             IOException
+	 * @since 2017-10-06
+	 */
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Gson gson = new Gson();
+		HttpSession session = req.getSession();
+		Calendar calendar = Calendar.getInstance();
+
+		TokenResponse tokens = (TokenResponse) session.getAttribute("tokens");
+		if (tokens == null) {
+			// No tokens in session, user needs to sign in
+			resp.getWriter().append("Please sign in to continue.");
+		}
+
+		Date now = new Date();
+		if (now.after(tokens.getExpirationTime())) {
+			// Token expired
+			// TODO: Use the refresh token to request a new token from the token
+			// endpoint
+			// For now, just complain
+			resp.getWriter().append("The access token has expired. Please logout and re-login.");
+		}
+
+		String email = (String) session.getAttribute("userEmail");
+
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Date d1 = calendar.getTime();
+
+		calendar.set(Calendar.HOUR_OF_DAY, 24);
+		Date d2 = calendar.getTime();
+
+		OutlookService outlookService = OutlookServiceBuilder.getOutlookService(tokens.getAccessToken(), email);
+
+		String filter = "personType/subclass EQ 'Room'";
+		String select = "displayName,userPrincipalName,officeLocation";
+
+		PagedResult<Room> rooms = outlookService.getRooms(select, filter).execute().body();
+		Room[] roomsArray = rooms.getValue();
+		List<Room> freeRooms = new ArrayList<>(Arrays.asList(roomsArray));
+
+		for (Room room : roomsArray) {
+			if (room.getUserPrincipalName().contains("room")) {
+				String startString = ISO8601DateParser.toString(d1);
+				String endString = ISO8601DateParser.toString(d2);
+				PagedResult<Event> events = outlookService
+						.getUserEventsInGivenTime(room.getUserPrincipalName(), startString, endString).execute().body();
+				if (events != null) {
+					for (Event event : events.getValue()) {
+						Date start;
+						Date end;
+						try {
+							start = ISO8601DateParser.parse(event.getStart().getDateTime());
+							end = ISO8601DateParser.parse(event.getEnd().getDateTime());
+							if (now.after(start) && now.before(end)) {
+								freeRooms.remove(room);
+							}
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			} else {
+				freeRooms.remove(room);
+			}
+		}
+		resp.getWriter().append(gson.toJson(freeRooms));
+
+	}
+
+}

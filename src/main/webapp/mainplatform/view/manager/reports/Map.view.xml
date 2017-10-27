@@ -1,0 +1,40 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ecu.controller.manager.reports.Map"
+	xmlns:m="sap.m" xmlns:microchart="sap.suite.ui.microchart" xmlns:chart="sap.chart"
+	xmlns:data="sap.chart.data" xmlns:tnt="sap.tnt" xmlns:sc="sap.suite.ui.commons"
+	xmlns:vbm="sap.ui.vbm" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<m:App>
+		<m:pages>
+			<m:Page id="page" showHeader="false">
+				<m:content>
+					<tnt:ToolHeader>
+						<m:Button icon="sap-icon://nav-back" press="onNavBack" />
+						<m:ToolbarSpacer />
+						<m:Image
+							src="./resources_s/images/eurocash_logo.png"
+							width="160px" height="30px" />
+						<m:ToolbarSpacer />
+					</tnt:ToolHeader>
+					<m:Panel id='settingsPanel' class="panelStyle" expandable="true"
+						expanded="false" headerText="Sales map" width="auto">
+						<m:content>
+							<m:VBox>
+								<m:HBox>
+									<m:Button id="circle" text="Circle" press="onCircles"/>
+									<m:Button id="column" text="Column" press="onColumns"/>
+									<m:InputListItem id="buList" label="Business Unit">
+									</m:InputListItem>
+								</m:HBox>
+								</m:VBox>
+								</m:content>	
+								</m:Panel>
+									<vbm:GeoMap id="GeoMap" width="100%" height="90%">
+
+									</vbm:GeoMap>
+
+						</m:content>
+
+			</m:Page>
+
+		</m:pages>
+	</m:App>
+</mvc:View>

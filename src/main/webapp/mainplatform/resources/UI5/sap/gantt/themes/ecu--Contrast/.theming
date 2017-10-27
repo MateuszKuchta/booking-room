@@ -1,0 +1,16 @@
+{
+	"mVersionDependency": {
+		"UI5.sap/gantt.sap_belize_plus": "1.48.5",
+		"UI5.sap/gantt": "1.48.5",
+		"UI5": "1.48.6"
+	},
+	"sEntity": "Theme",
+	"sId": "ecu--Contrast",
+	"oExtends": "UI5.sap/gantt.sap_belize_plus",
+	"aBundled": [
+		"ecu"
+	],
+	"sBuildOptions": "SKIP",
+	"sType": "ABSTRACT",
+	"sThemability": "PRIVATE"
+}

@@ -1,0 +1,60 @@
+<mvc:View controllerName="ecu.controller.NewApp" 
+    xmlns="sap.m" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt" 
+    xmlns:layout="sap.ui.layout">
+    <App id="newapp">
+        <pages>
+            <Page id="page" showHeader="false">
+                <content>
+                    <tnt:ToolHeader>
+                        <ToolbarSpacer/>
+                        <Image src="./resources_s/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
+                        <ToolbarSpacer/>
+                    </tnt:ToolHeader>
+                    <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Manager" subheader="Dashboard" press="naviToReports">
+                        <tileContent>
+                            <TileContent footer="KPI">
+                                <content>
+                                    <ImageContent src="sap-icon://business-objects-experience"/>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                   
+                    <SlideTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout">
+                        <tiles>
+                            <GenericTile backgroundImage="http://www.foodtrucktalk.com/wp-content/uploads/yumbii-food-450x220.jpg" frameType="TwoByOne" state="Loaded" press="onCorpoPress">
+                                <tileContent>
+                                    <TileContent footer="Korpo">
+                                        <content>
+                                            <NewsContent contentText="[Pan kanapka przyjechal]" subheader="Burger"></NewsContent>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+                            <GenericTile backgroundImage="http://i.imgur.com/e7wg8Ek.jpg" frameType="TwoByOne" state="Loaded" press="onCorpoPress">
+                                <tileContent>
+                                    <TileContent footer="Korpo">
+                                        <content>
+                                            <NewsContent contentText="Sala konferencyjna - rezerwacja" subheader="Czw. 13:00"></NewsContent>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+                            <GenericTile backgroundImage="http://i.imgur.com/e7wg8Ek.jpg" frameType="TwoByOne" state="Loaded" press="onCorpoPress">
+                                <tileContent>
+                                    <TileContent footer="Korpo">
+                                        <content>
+                                            <NewsContent contentText="Sala konferencyjna - zajęta" subheader="13:00 - 15:00"></NewsContent>
+                                        </content>
+                                    </TileContent>
+                                </tileContent>
+                            </GenericTile>
+                        </tiles>
+                    </SlideTile>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

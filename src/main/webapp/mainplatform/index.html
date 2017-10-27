@@ -1,0 +1,29 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">	
+	<title>ecu</title>
+	<script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" data-sap-ui-theme="ecu" data-sap-ui-theme-roots='{"ecu" : "./resources/UI5/"}'
+	    data-sap-ui-libs="sap.m" data-sap-ui-compatVersion="edge" data-sap-ui-preload="async" data-sap-ui-resourceroots='{
+    	    "ecu" : "./"
+      }'>
+	</script>
+	<script type="text/javascript">
+		sap.ui.getCore().attachInit(function () {
+			new sap.m.Shell({
+				app: new sap.ui.core.ComponentContainer({
+					height: "100%",
+					name: "ecu"
+				})
+			}).placeAt("content");
+		});
+	</script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+</head>
+
+<body class="sapUiBody" id="content">
+</body>
+</html>

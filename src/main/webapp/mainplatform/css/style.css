@@ -1,0 +1,665 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: monospace;
+}
+
+.preload {
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	background: #fff;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.logo {
+	width: 300px;
+	height: 70px;
+	margin: 150px auto 50px auto;
+	font-size: 50px;
+	text-shadow: -1px 2px 2px #000;
+	text-align: center;
+	color: azure;
+}
+
+.loader-frame {
+	width: 70px;
+	height: 70px;
+	margin: auto;
+	position: relative;
+}
+
+.loader1,
+.loader2 {
+	position: absolute;
+	border: 5px solid transparent;
+	border-radius: 50%;
+}
+
+.loader1 {
+	width: 70px;
+	height: 70px;
+	border-top: 5px solid #5C5C5D;
+	border-bottom: 5px solid #A6213D;
+	animation: clockwisespin 2s linear 3;
+}
+
+.loader2 {
+	width: 60px;
+	height: 60px;
+	border-left: 5px solid #A6213D;
+	border-right: 5px solid #5C5C5D;
+	top: 5px;
+	left: 5px;
+	animation: anticlockwisespin 2s linear 3;
+}
+
+@keyframes clockwisespin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes anticlockwisespin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes fadeout {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+.pulse {
+	display: block;
+	background: rgba(242, 255, 0, 0.45);
+	/*rgba(238, 255, 0, 0.30);*/
+	cursor: pointer;
+	box-shadow: 0 0 0 rgba(231, 180, 10, 0.7);
+	/*204,169 */
+	animation: pulse 1s infinite;
+}
+
+.pulse:hover {
+	animation: none;
+}
+
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-box-shadow: 0 0 0 0 rgba(248, 255, 52, 0.4);
+	}
+	50% {
+		-webkit-box-shadow: 0 0 0 14px rgba(248, 255, 52, 0.3);
+	}
+	100% {
+		-webkit-box-shadow: 0 0 0 0 rgba(248, 255, 52, 0);
+	}
+}
+
+@keyframes pulse {
+	0% {
+		-moz-box-shadow: 0 0 0 0 rgba(248, 255, 52, 0.4);
+		box-shadow: 0 0 0 0 rgba(248, 255, 52, 0.4);
+	}
+	50% {
+		-moz-box-shadow: 0 0 0 14px rgba(248, 255, 52, 0.3);
+		box-shadow: 0 0 0 14px rgba(248, 255, 52, 0.3);
+	}
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba(248, 255, 52, 0);
+		box-shadow: 0 0 0 0 rgba(248, 255, 52, 0);
+	}
+}
+
+.widthTile {
+	margin-left: 15%;
+}
+
+.listMaxWidth {
+	max-width: 100%;
+}
+
+.mainImage {
+	position: absolute;
+	max-width: 80%;
+	top: 10%;
+	left: 10%;
+	border-radius: 3px;
+	z-index: 1;
+}
+
+.floorImage {
+	position: relative;
+	z-index: 1;
+}
+
+.resizeMapUp {
+	width: 1265px;
+}
+
+.resizeMapDown {
+	width: 100%;
+}
+
+.officeImageClass0-2 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 9.2%;
+	left: 13.65%;
+	border-radius: 3px;
+	z-index: 3;
+}
+
+.officeImageClass1-1 {
+	position: absolute;
+	border-radius: 3px;
+	z-index: 99;
+}
+
+.officeImageClass1-2 {
+	position: absolute;
+	border-radius: 3px;
+	z-index: 99;
+}
+
+.officeImageClass1-3 {
+	position: absolute;
+	border-radius: 3px;
+	z-index: 99;
+}
+
+.officeResizeUp1-1 {
+	top: 224px;
+	left: 833px;
+	width: 86px;
+	height: 185px;
+}
+
+.officeResizeDown1-1 {
+	left: 65.8%;
+	width: 6.8%;
+}
+
+.officeResizeUp1-2 {
+	top: 224px;
+	left: 922px;
+	width: 68px;
+	height: 93px;
+}
+
+.officeResizeDown1-2 {
+	left: 73%;
+	width: 5.4%;
+}
+
+.officeResizeUp1-3 {
+	top: 615px;
+	left: 319px;
+	width: 137px;
+	height: 65px;
+}
+
+.officeResizeDown1-3 {
+	left: 25.5%;
+	width: 10.5%;
+}
+
+.foodResizeUp {
+	position: absolute;
+	border-radius: 50%;
+	z-index: 99;
+	top: 240px;
+	left: 300px;
+	width: 80px;
+	height: 80px;
+}
+
+.foodResizeDown {
+	position: absolute;
+	border-radius: 50%;
+	z-index: 99;
+	left: 23.5%;
+	width: 6.6%;
+}
+
+.navigationImage1-1 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 13.65%;
+	z-index: 3;
+}
+
+.navigationImage1-2 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 23.65%;
+	z-index: 3;
+}
+
+.navigationImage1-3 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 33.65%;
+	z-index: 3;
+}
+
+.navigationImage1-4 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 43.65%;
+	z-index: 3;
+}
+
+.navigationImage1-5 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 53.65%;
+	z-index: 3;
+}
+
+.navigationImage1-6 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 63.65%;
+	z-index: 3;
+}
+
+.navigationImage1-7 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 36.15%;
+	left: 73.65%;
+	z-index: 3;
+}
+
+.navigationImage1-8 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 44.15%;
+	left: 65.95%;
+	z-index: 3;
+}
+
+.navigationImage1-9 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 64.15%;
+	left: 65.95%;
+	z-index: 3;
+}
+
+.navigationImage1-10 {
+	position: absolute;
+	max-width: 80%;
+	bottom: 73.3%;
+	left: 70.95%;
+	z-index: 3;
+}
+
+.greenImage {
+	background-color: rgba(0, 255, 0, 0.30);
+}
+
+.redImage {
+	background-color: rgba(255, 0, 0, 0.3);
+}
+
+.yellowImage {
+	background-color: rgba(238, 255, 0, 0.30);
+}
+
+.greenNav {
+	background-color: rgba(0, 131, 0, 0.30);
+}
+
+.navigationButton {
+	position: absolute;
+	bottom: 2%;
+	right: 18px;
+	z-index: 3;
+	width: 60px;
+}
+
+.searchField {
+	position: relative;
+	z-index: 3;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.newsClass {
+	text-indent: 20px;
+	text-align: justify;
+	margin: 15px;
+}
+
+
+/* klasa dla custom tile w dashboard */
+
+.myCustomTile {
+	width: 23.5rem;
+	height: 11rem;
+	border: 1px solid #dddddd;
+	border-radius: 2px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+	background-color: #ffffff;
+	margin: 0.2rem;
+}
+
+.freeRoom {
+	background-color: rgba(0, 255, 0, 0.43);
+	position: absolute;
+}
+
+.inUseRoom {
+	background-color: rgba(255, 0, 0, 0.6);
+	position: absolute;
+}
+
+.detailsText {
+	position: relative;
+	margin-left: 8%;
+	margin-bottom: 0 !important;
+	font-size: 4vw !important;
+	font-family: 'Lato', sans-serif !important;
+	color: #fff !important;
+}
+
+.headerClock {
+	font-family: 'Lato', sans-serif !important;
+	font-size: 4vw !important;
+	color: #fff !important;
+	float: right;
+	margin-right: 8%;
+}
+
+.flexBoxHeaderClass {
+	position: relative;
+	margin-top: 0% !important;
+	width: 100%;
+	height: 7%;
+	background-color: rgba(47, 47, 47, 0.89) !important
+}
+
+.flexBoxClass {
+	width: 80%;
+	margin-top: 0% !important;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.flexBoxMainClass {
+	width: 80% !important;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.availableText {
+	position: relative;
+	font-size: 8vw !important;
+	color: #fff !important;
+	font-family: 'Lato', sans-serif !important;
+	float: left;
+}
+
+.availableTextReservation {
+	position: relative;
+	font-size: 7vw !important;
+	color: #fff !important;
+	font-family: 'Lato', sans-serif !important;
+	float: right;
+	margin-top: 1vw;
+}
+
+.timer {
+	font-family: 'Lato', sans-serif !important;
+	font-size: 8vw !important;
+	float: right;
+	color: #fff !important;
+}
+
+.progressBar {
+	position: relative;
+	width: 59.5vw !important;
+	margin-top: 0.5vw !important;
+    margin-right: 0.5vw !important;
+}
+
+.roomDetailsTableCurrentOrUse {
+	width: 80% !important;
+	margin-top: 2% !important;
+	margin-left: 10% !important;
+	background-color: rgba(82, 82, 82, 0.19);
+}
+
+.roomDetailsTableMain {
+	width: 80% !important;
+	margin-top: 2% !important;
+	margin-left: 10% !important;
+	background-color: rgba(82, 82, 82, 0.19);
+}
+
+.roomDetailsTableReservations {
+	width: 50vw !important;
+}
+
+.roomDetailsTableReservationTime {
+	width: 30vw !important;
+}
+
+.roomDetailsBorderRadius {
+	border-radius: 0 0 30% 30%;
+}
+
+.roomDetailsNextCurrent {
+	color: #666666 !important;
+	font-size: 3vw !important;
+	font-family: 'Lato', sans-serif !important;
+}
+
+.roomDetailsNextDesc {
+	color: #666666 !important;
+	font-size: 3vw !important;
+	font-family: 'Lato', sans-serif !important;
+	text-align: justify !important;
+	text-justify: inter-word !important;
+}
+
+.roomDetailsTableDesc {
+	color: #666666 !important;
+	font-size: 2vw !important;
+	font-family: 'Lato', sans-serif !important;
+	/* text-align: justify !important;
+	text-justify: inter-word !important; */
+}
+
+.roomDetailsColumnDesc {
+	color: #fff !important;
+	font-size: 2vw !important;
+	font-family: 'Lato', sans-serif !important;
+}
+
+.roomDetailsImage {
+	margin-top: 2%;
+	margin-left: 10%;
+	position: relative;
+}
+
+.roomDetailsImageAdd {
+	float: right;
+	margin-top: 2%;
+	margin-right: 12%;
+	position: relative;
+}
+
+.roomDetailsProjectorImage {
+	margin-left: 15%;
+	position: relative;
+}
+
+.roomDetailsCookiesImage {
+	margin-left: 5%;
+	position: relative;
+}
+
+.mainHBox {
+	width: 80% !important;
+	margin-top: 2% !important;
+	margin-left: 10% !important;
+	background-color: rgba(82, 82, 82, 0.19);
+}
+
+.HBoxImages {
+	margin-top: 7%;
+	margin-left: 2%;
+}
+
+.imageDescHBox {
+	width: 80% !important;
+	margin-left: 10% !important;
+}
+
+.displayPeopleList {
+	font-size: 50px !important;
+}
+
+.displayPeopleListElement {
+	font-size: 30px !important;
+	background-color: #ACACAC !important;
+	color: #fff;
+	font-family: 'Lato', sans-serif !important;
+}
+
+.displayDateFormat {
+	border-radius: 30px !important;
+	font-size: 1.3rem !important;
+	font-family: 'Lato', sans-serif !important;
+	color: #666;
+}
+
+.detailsDateInputVBox {
+	/* margin-left: 5vw; */
+}
+
+.detailsAddReservationImage {
+
+	/* margin-top: 2vw; */
+	margin-top: 11.5vw;
+	margin-left: -3vw;
+}
+/* marcin */
+ .myCustomTile {
+         width: auto !important;
+         height: auto !important;
+        background-color: transparent;
+         padding: 2% !important;
+}
+.ecuInputList {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    background: #fff !important;
+    /* border-bottom: 1px solid #e5e5e5; */
+    padding: 0 1rem 0 1rem;
+}
+.mRadialLabel {
+	font-weight: bold;
+}
+
+
+}
+
+.roomDetailsAddButton { 
+	font-size: 3vw !important;
+	margin-bottom: 10%;
+}
+
+.detailsRoomSelectExtras {
+	font-size: 3rem !important;
+	width:100% !important;
+	margin-top: 2% !important;
+	margin-left: 4% !important;
+	border-radius: 30px !important;
+	color: #666 !important;
+}
+
+.roomDetailsTableClosest {
+	/* background-size: 100% 100%; */
+	width: 59.5vw !important;
+	/* height: 9.7vw !important; */
+}
+
+.endNowAndQuickRes {
+	background-size: 100% 100%;
+	float:right !important;
+	width: 20vw;
+	height: 9.7vw;
+}
+
+.quickReservations {
+	float:left !important;
+	width: 33.3vw;
+	height: 9.7vw;
+}
+
+.roomDisplayImageCalendarDescription {
+	position: relative;
+	font-family: 'Lato', sans-serif !important;
+	font-size: 2vw !important;
+	color: #666 !important;
+	margin-left: 1vw !important;
+}
+
+.roomDisplayImageAttendeesDescription {
+	position: relative;
+	font-family: 'Lato', sans-serif !important;
+	margin-left: 11.59vw !important;
+	font-size: 2vw !important;
+	color: #666 !important;
+}
+
+.roomDisplayImageFreeRoomDescription {
+	position: relative;
+	font-family: 'Lato', sans-serif !important;
+	margin-left: 10vw !important;
+	font-size: 2vw !important;
+	color: #666 !important;
+}
+
+.roomDisplayImageAddResDescription {
+	position: relative;
+	font-family: 'Lato', sans-serif !important;
+	margin-left: 13.4vw !important;
+	font-size: 2vw !important;
+	color: #666 !important;
+}
+
+.roomDisplayChangeTextColor {
+	color: #fff !important;
+}
+

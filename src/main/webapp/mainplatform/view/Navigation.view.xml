@@ -1,0 +1,33 @@
+<mvc:View controllerName="ecu.controller.Navigation" 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt">
+    <App id="navigation">
+        <pages>
+            <Page showHeader="false">
+                <content>
+                    <tnt:ToolHeader>
+                        <Button icon="sap-icon://nav-back" press="onNavBack" />
+                        <ToolbarSpacer/>
+                        <Text text="{i18n>homePageTitle}"/>
+                        <ToolbarSpacer/>
+                    </tnt:ToolHeader>
+                    <Image src="http://findicons.com/files/icons/1014/ivista/128/plus.png" class="navigationButton" press="onImageNavButtonPress" />
+                    <Image src="https://i.pinimg.com/originals/e0/b1/01/e0b101d45b63a25e7b038563cc132bec.jpg" width="95%" height="85%" class="mainImage"/>
+                    <Image id="imageOffice0-2" class="officeImageClass0-2" src="https://www.transparenttextures.com/patterns/asfalt-light.png" width="19.8%" height="26.3%" press="onImagePress"/>
+                    <Image id="navigation1-1" class="navigationImage1-1" width="10%" height="8%" press="onNavigationSystemPress"/>
+                    <Image id="navigation1-2" class="navigationImage1-2" width="10%" height="8%" />
+                    <Image id="navigation1-3" class="navigationImage1-3" width="10%" height="8%" />
+                    <Image id="navigation1-4" class="navigationImage1-4" width="10%" height="8%" />
+                    <Image id="navigation1-5" class="navigationImage1-5" width="10%" height="8%" />
+                    <Image id="navigation1-6" class="navigationImage1-6" width="7.3%" height="8%" />
+                    <Image id="navigation1-7" class="navigationImage1-7" width="10%" height="8%" />
+                    <Image id="navigation1-8" class="navigationImage1-8" width="5%" height="20%" />
+                    <Image id="navigation1-9" class="navigationImage1-9" width="5%" height="15%" />
+                    <Image id="navigation1-10" class="navigationImage1-10" width="8.7%" height="5.8%" />
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

@@ -1,0 +1,193 @@
+<mvc:View controllerName="ecu.controller.RoomDetails" 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt" 
+    xmlns:core="sap.ui.core">
+    <App id="roomDetails">
+        <pages>
+            <Page showHeader="false">
+                <content class="freeRoom">
+                    <tnt:ToolHeader>
+                        <ToolbarSpacer/>
+                        <Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
+                        <ToolbarSpacer/>
+                    </tnt:ToolHeader>
+                    <Image id="roomDetailsImage" src="./resources/images/transparent2.png" class="" width="100%" height="100%" />
+                    <FlexBox alignItems="Start" class="flexBoxHeaderClass">
+                        <items>
+                            <Text text="ECU ROOM 1" class="detailsText">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Text>
+                            <Label id="oClock" class="headerClock">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Label>
+                        </items>
+                    </FlexBox>
+                    <FlexBox alignItems="Start" class="flexBoxClass">
+                        <items>
+                            <Text text="{ActualStatus>/status/0/CurrentOrUse}" class="availableText">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Text>
+                            <Text text="{reservationTime>/time/0/start}" class="availableTextReservation">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Text>
+                        </items>
+                    </FlexBox>
+                    <HBox class="flexBoxMainClass">
+                        <VBox>
+                            <Table id="roomDetailsTableClosest" inset="false" class="roomDetailsTableClosest">
+                                <columns>
+                                    <Column width="27%" text="text"></Column>
+                                    <Column width="26%" demandPopin="true"></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <ObjectIdentifier title="{ActualStatus>/status/0/CurrentOrNext}" class="roomDetailsNextCurrent"/>
+                                            <ObjectIdentifier title="{reservationDisplayDetailsAll>/value/0/subject}" class="roomDetailsNextDesc"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                            <ProgressIndicator id="progressBar" class="sapUiSmallMarginBottom progressBar" percentValue="{ActualStatus>/status/0/ProgressBar}" displayValue="{ActualStatus>/status/0/ProgressBar}%" showValue="true" state="Success" width="100%"/>
+                            <HBox>
+                                <Image id="imageQuickRes1" src="./resources/images/button_15mins.png" class="endNowAndQuickRes" visible="false" press="onImageQuickRes1"/>
+                                <Image id="imageQuickRes2" src="./resources/images/button_30mins.png" class="endNowAndQuickRes" visible="false" press="onImageQuickRes2"/>
+                                <Image id="imageQuickRes3" src="./resources/images/button_45mins.png" class="endNowAndQuickRes" visible="false" press="onImageQuickRes3"/>
+                            </HBox>
+                        </VBox>
+                        <Image id="endNowAndQuickRes" src="" class="endNowAndQuickRes" press="onEndNowAndQuickRes"/>
+                    </HBox>
+                    <ScrollContainer id="roomDetailsScrollContainer" height='26%' vertical='true' class="roomDetailsTableMain">
+                        <HBox id="roomDetailsTableAll">
+                            <Table id="roomDetailsTableReservations" inset="false" items="{path: 'reservationDisplayDetailsAll>/value/'}" class="roomDetailsTableAll">
+                                <columns>
+                                    <Column width="20%">
+                                        <Text text="Organizer" class="roomDetailsColumnDesc"/>
+                                    </Column>
+                                    <Column width="30%" demandPopin="true">
+                                        <Text text="Subject" class="roomDetailsColumnDesc"/>
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{reservationDisplayDetailsAll>attendees/0/emailAddress/name}" class="roomDetailsTableDesc"/>
+                                            <Text text="{reservationDisplayDetailsAll>subject}" class="roomDetailsTableDesc"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                            <Table id="roomDetailsTableReservationTime" inset="false" items="{path: 'reservationTime>/time/'}" class="roomDetailsTableReservationTime">
+                                <columns>
+                                    <Column width="30%">
+                                        <Text text="Reservation time" class="roomDetailsColumnDesc"/>
+                                    </Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{reservationTime>start}" class="roomDetailsTableDesc" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </HBox>
+                        <Table id="roomDetailsTablePeople" inset="false" items="{path: 'reservationDisplayDetailsAll>/value/0/attendees/'}" visible="false">
+                            <columns>
+                                <Column width="20%" text="text"></Column>
+                                <Column width="30%" demandPopin="true">
+                                    <Text text="Name" class="roomDetailsColumnDesc"/>
+                                </Column>   
+                                <Column width="30%" demandPopin="true">
+                                    <Text text="Email address" class="roomDetailsColumnDesc"/>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <ObjectIdentifier title="" class="roomDetailsNextCurrent"/>
+                                        <Text text="{reservationDisplayDetailsAll>emailAddress/name}" class="roomDetailsTableDesc"/>
+                                        <Text text="{reservationDisplayDetailsAll>emailAddress/address}" class="roomDetailsTableDesc" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false">
+                            <columns>
+                                <Column width="20%" text="text">
+                                    <Text text="Name" class="roomDetailsColumnDesc"/>
+                                </Column>
+                                <Column width="30%" demandPopin="true">
+                                    <Text text="Location" class="roomDetailsColumnDesc"/>
+                                </Column>
+                                <Column width="30%" demandPopin="true">
+                                    <Text text="Principal name" class="roomDetailsColumnDesc"/>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/>
+                                        <Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/>
+                                        <Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <HBox id="detailsHBox" width="100%" visible="false">
+                            <VBox width="30%">
+                                <ComboBox id="DTI4" showSecondaryValues="true" items="{
+                                    path: 'reservationDetailsPeople>/value/',
+                                    sorter: { path: 'FirstName' }
+                                }" placeholder="Organizer">
+                                    <core:Item key="{reservationDetailsPeople>DisplayName}" text="{reservationDetailsPeople>DisplayName}" additionalText="{reservationDetailsPeople>JobTitle}" />
+                                    <!-- additionalText="{reservationDetailsPeople>JobTitle}"-->
+                                </ComboBox>
+                                <HBox width="100%" class="HBoxImages">
+                                    <Image id="projectorImage" src="./resources/images/projectorImageGray.png" class="roomDetailsProjectorImage" height="60%" width="73%" press="onProjectorPress" />
+                                    <Image id="cookiesImage" src="./resources/images/cookiesImageGray.png" class="roomDetailsCookieImage" height="80%" width="90%" press="onCookiePress" />
+                                    <Image id="coffeeImage" src="./resources/images/coffeeImageGray.png" class="roomDetailsProjectorImage" height="60%" width="90%" press="onCoffeePress" />
+                                    <Image id="pearImage" src="./resources/images/pearImageGray.png" class="roomDetailsProjectorImage" height="70%" width="90%" press="onPearPress" />
+                                </HBox>
+                                <Image src="./resources/images/button_choose-additional-things.png" class="detailsRoomSelectExtras" press="onSelectDialogPress">
+                                    <customData>
+                                        <core:CustomData key="multi" value="true" />
+                                        <core:CustomData key="remember" value="true" />
+                                    </customData>
+                                </Image>
+                            </VBox>
+                            <VBox width="50%" class="detailsDateInputVBox">
+                                <DateTimeInput id="DTI1" type="Date" placeholder="{i18n>Corpo.popover.inputDate}" class="displayDateFormat" width="70%" />
+                                <DateTimeInput id="DTI2" type="Time" placeholder="{i18n>Corpo.popover.inputHourFrom}" class="displayDateFormat" width="70%" />
+                                <DateTimeInput id="DTI3" type="Time" placeholder="{i18n>Corpo.popover.inputHourTo}" class="displayDateFormat" width="70%"/>
+                            </VBox>
+                            <VBox width="20%">
+                                <Image src="./resources/images/button_add-reservation.png" class="detailsAddReservationImage" height="13%" width="100%" press="onRoomDetailsAddReservation" />
+                            </VBox>
+                        </HBox>
+                    </ScrollContainer>
+                    <Image id="calendarImage" src="./resources/images/detailsCalendarWhite.png" class="roomDetailsImage" height="13%" width="10%" press="onRoomDetailsCalendarOpen" />
+                    <Image id="peopleImage" src="./resources/images/detailsPeopleGray.png" class="roomDetailsImage" height="13%" width="10%" press="onRoomDetailsPeopleOpen"/>
+                    <Image id="findAnotherImage" src="./resources/images/detailsFindAnotherGray.png" class="roomDetailsImage" height="13%" width="10%" press="onRoomDetailsFindOpen" />
+                    <Image id="openReservationImage" src="./resources/images/detailsOpenReservationGray.png" class="roomDetailsImageAdd" height="13%" width="10%" press="onRoomDetailsAddOpen" />
+                    <HBox class="imageDescHBox">
+                        <Text id="calendarText" text="Schedule" class="roomDisplayImageCalendarDescription roomDisplayChangeTextColor"/>
+                        <Text id="peopleText" text="Attendees" class="roomDisplayImageAttendeesDescription" />
+                        <Text id="findAnotherText" text="Find free room" class="roomDisplayImageFreeRoomDescription" />
+                        <Text id="openReservationText" text="Add reservation" class="roomDisplayImageAddResDescription" />
+                    </HBox>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

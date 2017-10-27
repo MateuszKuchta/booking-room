@@ -1,0 +1,11 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core">
+    <Popover showHeader="false" contentWidth="35%" contentHeight="38%" placement="Top">
+        <NavContainer id="navDetailsFindAnother">
+            <Page id="master" showHeader="false">
+                <Text text="find another"/>
+            </Page>
+        </NavContainer>
+    </Popover>
+</core:FragmentDefinition>

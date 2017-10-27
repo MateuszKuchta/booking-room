@@ -1,0 +1,25 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" controllerName="ecu.controller.manager.ManagerLogin">
+<Page title="{i18n>login}" id="_loginPage">
+<content>
+<Panel >
+    <sap.ui.layout:VerticalLayout xmlns:sap.ui.layout="sap.ui.layout" width="100%" id="__layout2">
+        <sap.ui.layout:content>
+            <sap.ui.layout:HorizontalLayout id="__layout3">
+                <sap.ui.layout:content >
+                    <Label text="{i18n>eLogin}" width="100%" id="__label0" class="sapUiTinyMargin"/>
+                    <Input width="100%" id="_iLogin" class="sapUiTinyMargin" maxLength="15" fieldWidth="30%"/>
+                </sap.ui.layout:content>
+            </sap.ui.layout:HorizontalLayout>
+            <sap.ui.layout:HorizontalLayout xmlns:sap.ui.layout="sap.ui.layout" id="__layout4">
+            	<sap.ui.layout:content>
+                    <Label text="{i18n>ePass}" width="100%" id="__label1" class="sapUiTinyMargin"/>
+                    <Input width="100%" id="_iPass" type="Password" class="sapUiTinyMargin"/>
+                </sap.ui.layout:content>
+            </sap.ui.layout:HorizontalLayout>
+            <Button text="{i18n>bLogin}" width="100px" id="_bLogin" press="login"/>
+        </sap.ui.layout:content>
+    </sap.ui.layout:VerticalLayout>
+</Panel>
+</content>
+</Page>
+</mvc:View>

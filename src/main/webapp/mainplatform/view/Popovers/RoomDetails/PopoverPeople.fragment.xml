@@ -1,0 +1,21 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core">
+    <Popover showHeader="false" contentWidth="35%" contentHeight="38%" placement="Top">
+        <NavContainer id="navDetailsPeople">
+            <Page id="master" showHeader="false">
+                <List id="testList" >
+                    <StandardListItem title="Maciej Jakis" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onFirstFloorPress"/>
+                    <StandardListItem title="Arnold Silny" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onSecondFloorPress"/>
+                    <StandardListItem title="Jonatham Niestatham" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onThirdFloorPress"/>
+                    <StandardListItem title="Mateusz Fajny" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onFirstFloorPress"/>
+                    <StandardListItem title="Emil Dzialka" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onSecondFloorPress"/>
+                    <StandardListItem title="John Smif " class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onThirdFloorPress"/>
+                    <StandardListItem title="Anna Okno" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onFirstFloorPress"/>
+                    <StandardListItem title="Szeregowiec Ryan" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onSecondFloorPress"/>
+                    <StandardListItem title="John Wick" class="displayPeopleListElement" icon="sap-icon://company-view" type="Active" press="onThirdFloorPress"/>
+                </List>
+            </Page>
+        </NavContainer>
+    </Popover>
+</core:FragmentDefinition>

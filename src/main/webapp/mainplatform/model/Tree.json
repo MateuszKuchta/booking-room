@@ -1,0 +1,75 @@
+ {
+	"menu": [
+		{
+			"text": "Sales Plan",
+			"ref": "sap-icon://paid-leave",
+			"nodes": [
+				{
+					"key": "spyesterday",
+					"text": "Sales Plan Yesterday",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				},
+				{
+					"key": "spweek",
+					"text": "Sales Plan Week",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				},
+				{
+					"key": "spmonth",
+					"text": "Sales Plan Month",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				},
+				{
+					"key": "spyear",
+					"text": "Sales Plan Year",
+					"ref": "sap-icon://filter-analytics",
+					"selected": true
+				},
+				{
+					"key": "spmonthbu",
+					"text": "Sales Plan Yesterday for BU",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				},
+				{
+					"text": "Sales Plan Week for BU",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				}
+			]
+		},
+		{
+			"text": "Total Sales on Map",
+			"ref": "sap-icon://lead",
+			"nodes": [
+				{
+					"key": "spmonthbu",
+					"text": "Month Sales Plan realization by BU",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				}
+			]
+		},
+		{
+			"text": "Total Sales",
+			"ref": "sap-icon://lead",
+			"nodes": [
+				{
+					"key": "tsmonth",
+					"text": "Total Sales in Month - line",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				},
+				{
+					"key": "tsmonthb",
+					"text": "Total Sales in Month - block",
+					"ref": "sap-icon://filter-analytics",
+					"selected": false
+				}
+			]
+		}
+	]
+}

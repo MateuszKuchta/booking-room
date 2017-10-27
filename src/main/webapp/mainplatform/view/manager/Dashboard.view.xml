@@ -1,0 +1,33 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ecu.controller.manager.Dashboard"
+	xmlns:m="sap.m" xmlns:microchart="sap.suite.ui.microchart" xmlns:chart="sap.chart"
+	xmlns:data="sap.chart.data" xmlns:core="sap.ui.core" xmlns:tnt="sap.tnt"
+	xmlns:sc="sap.suite.ui.commons" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout">
+	<m:App>
+		<m:pages>
+			<m:Page id="page" showHeader="false">
+				<m:content>
+					<tnt:ToolHeader>
+						<m:Button icon="sap-icon://nav-back" press="onNavBack" />
+						<m:ToolbarSpacer />
+						<m:Image
+							src="./resources_s/images/eurocash_logo.png"
+							width="160px" height="30px" />
+						<m:ToolbarSpacer />
+						<m:Button icon="sap-icon://action-settings" press="navToSettings" />
+					</tnt:ToolHeader>
+
+					<m:MultiComboBox id="multiCombo" selectionChange="handleSelectionChange"
+						selectionFinish="handleSelectionFinish" width="500px" items="{path: '/Menu'}">
+						<core:Item key="{key}" text="{text}" />
+					</m:MultiComboBox>
+
+					<m:TileContainer id="tileContener"></m:TileContainer>
+
+				</m:content>
+
+			</m:Page>
+
+		</m:pages>
+	</m:App>
+</mvc:View>

@@ -1,0 +1,26 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="ecu.controller.manager.reports.Tiles_1"
+	xmlns:m="sap.m" xmlns:microchart="sap.suite.ui.microchart" xmlns:chart="sap.chart"
+	xmlns:data="sap.chart.data" xmlns:tnt="sap.tnt" xmlns:sc="sap.suite.ui.commons"
+	xmlns:form="sap.ui.layout.form">
+	<m:App>
+		<m:pages>
+			<m:Page id="page" showHeader="false">
+				<m:content>
+					<tnt:ToolHeader>
+						<m:Button icon="sap-icon://nav-back" press="onNavBack" />
+						<m:ToolbarSpacer />
+						<m:Image
+							src="./resources_s/images/eurocash_logo.png"
+							width="160px" height="30px" />
+						<m:ToolbarSpacer />
+					</tnt:ToolHeader>
+
+					<m:TileContainer id="tileContener"></m:TileContainer>
+
+				</m:content>
+
+			</m:Page>
+
+		</m:pages>
+	</m:App>
+</mvc:View>
