@@ -1,11 +1,7 @@
 package pl.itutil.ecu.web.outlook;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,13 +16,11 @@ import org.apache.http.entity.ContentType;
 
 import com.google.gson.Gson;
 
-import pl.itutil.ecu.auth.TokenResponse;
-import pl.itutil.ecu.service.DateTimeTimeZone;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
-import pl.itutil.ecu.service.OutlookServiceBuilder;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.util.ISO8601DateParser;
+import pl.itutil.ecu.util.OutlookServiceUtil;
 
 @WebServlet("/getUserEvents")
 public class UserCalendarServlet extends HttpServlet {
@@ -48,71 +42,52 @@ public class UserCalendarServlet extends HttpServlet {
 		String startDateTime, endDateTime;
 		Gson gson;
 		HttpSession session = req.getSession();
-		TokenResponse tokens = (TokenResponse) session.getAttribute("tokens");
-		if (tokens == null) {
-			// No tokens in session, user needs to sign in
+		
+		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
+		
+		if (outlookService != null) {
+			Date now = new Date();
+			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
+			endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
+			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
+					.execute().body();
+			gson = new Gson();
+			if (events.getValue().length != 0) {
+//				List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));
+//				for (Event event : eventList) {
+////					 poprawka dla tabletu SONY
+//					 try {
+//					 DateTimeTimeZone eventStart = event.getStart();
+//					 DateTimeTimeZone eventEnd = event.getEnd();
+//					
+//					 Date eventStartDateTime = ISO8601DateParser.parse(eventStart.getDateTime());
+//					 Date eventEndDateTime = ISO8601DateParser.parse(eventEnd.getDateTime());
+//					
+//					 eventStartDateTime = DateUtils.addHours(eventStartDateTime, -2);
+//					 eventEndDateTime = DateUtils.addHours(eventEndDateTime, -2);
+//					
+//					 eventStart.setDateTime(ISO8601DateParser.toString(eventStartDateTime));
+//					 eventEnd.setDateTime(ISO8601DateParser.toString(eventEndDateTime));
+//					
+//					 event.setStart(eventStart);
+//					 event.setEnd(eventEnd);
+//					 } catch (ParseException e) {
+//					 e.printStackTrace();
+//					 }
+//
+//				}
+				resp.setContentType(ContentType.APPLICATION_JSON.toString());
+				resp.setStatus(HttpStatus.SC_ACCEPTED);
+				resp.getWriter().append(gson.toJson(events));
+			} else {
+				resp.getWriter().append(gson.toJson(events));
+				resp.setContentType(ContentType.APPLICATION_JSON.toString());
+				resp.setStatus(HttpStatus.SC_NOT_FOUND);
+			}
+		} else {
 			resp.getWriter().append("Please sign in to continue.");
 		}
 
-		Date now = new Date();
-		if (now.after(tokens.getExpirationTime())) {
-			// Token expired
-			// TODO: Use the refresh token to request a new token from the token
-			// endpoint
-			// For now, just complain
-			resp.getWriter().append("The access token has expired. Please logout and re-login.");
-		}
-
-		String email = (String) session.getAttribute("userEmail");
-		
-		startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -2));
-		endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
-
-		PagedResult<Event> events = new PagedResult<Event>();
-
-		OutlookService outlookService = OutlookServiceBuilder.getOutlookService(tokens.getAccessToken(), email);
-		events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute().body();
-		List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));
-		gson = new Gson();
-		if (events.getValue().length != 0) {
-			for (Event event : eventList) {
-
-				// poprawka dla tabletu SONY
-//				try {
-//					DateTimeTimeZone eventStart = event.getStart();
-//					DateTimeTimeZone eventEnd = event.getEnd();
-//
-//					Date eventStartDateTime = ISO8601DateParser.parse(eventStart.getDateTime());
-//					Date eventEndDateTime = ISO8601DateParser.parse(eventEnd.getDateTime());
-//
-//					eventStartDateTime = DateUtils.addHours(eventStartDateTime, -2);
-//					eventEndDateTime = DateUtils.addHours(eventEndDateTime, -2);
-//
-//					eventStart.setDateTime(ISO8601DateParser.toString(eventStartDateTime));
-//					eventEnd.setDateTime(ISO8601DateParser.toString(eventEndDateTime));
-//
-//					event.setStart(eventStart);
-//					event.setEnd(eventEnd);
-//				} catch (ParseException e) {
-//					e.printStackTrace();
-//				}
-
-			}
-			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatus.SC_ACCEPTED);
-			resp.getWriter().append(gson.toJson(events));
-		} else {
-			resp.getWriter().append(gson.toJson(events));
-			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatus.SC_NOT_FOUND);
-		}
-
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
