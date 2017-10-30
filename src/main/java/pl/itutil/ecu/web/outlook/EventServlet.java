@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
-import org.apache.olingo.odata2.api.commons.HttpStatusCodes;
 
 import com.google.gson.Gson;
 
@@ -141,31 +141,14 @@ public class EventServlet extends HttpServlet {
 
 		PagedResult<Event> userEvents = outlookService.getUserEventsInGivenTime(userEmail, start, end)
 				.execute().body();
-		Response<PagedResult<Event>> userEventsa = outlookService.getUserEventsInGivenTime(userEmail, start, end)
-				.execute();
 		if (userEvents.getValue().length == 0) {
-//			try {
-//				Date startDate = ISO8601DateParser.parse(event.getStart().getDateTime());
-//				Date endDate = ISO8601DateParser.parse(event.getEnd().getDateTime());
-//				// startDate.setHours(startDate.getHours() + 2);
-//				// endDate.setHours(endDate.getHours() + 2);
-//				DateTimeTimeZone startDTTZ = event.getStart();
-//				DateTimeTimeZone endDTTZ = event.getEnd();
-//				startDTTZ.setDateTime(ISO8601DateParser.toString(startDate));
-//				endDTTZ.setDateTime(ISO8601DateParser.toString(endDate));
-//				event.setStart(startDTTZ);
-//				event.setEnd(endDTTZ);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-			String json = gson.toJson(event);
 			Response<Object> responseEvent = outlookService.makeEvent(event).execute();
 			
 			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatusCodes.CREATED.getStatusCode());
+			resp.setStatus(HttpStatus.SC_CREATED);
 			resp.getWriter().append(gson.toJson(responseEvent));
 		} else {
-			resp.setStatus(HttpStatusCodes.CONFLICT.getStatusCode());
+			resp.setStatus(HttpStatus.SC_CONFLICT);
 			resp.getWriter().append("There is an event in given time already.");
 		}
 	}
@@ -227,15 +210,14 @@ public class EventServlet extends HttpServlet {
 			if (event.getId().equals(eventId)) {
 				resp.getWriter().append(gson.toJson(event));
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());
-				resp.setStatus(HttpStatusCodes.FOUND.getStatusCode());
+				resp.setStatus(HttpStatus.SC_OK);
 				notFound = false;
 			}
 		}
 		if (notFound) {
 			resp.getWriter().append("Event not found");
 			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatusCodes.NOT_FOUND.getStatusCode());
-			resp.setHeader("Prefer", "outlook.timezone=\"Eastern Standard Time\"");
+			resp.setStatus(HttpStatus.SC_NOT_FOUND);
 		}
 	}
 

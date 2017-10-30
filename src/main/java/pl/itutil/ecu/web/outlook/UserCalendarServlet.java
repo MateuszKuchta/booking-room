@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
-import org.apache.olingo.odata2.api.commons.HttpStatusCodes;
 
 import com.google.gson.Gson;
 
@@ -27,7 +27,6 @@ import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.OutlookServiceBuilder;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.util.ISO8601DateParser;
-import retrofit2.Response;
 
 @WebServlet("/getUserEvents")
 public class UserCalendarServlet extends HttpServlet {
@@ -108,12 +107,12 @@ public class UserCalendarServlet extends HttpServlet {
 
 			}
 			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatusCodes.ACCEPTED.getStatusCode());
+			resp.setStatus(HttpStatus.SC_ACCEPTED);
 			resp.getWriter().append(gson.toJson(events));
 		} else {
 			resp.getWriter().append(gson.toJson(events));
 			resp.setContentType(ContentType.APPLICATION_JSON.toString());
-			resp.setStatus(HttpStatusCodes.NOT_FOUND.getStatusCode());
+			resp.setStatus(HttpStatus.SC_NOT_FOUND);
 		}
 
 	}

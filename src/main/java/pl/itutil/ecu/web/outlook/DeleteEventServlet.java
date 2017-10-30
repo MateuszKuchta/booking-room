@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.olingo.odata2.api.commons.HttpStatusCodes;
+import org.apache.http.HttpStatus;
 
 import pl.itutil.ecu.auth.TokenResponse;
 import pl.itutil.ecu.service.Event;
@@ -97,11 +97,11 @@ public class DeleteEventServlet extends HttpServlet {
 			while(delete.code() == 500){
 				delete = outlookService.deleteEvent(roomEmail, eventId).execute();
 			}
-			resp.setStatus(HttpStatusCodes.NO_CONTENT.getStatusCode());
+			resp.setStatus(HttpStatus.SC_NO_CONTENT);
 			resp.getWriter().append("Event has been removed");
 		} else {
 			resp.getWriter().append("No events found");
-			resp.setStatus(HttpStatusCodes.NOT_FOUND.getStatusCode());
+			resp.setStatus(HttpStatus.SC_NOT_FOUND);
 		}
 	}
 
