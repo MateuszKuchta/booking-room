@@ -9,6 +9,16 @@ public class Recipient {
 	private EmailAddress emailAddress;
 	@JsonProperty("Type")
 	private String type;
+	@JsonProperty("Mobile")
+	private String mobile;
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
 	public EmailAddress getEmailAddress() {
 		return emailAddress;

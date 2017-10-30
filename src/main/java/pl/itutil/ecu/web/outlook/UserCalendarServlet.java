@@ -26,6 +26,9 @@ import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.OutlookServiceBuilder;
 import pl.itutil.ecu.service.PagedResult;
+import pl.itutil.ecu.service.Phone;
+import pl.itutil.ecu.service.Phones;
+import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import retrofit2.Response;
 
@@ -85,7 +88,9 @@ public class UserCalendarServlet extends HttpServlet {
 		gson = new Gson();
 		if (events.getValue().length != 0) {
 			for (Event event : eventList) {
-
+				
+				//Marcin: telefony 
+				setPhone(event, outlookService);
 				// poprawka dla tabletu SONY
 				try {
 					DateTimeTimeZone eventStart = event.getStart();
@@ -122,6 +127,25 @@ public class UserCalendarServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	private void setPhone(Event event, OutlookService outlookService) throws IOException {
+		// example
+		// https://graph.microsoft.com
+		/// v1.0/me/people?$filter=scoredEmailAddresses/any(a: a/address eq
+		// 'piotr.matosek@itutil.com')&$select=phones
+		for (Recipient rec : event.getAttendees()) {
+			String filter = "scoredEmailAddresses/any(a: a/address eq '" + rec.getEmailAddress().getAddress() + "')";
+			String select = "phones";
+
+			Phone phone = new Phone();
+			//Response<PagedResult<Phones>> phones = outlookService.getPhones(filter, select).execute();
+			PagedResult<Phones> phones = outlookService.getPhones(filter,select).execute().body();
+			if(!(phones.getValue()[0].getPhones().isEmpty())){
+				rec.setMobile(phones.getValue()[0].getPhones().get(1).getNumber());
+			}
+
+		}
 	}
 
 }
