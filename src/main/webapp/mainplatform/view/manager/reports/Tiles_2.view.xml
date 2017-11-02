@@ -7,20 +7,19 @@
 			<m:Page id="page" showHeader="false">
 				<m:content>
 					<tnt:ToolHeader>
-						<m:Button icon="sap-icon://nav-back" press="onNavBack" />
 						<m:ToolbarSpacer />
 						<m:Image
-							src="./resources_s/images/eurocash_logo.png"
+							src="http://portalmedialny.pl/media/images/original/md5/f/1/f1abc0b2b873e36f1f6d56ef4375384a/eurocash.png"
 							width="160px" height="30px" />
 						<m:ToolbarSpacer />
 					</tnt:ToolHeader>
 
-					<m:TileContainer id="tileContener"></m:TileContainer>
+
 
 				</m:content>
 
 			</m:Page>
-
+			
 		</m:pages>
 	</m:App>
 </mvc:View>

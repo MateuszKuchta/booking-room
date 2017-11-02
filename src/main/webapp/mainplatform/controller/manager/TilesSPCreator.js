@@ -19,8 +19,8 @@ sap.ui.define([ "sap/ui/base/Object", 'ecu/lib/oDate',
 					this.arg = arg;
 					//this.view = view
 					var odate = new oDate();
-					//this.viewElement.removeAllTiles();
-					//console.info(this.arg);
+					this.viewElement.removeAllTiles();
+					console.info(this.arg);
 					
 					switch (this.arg.arg1) {
 					case "Yesterday":
@@ -81,32 +81,29 @@ sap.ui.define([ "sap/ui/base/Object", 'ecu/lib/oDate',
 						},
 						success : function(oData, response) {
 							console.info(qg.Where + "|" + qg.GroupBy + "|resultes :" + oData.results.length);
-							var oDataLenght = oData.results.length;
-							var array = new Array();
-							var args = new Array();
-							
+							//var arr = new Array();
 							for (var i = 0; i < oData.results.length; i++) {
-								array[i] = new TileRadial(i);
-								args[i] = oData.results[i].Name;
+								var tile = new TileRadial(i);
 								
-								
-								array[i].setData(window.oThis.isDate,
+								tile.setData(window.oThis.isDate,
 										oData.results[i].Name, "Sales Plan",
 										window.oThis.arg.arg1,
 										oData.results[i].PlanSale,
 										oData.results[i].ActualSale);
 								
-								array[i].setRoute(window.oThis.route);
+								tile.setRoute(window.oThis.route);
 								
 								if( window.oThis.arg.arg2 === undefined){
-									array[i].attachPress(function(event) {
-										console.info(event.getParameters());
-										window.oThis.route.navTo("salesPlane",{groupby:"quarterPlan"});
+									tile.attachPress(function() {
+										tile.route.navTo("Tiles_2", {
+											arg1 : window.oThis.arg.arg1,
+											arg2 : tile.header
+										});
 									});
 								}
 								
 								//arr.push(tile);
-								window.oThis.viewElement.addTile(array[i].getTile());
+								window.oThis.viewElement.addTile(tile.getTile());
 								// element.addContent(tile.getTile());
 							}
 						},

@@ -15,9 +15,8 @@
                     </tnt:ToolHeader>
                     <l:VerticalLayout id="listId" class="sapUiContentPadding listContent listTile listMaxWidth">
                         <l:content>
-                            <List> 
-                             <!-- items="{news>/d/results}" -->
-                                <!-- <FeedListItem sender="{news>Author}" 
+                            <List items="{news>/d/results}">
+                                <FeedListItem sender="{news>Author}" 
                                     icon="sap-icon://hint" 
                                     senderPress="onPress" 
                                     iconDensityAware="false" 
@@ -26,44 +25,7 @@
                                     text="{news>Title}" 
                                     convertLinksToAnchorTags="All" 
                                     type="Active" 
-                                    press="onNewsListPress" /> -->
-                                    <FeedListItem
-                                    	sender="IT Util &#38; SCRUM"
-                                    	icon="sap-icon://hint" 
-                                   		senderPress="onPress" 
-                                    	iconDensityAware="false" 
-                                    	text="IT Util stawia na zwinne realizowanie projektów przy wykorzystaniu SCRUM"
-                                    	info="10:15"
-                                    	convertLinksToAnchorTags="All" 
-                                    	type="Active" 
-                                    	press="onNewsListPress"
-                                    	>
-                                    </FeedListItem>
-                                    <FeedListItem
-                                    	sender="IT Util SAP ponownie SAP Recognized Expertise in Utilities"
-                                    	icon="sap-icon://hint" 
-                                   		senderPress="onPress" 
-                                    	iconDensityAware="false" 
-                                    	text="IT Util jest najlepszą firmą w Polsce posiadającą status SAP Recognized Expertise in Utilities"
-                                    	
-                                    	info="11:15"
-                                    	convertLinksToAnchorTags="All" 
-                                    	type="Active" 
-                                    	press="onNewsListPress"
-                                    	>
-                                    </FeedListItem>
-                                    <FeedListItem
-                                    	sender="Posiłki Pan Kanapka"
-                                    	icon="sap-icon://hint" 
-                                   		senderPress="onPress" 
-                                    	iconDensityAware="false" 
-                                    	text="W firmie zjawił się dostawca jedzenia: Pan Kanapka."
-                                    	info="12:25"
-                                    	convertLinksToAnchorTags="All" 
-                                    	type="Active" 
-                                    	press="onNewsListPress"
-                                    	>
-                                    </FeedListItem>
+                                    press="onNewsListPress" />
                             </List>
                         </l:content>
                     </l:VerticalLayout>

@@ -9,7 +9,7 @@
 		"sapFontSize": "0.75em",
 		"sapTextColor": "#333333",
 		"sapLinkColor": "#0070b1",
-		"sapCompanyLogo": "url('../../../../../../Base/baseLib/ecu/img/misc/sapBackgroundImage.jpeg')",
+		"sapCompanyLogo": "  ",
 		"sapBackgroundImage": "url('../../../../../../../../Base/baseLib/ecu/img/misc/background.jpg')",
 		"sapBackgroundImageOpacity": "1.0",
 		"sapBackgroundImageRepeat": "false",

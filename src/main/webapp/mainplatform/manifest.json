@@ -129,21 +129,6 @@
 				"pattern":"manager/managerpanel/salesplane/:groupby:",
 				"name":"salesPlane",
 				"target":"salesPlane"
-			},
-			{
-				"pattern":"manager/managerpanel/totalsales/:groupby:/:chartType:",
-				"name":"totalSales",
-				"target":"totalSales"
-			},
-			{
-				"pattern":"manager/managerpanel/map/:bu:",
-				"name":"map",
-				"target":"map"
-			},
-			{
-				"pattern":"manager/managerpanel/map2/:bu:",
-				"name":"map2",
-				"target":"map2"
 			}
 			],
 			"targets": {
@@ -196,24 +181,12 @@
 					"viewName":"manager/reports/Tiles_2",
 					"transition": "slide"
 				},
-				"map":{
-					"viewName":"manager/reports/Map",
-					"transition": "slide"
-				},
-				"map2":{
-					"viewName":"manager/reports/Map2",
-					"transition": "slide"
-				},
 				"managerPanel":{
 					"viewName":"manager/ManagerPanel",
 					"transition": "slide"
 				},
 				"salesPlane":{
 					"viewName":"manager/reports/SalesPlan",
-					"transition": "slide"
-				},
-				"totalSales":{
-					"viewName":"manager/reports/TotalSales",
 					"transition": "slide"
 				}
 			}

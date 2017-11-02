@@ -248,9 +248,7 @@ sap.ui.define([
                     hour: "numeric",
                     minute: "numeric"
                 });
-                console.log(reservationTime);
-                console.log(reservationTimeSecond);
-                console.log("---");
+
                 if (!window.view.byId(roomId).hasStyleClass("redImage") && !window.view.byId(roomId).hasStyleClass("greenImage")) {
                     if ((Date.parse('01/01/2011 ' + reservationTime + ':00') <= Date.parse('01/01/2011 ' + actualTime + ':00')) &&
                         (Date.parse('01/01/2011 ' + reservationTimeSecond + ':00') > Date.parse('01/01/2011 ' + actualTime + ':00'))) {

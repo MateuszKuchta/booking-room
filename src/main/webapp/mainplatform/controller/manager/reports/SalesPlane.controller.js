@@ -1,12 +1,9 @@
 sap.ui.define([
-	"ecu/controller/BaseController",
-	'ecu/lib/QueryGenerator',
-	'ecu/lib/oDate',
-	'sap/viz/ui5/format/ChartFormatter',
-	'sap/viz/ui5/api/env/Format'
-], function (BaseController,QueryGenerator,oDate,ChartFormatter,Format) {
+	'sap/ui/core/mvc/Controller',
+	'ecu/lib/QueryGenerator'
+], function (Controller,QueryGenerator) {
 	"use strict";
-	return BaseController.extend("ecu.controller.manager.reports.SalesPlane",{
+	var Controller = Controller.extend("ecu.controller.manager.reports.SalesPlane",{
 		vizFrame : null,
 		day_f : null,
 		month_f: null,
@@ -23,18 +20,8 @@ sap.ui.define([
 		businessUnit:null,
 		region:null,
 		isDateChange:false,
-		group:null,
 		onInit : function(){
-			//przycisk powrotu : mechanizm 
-			var oRouter, oTarget;
-            oRouter = this.getRouter();
-            oTarget = oRouter.getTarget("salesPlane"); //wskazać stronę w routingu
-            oTarget.attachDisplay(function (oEvent) {
-                this._oData = oEvent.getParameter("data");
-            }, this);
-			//przycisk powrotu
-            
-			Format.numericFormatter(ChartFormatter.getInstance());
+	        
 			this.getOwnerComponent().getRouter().getRoute("salesPlane").attachPatternMatched(this._onRouteMatched, this);
 			var i18nModel = new sap.ui.model.resource.ResourceModel({
 	        	 bundleName: "ecu.i18n.i18n"
@@ -42,15 +29,6 @@ sap.ui.define([
 	        this.getView().setModel(i18nModel, "i18n");
 	        // this.groupByUnit = false;
 		},
-        onNavBack: function (oEvent) {
-            var oHistory, sPreviousHash, oRouter;
-            if (this._oData && this._oData.fromTarget) {
-                this.getRouter().getTargets().display(this._oData.fromTarget);
-                delete this._oData.fromTarget;
-                return;
-            }
-            BaseController.prototype.onNavBack.apply(this, arguments);
-        },
 		onSeriesSelected : function(){
 			sap.m.MessageToast.show("Wybrano serie");
 		},
@@ -59,50 +37,27 @@ sap.ui.define([
 	        this.date_t = this.getView().byId("DP_t");
 	        
 	        var groupBy = oEvent.getParameter("arguments");
-	        var seriesRadioGroup = this.getView().byId("seriesRadioGroup");
-			//var selectSplit = groupBy.groupby.split("--");
+			var seriesRadioGroup = this.getView().byId("seriesRadioGroup");
+			var selectSplit = groupBy.groupby.split("--");
 			
 			// funkcja zwracająca aktualną datę
 			// dane dla kafelka aktualny kwartał
-			var odate = new oDate();
 			var date = new Date();
 			var firstDay = this.convertDate(new Date(date.getFullYear(), date.getMonth()+1, 1));
 			var lastDay = this.convertDate(new Date(date.getFullYear(), date.getMonth() + 3, 1));
 			var yearBegin = this.convertDate(new Date(date.getFullYear(), 1, 1));
 			var yearEnd = this.convertDate(new Date(date.getFullYear()+1, 1, 1));
-			this.group = groupBy.groupby;
 			
-	        switch(groupBy.groupby) {
-				case "day":
-				case "Yesterday":
+			
+	        switch(selectSplit[1]) {
+				case "dailyPlan":
 					// seriesRadioGroup.setSelectedIndex(0);
 					this.select = 0;
 					this.selectedDateButton("day");
 					// this.renderDatePicker(this.select);
-					this.date_f.setValue(odate.getDateFromNow(-3));
-					this.date_t.setValue(odate.getDateFromNow(0));
-					this.initChart(odate.getDateFromNow(-3),odate.getDateFromNow(0),0,true,null,null);
-					break;
-				case "Week":
-					this.select = 1;
-					this.selectedDateButton("week");
-					this.date_f.setValue(odate.getWeekBegin());
-					this.date_t.setValue(odate.getDateFromNow(0));
-					this.initChart(odate.getWeekBegin(),odate.getWeekEnd(),1,true,null,null);
-					break;
-				case "Month":
-					this.select = 2;
-					this.selectedDateButton("month");
-					this.date_f.setValue(odate.getMonthBegin());
-					this.date_t.setValue(odate.getMonthEnd());
-					this.initChart(odate.getMonthBegin(),odate.getMonthEnd(),2,true,null,null);
-					break;
-				case "Year":
-					this.select = 4;
-					this.selectedDateButton("year");
-					this.date_f.setValue(odate.getYearBegin());
-					this.date_t.setValue(odate.getYearEnd());
-					this.initChart(odate.getYearBegin(),odate.getYearEnd(),4,true,null,null);
+					this.date_f.setValue(firstDay);
+					this.date_t.setValue(lastDay);
+					this.initChart(firstDay,lastDay,0,true,null,null);
 					break;
 				case "quarterPlan":
 					// seriesRadioGroup.setSelectedIndex(3);
@@ -158,17 +113,15 @@ sap.ui.define([
 			
 			var view = this.getView();		   
 			var label = this.getView().getModel("i18n").getResourceBundle();
-			Format.numericFormatter(ChartFormatter.getInstance());
-            var formatPattern = ChartFormatter.DefaultPattern;
+			
 			// generowanie zapytania
 			var qg = new QueryGenerator(date_f,date_t,gradation,isDate,businessUnit,region);
 			view.setModel(this.readData(qg.Where,qg.GroupBy,qg.OrderBy),"Data");
 			
-			console.info(date_f,date_t,gradation,isDate,businessUnit,region);
 			// header wykresu
 			var charHeader = this.getView().byId("chartContainer");
 			if(isDate){
-				charHeader.setTitle("Plane sales by " + this.group);
+				charHeader.setTitle("Plane sales by date");
 			} else {
 				if(businessUnit !== null){
 					charHeader.setTitle("Plane sales by Business Unit " + businessUnit);
@@ -185,12 +138,6 @@ sap.ui.define([
 				title: {
 		            text: " "
 		        },
-		        plotArea: {
-                    dataLabel: {
-                    	formatString: formatPattern.SHORTFLOAT_MFD2,
-                    	visible: true
-                    }
-                },
 		        legend: {
 		        	visible:false
 		        },
@@ -199,10 +146,7 @@ sap.ui.define([
 			        title: {
 			            visible: false,
 			            text: "Value Axis Value"
-			        },
-			        label: {
-                        formatString: ChartFormatter.DefaultPattern.SHORTFLOAT
-                    }
+			        }
 			    },
 			    categoryAxis: {
 			        title: {
@@ -252,8 +196,7 @@ sap.ui.define([
 			// popover dla VizFrame
 			
 			var chartPopover = new sap.viz.ui5.controls.Popover({});      
-			//chartPopover.connect(vizFrame.getVizUid());
-			chartPopover.setFormatString('### ### ### zł');
+			chartPopover.connect(vizFrame.getVizUid());
 			
 			if (this.groupByUnit){
 				window.oThis=this;
@@ -273,22 +216,25 @@ sap.ui.define([
 			
 			// TODO: zebrać dane dotyczące czasu w zwróconym rekordzie, wartości
 			// przypisać do zmiennych dotyczących czasu.
-			console.info(oEvent.getSource());
+			var getData = oEvent.getParameter("data");
+			if(this.select>0){
+				
+				this.initChart(this.select - 1);
+			}
 			 
 		},
 		// funkcja pobiera dane z zaznaczonej kolumny
 		clikOnChart_ : function(oEvent){
-			if (this.groupByUnit){
-				var data = oEvent.getParameter("data");
-				this.businessUnit = data[0].data.xAxis;
-				console.info(this.businessUnit);
-				this.initChart(this.date_f.getValue(),this.date_t.getValue(),this.select,false,this.businessUnit,true);
-			}
+			var sObj = new Array();
+			var data = oEvent.getParameter("data");
+			this.businessUnit = data[0].data.xAxis;
+			
+
 		} ,
 		// funkcja generuje nowy wykres np. poziom niżej
 		// TODO: powinien generować wykres dla zakresu na podstawie kolumny
 		clickOnDrill:function (){
-			this.initChart(this.date_f.getValue(),this.date_t.getValue(),this.select,false,this.businessUnit,true);
+			this.initChart(this.date_f.getValue(),this.date_t.getValue(),this.select,false,this.businessUnit,null);
 
 		},
 		onDateGradation:function(oEvent){

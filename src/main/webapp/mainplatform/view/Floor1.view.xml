@@ -38,10 +38,10 @@
                         </Button>
                     </Toolbar>
                     <ScrollContainer height="100%" width="100%" horizontal="true" vertical="true" focusable="true">
-                        <Image id="mapId" src="./resources_s/images/floor1.png" class="floorImage resizeMapUp"/>
-                        <Image src="./resources_s/images/transparent.png" id="imageOffice1-1" class="officeImageClass1-1 officeResizeUp1-1" press="onImageOfficePress1"/> 
-                        <Image src="./resources_s/images/transparent.png" id="imageOffice1-2" class="officeImageClass1-2 officeResizeUp1-2" press="onImageOfficePress2"/> 
-                        <Image src="./resources_s/images/transparent.png" id="imageOffice1-3" class="officeImageClass1-3 officeResizeUp1-3" press="onImageOfficePress3"/> 
+                        <Image id="mapId" src="./resources/images/floor1.png" class="floorImage resizeMapUp"/>
+                        <Image src="./resources/images/transparent.png" id="imageOffice1-1" class="officeImageClass1-1 officeResizeUp1-1" press="onImageOfficePress1"/> 
+                        <Image src="./resources/images/transparent.png" id="imageOffice1-2" class="officeImageClass1-2 officeResizeUp1-2" press="onImageOfficePress2"/> 
+                        <Image src="./resources/images/transparent.png" id="imageOffice1-3" class="officeImageClass1-3 officeResizeUp1-3" press="onImageOfficePress3"/> 
                         <SearchField
                             id="searchField"
                             width="50%"

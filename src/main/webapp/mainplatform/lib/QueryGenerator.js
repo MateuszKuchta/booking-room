@@ -4,24 +4,20 @@ sap.ui.define([ "sap/ui/base/Object" ], function(Object) {
 		Where : null,
 		GroupBy : null,
 		OrderBy : null,
-		date_f : null,
-		date_t : null,
 		constructor : function(date_f, date_t, gradation, isDate, businessUnit,
-				isRegion,region) {
+				region) {
 			this.gradation = gradation;
 			this.generate(date_f, date_t, gradation, isDate, businessUnit,
-					isRegion,region);
-			this.date_f = date_f;
-			this.date_t = date_t;
-			// console.info(this.Where);
+					region);
+			//console.info(this.Where);
 		},
 		generate : function(date_f, date_t, gradation, isDate, businessUnit,
-				isRegion,region) {
+				region) {
 
 			if (isDate) {
 				this.byDate(gradation, date_f, date_t);
 			} else {
-				this.byGroup(date_f, date_t, businessUnit, isRegion,region);
+				this.byGroup(date_f, date_t, businessUnit,region);
 			}
 		},
 		byDate : function(gradation, date_f, date_t) {
@@ -42,8 +38,8 @@ sap.ui.define([ "sap/ui/base/Object" ], function(Object) {
 			case 2:
 				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
 						+ "''";
-				this.GroupBy = "'s.month'";
-				this.OrderBy = "'s.month'";
+				this.GroupBy = "'s.month,s.sYear'";
+				this.OrderBy = "'s.month,s.sYear'";
 				break;
 			case 3:
 				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
@@ -59,33 +55,27 @@ sap.ui.define([ "sap/ui/base/Object" ], function(Object) {
 				break;
 			}
 		},
-		byGroup : function(date_f, date_t, businessUnit, isRegion, region) {
-			console.info(businessUnit+" and "+isRegion+" and "+region);
-			if (businessUnit === null && isRegion === null) {
+		byGroup : function(date_f, date_t, businessUnit, region) {
+			//console.info(businessUnit+" and "+region);
+			if (businessUnit === null && region === null) {
 				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
 						+ "''";
 				this.GroupBy = "'s.businnesUnit'";
 				this.OrderBy = "'s.businnesUnit'";
 			}
-			if (businessUnit !== null && isRegion === false) {
-				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
-						+ "' AND s.businnesUnit ='" + businessUnit + "''";
-				this.GroupBy = "'s.businnesUnit'";
-				this.OrderBy = "'s.businnesUnit'";
-			}
-			if (businessUnit !== null && isRegion === true && region === undefined) {
+			if (businessUnit !== null && region === null) {
 				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
 						+ "' AND s.businnesUnit ='" + businessUnit + "''";
 				this.GroupBy = "'s.region'";
 				this.OrderBy = "'s.region'";
 			}
-			if(businessUnit !== null && isRegion === true && region !== undefined) {
+			if (businessUnit !== null && region !== null) {
 				this.Where = "'s.date BETWEEN '" + date_f + "' AND '" + date_t
-				+ "' AND s.businnesUnit ='" + businessUnit + "' AND s.region ='"
-				+ region +"''";
+						+ "' AND s.businnesUnit ='" + businessUnit
+						+ "' AND s.region ='" + region + "''";
 				this.GroupBy = "'s.region'";
 				this.OrderBy = "'s.region'";
-	} 
+			}
 		}
 	});
 });
