@@ -1,8 +1,7 @@
 sap.ui.define([
-    "ecu/controller/BaseController",
-    "sap/ui/model/odata/ODataModel",
-    "sap/ui/core/Fragment"
-], function (BaseController, Fragment) {
+    "ecu/controller/BaseController", "sap/ui/model/odata/ODataModel", "sap/ui/core/Fragment", "sap/ui/model/json/JSONModel", "sap/m/MessageToast", "sap/ui/core/BusyIndicator"
+], function( BaseController, Fragment, JSONModel, MessageToast, BusyIndicator ) {
+
     "use strict";
     return BaseController.extend("ecu.controller.RoomDetails", {
         thisRD: null,
@@ -29,7 +28,7 @@ sap.ui.define([
                 oLabel.setText(result);
             }, 1000);
             this.getView().byId("quickReservationHBox").setVisible(false);
-            this.getView().setModel(new sap.ui.model.json.JSONModel("/ecu-web/users"), "reservationDetailsPeople");
+            this.getView().setModel(new JSONModel("/ecu-web/users"), "reservationDetailsPeople");
         },
 
         GetClock: function () {
@@ -52,8 +51,8 @@ sap.ui.define([
         },
 
         addReservationText: function (data) {
-            var jsonModel = new sap.ui.model.json.JSONModel();
-            var jsonMainHeader = new sap.ui.model.json.JSONModel();
+            var jsonModel = new JSONModel();
+            var jsonMainHeader = new JSONModel();
 
             if (data != "0") {
                 var json = { 
@@ -123,7 +122,7 @@ sap.ui.define([
                 var dateFrom = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "T" + d.toLocaleTimeString();
                 var dateTo = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate() + 1) + "T" + d.toLocaleTimeString();
                 var url_reservation_next_all = "/ecu-web/getUserEvents?userEmail=ecroom1@itutil.com";
-                this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_next_all), "reservationTime");
+                this.getView().setModel(new JSONModel(url_reservation_next_all), "reservationTime");
                 var time = "";
                 var jsonMainHour = '{ "time" : [' +
                     '{ "mainTime":"' + time + '" }]}';
@@ -141,12 +140,12 @@ sap.ui.define([
             var dateTo = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate() + 1) + "T" + d.toLocaleTimeString();
 
             var url_reservation_next_all = "/ecu-web/getUserEvents?userEmail=ecroom1@itutil.com";
-            this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_next_all), "reservationDisplayDetailsAll");
+            this.getView().setModel(new JSONModel(url_reservation_next_all), "reservationDisplayDetailsAll");
             var url_reservation_details_find_another = "/ecu-web/freeRooms";
-            this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_details_find_another), "reservationDetailsFindAnother");
+            this.getView().setModel(new JSONModel(url_reservation_details_find_another), "reservationDetailsFindAnother");
 
-            var jsonModel = new sap.ui.model.json.JSONModel();
-            var jsonStatusModel = new sap.ui.model.json.JSONModel();
+            var jsonModel = new JSONModel();
+            var jsonStatusModel = new JSONModel();
             window.thisRD = this;
 
             this.addReservationText(0);
@@ -396,22 +395,22 @@ sap.ui.define([
                     dataType: "json",
                     success: function (data) {
                         if (data) {
-                            sap.m.MessageToast.show("Added!");
+                            MessageToast.show("Added!");
                             thisRD.getView().byId("DTI4").setValue("");
                             thisRD.getView().byId("DTI1").setValue("");
                             thisRD.getView().byId("DTI2").setValue("");
                             thisRD.getView().byId("DTI3").setValue("");
                             thisRD.updateStatus();
                         } else {
-                            // sap.m.MessageToast.show("Room already in use");
+                            // MessageToast.show("Room already in use");
                         }
                     },
                     failure: function (errMsg) {
-                        sap.m.MessageToast.show("Error with connecting to the server");
+                        MessageToast.show("Error with connecting to the server");
                     }
                 });
             } else {
-                sap.m.MessageToast.show("All of inputs are valid?");
+                MessageToast.show("All of inputs are valid?");
             }
         },
 
@@ -522,10 +521,10 @@ sap.ui.define([
                         thisRD.updateStatus();
                     },
                     error: function (errMsg) {
-                        sap.m.MessageToast.show("Error with connecting to the server");
+                        MessageToast.show("Error with connecting to the server");
                     }
                 });
-                sap.m.MessageToast.show("Conference has ended!");
+                MessageToast.show("Conference has ended!");
             }
         },
 
@@ -608,20 +607,20 @@ sap.ui.define([
                     dataType: "json",
                     success: function (data) {
                         //if (data) {
-                        sap.ui.core.BusyIndicator.show();
+                        BusyIndicator.show();
                         thisRD.getView().byId("DTI4").setValue("");
                         thisRD.getView().byId("DTI1").setValue("");
                         thisRD.getView().byId("DTI2").setValue("");
                         thisRD.getView().byId("DTI3").setValue("");
-                        sap.m.MessageToast.show("Booked for " + minutes + " minutes");
+                        MessageToast.show("Booked for " + minutes + " minutes");
                         thisRD.updateStatus();
                         //} else {
-                        // sap.m.MessageToast.show("Room already in use");
+                        // MessageToast.show("Room already in use");
                         //}
-                        sap.ui.core.BusyIndicator.hide();
+                        BusyIndicator.hide();
                     },
                     error: function (errMsg) {
-                        sap.m.MessageToast.show("Error with connecting to the server");
+                        MessageToast.show("Error with connecting to the server");
                     }
                 });
 
