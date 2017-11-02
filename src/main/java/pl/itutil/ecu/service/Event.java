@@ -1,5 +1,6 @@
 package pl.itutil.ecu.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,8 +22,7 @@ public class Event {
 	private Location location;
 	@JsonProperty("Attendees")
 	private List<Recipient> attendees;
-	
-//	private String reservationTime;
+
 
 	public String getId() {
 		return id;
@@ -54,9 +54,6 @@ public class Event {
 
 	public void setStart(DateTimeTimeZone start) {
 		this.start = start;
-		if (this.end != null) {
-//			this.setReservationTime(reservationTime);
-		}
 	}
 
 	public DateTimeTimeZone getEnd() {
@@ -65,9 +62,6 @@ public class Event {
 
 	public void setEnd(DateTimeTimeZone end) {
 		this.end = end;
-		if (this.start != null) {
-//			this.setReservationTime(reservationTime);
-		}
 	}
 
 	public Location getLocation() {
@@ -86,25 +80,11 @@ public class Event {
 		this.attendees = attendees;
 	}
 
-//	public String getReservationTime() {
-//		return reservationTime;
-//	}
-//
-//	@SuppressWarnings("deprecation")
-//	public void setReservationTime(String reservationTime) {
-//		StringBuilder sb = new StringBuilder();
-//		try {
-//			Date dateFrom = ISO8601DateParser.parse(start.getDateTime());
-//			Date dateTo = ISO8601DateParser.parse(end.getDateTime());
-//			sb.append(dateFrom.getHours() < 10 ? "0" + (dateFrom.getHours()) : (dateFrom.getHours())).append(":")
-//					.append(dateFrom.getMinutes() < 10 ? "0" + dateFrom.getMinutes() : dateFrom.getMinutes())
-//					.append(" - ").append(dateTo.getHours() < 10 ? "0" + (dateTo.getHours()) : (dateTo.getHours()))
-//					.append(":").append(dateTo.getMinutes() < 10 ? "0" + dateTo.getMinutes() : dateTo.getMinutes());
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//
-//		this.reservationTime = sb.toString();
-//	}
-
+	public void filterRoomsFromAttendees() {
+		for (Iterator<Recipient> it = attendees.iterator(); it.hasNext();) {
+			if(it.next().getEmailAddress().getName().contains("Room")){
+				it.remove();
+			}
+		}
+	}
 }

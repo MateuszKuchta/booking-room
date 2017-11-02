@@ -1,10 +1,7 @@
 package pl.itutil.ecu.web.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,14 +19,13 @@ import com.google.gson.Gson;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
-import pl.itutil.ecu.service.Phone;
 import pl.itutil.ecu.service.Phones;
 import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
 
 @WebServlet("/getUserEvents")
-public class UserCalendarServlet extends HttpServlet {
+public class UserEventsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -48,9 +44,9 @@ public class UserCalendarServlet extends HttpServlet {
 		String startDateTime, endDateTime;
 		Gson gson;
 		HttpSession session = req.getSession();
-		
+
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
-		
+
 		if (outlookService != null) {
 			Date now = new Date();
 			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
@@ -58,39 +54,41 @@ public class UserCalendarServlet extends HttpServlet {
 			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
 					.execute().body();
 			gson = new Gson();
-			if (events.getValue().length != 0) {
-				
-				//Marcin: telefony 
-				List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));
-				for (Event event : eventList) {
-					setPhone(event, outlookService);
-
-//				 poprawka dla tabletu SONY
-//					 try {
-//					 DateTimeTimeZone eventStart = event.getStart();
-//					 DateTimeTimeZone eventEnd = event.getEnd();
-//					
-//					 Date eventStartDateTime = ISO8601DateParser.parse(eventStart.getDateTime());
-//					 Date eventEndDateTime = ISO8601DateParser.parse(eventEnd.getDateTime());
-//					
-//					 eventStartDateTime = DateUtils.addHours(eventStartDateTime, -2);
-//					 eventEndDateTime = DateUtils.addHours(eventEndDateTime, -2);
-//					
-//					 eventStart.setDateTime(ISO8601DateParser.toString(eventStartDateTime));
-//					 eventEnd.setDateTime(ISO8601DateParser.toString(eventEndDateTime));
-//					
-//					 event.setStart(eventStart);
-//					 event.setEnd(eventEnd);
-//					 } catch (ParseException e) {
-//					 e.printStackTrace();
-//					 }
-//
+			if (events != null) {
+				for (Event event : events.getValue()) {
+					event.filterRoomsFromAttendees();
 				}
+				// Marcin: telefony
+//				List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));
+				// for (Event event : eventList) {
+				// setPhone(event, outlookService);
+
+				// poprawka dla tabletu SONY
+				// try {
+				// DateTimeTimeZone eventStart = event.getStart();
+				// DateTimeTimeZone eventEnd = event.getEnd();
+				//
+				// Date eventStartDateTime = ISO8601DateParser.parse(eventStart.getDateTime());
+				// Date eventEndDateTime = ISO8601DateParser.parse(eventEnd.getDateTime());
+				//
+				// eventStartDateTime = DateUtils.addHours(eventStartDateTime, -2);
+				// eventEndDateTime = DateUtils.addHours(eventEndDateTime, -2);
+				//
+				// eventStart.setDateTime(ISO8601DateParser.toString(eventStartDateTime));
+				// eventEnd.setDateTime(ISO8601DateParser.toString(eventEndDateTime));
+				//
+				// event.setStart(eventStart);
+				// event.setEnd(eventEnd);
+				// } catch (ParseException e) {
+				// e.printStackTrace();
+				// }
+				//
+				// }
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());
 				resp.setStatus(HttpStatus.SC_ACCEPTED);
 				resp.getWriter().append(gson.toJson(events));
 			} else {
-				resp.getWriter().append(gson.toJson(events));
+				resp.getWriter().append("No events found");
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());
 				resp.setStatus(HttpStatus.SC_NOT_FOUND);
 
@@ -101,9 +99,6 @@ public class UserCalendarServlet extends HttpServlet {
 
 	}
 
-
-
-	
 	private void setPhone(Event event, OutlookService outlookService) throws IOException {
 		// example
 		// https://graph.microsoft.com
@@ -113,11 +108,11 @@ public class UserCalendarServlet extends HttpServlet {
 			String filter = "scoredEmailAddresses/any(a: a/address eq '" + rec.getEmailAddress().getAddress() + "')";
 			String select = "phones";
 
-			Phone phone = new Phone();
-			//Response<PagedResult<Phones>> phones = outlookService.getPhones(filter, select).execute();
-			PagedResult<Phones> phones = outlookService.getPhones(filter,select).execute().body();
-			if(!(phones.getValue()[0].getPhones().isEmpty())){
-				rec.setMobile(phones.getValue()[0].getPhones().get(1).getNumber());
+			// Response<PagedResult<Phones>> phones = outlookService.getPhones(filter,
+			// select).execute();
+			PagedResult<Phones> phones = outlookService.getPhones(filter, select).execute().body();
+			if (!(phones.getValue()[0].getPhones().isEmpty())) {
+				// rec.setMobile(phones.getValue()[0].getPhones().get(1).getNumber());
 			}
 
 		}

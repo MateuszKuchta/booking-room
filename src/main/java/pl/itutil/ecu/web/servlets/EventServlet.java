@@ -118,7 +118,7 @@ public class EventServlet extends HttpServlet {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
+			
 			String start = ISO8601DateParser.toString(startDateTime);
 			String end = ISO8601DateParser.toString(endDateTime);
 
@@ -170,7 +170,7 @@ public class EventServlet extends HttpServlet {
 
 			String eventId = req.getParameter("eventId");
 			String userEmail = req.getParameter("userEmail");
-
+			
 			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
 					.execute().body();
 

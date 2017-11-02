@@ -14,7 +14,8 @@ public class Phones {
 		return phones;
 	}
 
-	public void setAttendees(List<Phone> phones) {
+	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
+	
 }
