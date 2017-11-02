@@ -17,7 +17,6 @@ package pl.itutil.ecu.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * ISO 8601 date parsing utility. Designed for parsing the ISO subset used in

@@ -1,4 +1,4 @@
-package pl.itutil.ecu.web.outlook;
+package pl.itutil.ecu.web.servlets;
 
 import java.io.IOException;
 import java.util.Date;
