@@ -135,19 +135,17 @@ sap.ui.define([
 
         },
 
-        onNavToMainPage: function() {
+        onNavToMainPage: function () {
             this.getRouter().navTo("NewApp");
         },
 
         onDropDownToolbar: function () {
             var rejectBtn = this.getView().byId("toolbar3");
-            if(rejectBtn.getVisible()) {
+            if (rejectBtn.getVisible()) {
                 rejectBtn.setVisible(false);
             } else {
                 rejectBtn.setVisible(true);
             }
-
         }
     });
 });
-

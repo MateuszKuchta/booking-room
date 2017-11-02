@@ -609,8 +609,7 @@ html[dir=rtl].sap-phone .sapUiSizeCompact .sapTntToolPageAsideCollapsed .sapTntT
 /* =================================== */
 .sapTntToolHeader.sapMTB {
   background-color: #d1e0ee;
-  /* Marcin:uspujni³em z reszt¹ */
-  border-bottom: 1px solid #cccccc;
+  border: 1px solid #d1e0ee;
 }
 .sapTntToolHeaderPopover.sapMOTAPopover.sapMPopover {
   background-color: #d1e0ee;

@@ -13,7 +13,6 @@ sap.ui.define([
 		gradation:null,
 		isDate:null,
 		nr:null,
-		customTile:null,
 		constructor : function(nr){
 			this.customTile = new sap.m.CustomTile();
 			this.customTile.addStyleClass("myCustomTile");
@@ -47,15 +46,11 @@ sap.ui.define([
 			});
 			tc.setFooter(this.footer);
 			var mcr = new RadialMicroChart();
-			
-			var v = value;
-			
-			
 			mcr.setPercentage(Math.round(this.value));
 			
 			if(value < 40){color = "Error";} 
 			else if (value < 80){color = "Critical";} 
-			else if (value >= 80) {color = "Good";}
+			else if (value > 79) {color = "Good";}
 			
 			mcr.setValueColor(color);
 			tc.setFooterColor(color);
@@ -64,6 +59,7 @@ sap.ui.define([
 			return tc;
 		},
 		attachPress : function(fAction){
+			console.info("Halo");
 			this.gt.attachPress(fAction);
 		},
 		setRoute : function(route){

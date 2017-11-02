@@ -79,7 +79,7 @@ sap.ui.define([
 			var description = oEvent.getSource().getDescription();
 			window.it = this;
 			$.get({
-				url: "/ecu-web/ODataService.svc/SupplierArrived?SupplierName='" + title + "'&EmployeeId=20&$format=json",
+				url: "/ecu-web/ODataService.svc/SupplierArrived?SupplierName='" + title + "'&$format=json",
 				success: function (response) {
 					if (response) {
 						sap.m.MessageToast.show("Added!");

@@ -5421,8 +5421,7 @@ html.sap-desktop .sapMImageContent:focus:not([tabindex]) {
 }
 .sapMInputValHelpInner {
   height: 2.375rem;
-  /* Marcin:zakomentowane - ikona poza polem datepicker
-  width: 2.375rem; */
+  width: 2.375rem;
   line-height: 2.375rem;
 }
 .sapMInputVHO:hover .sapMInputValHelp .sapMInputValHelpInner {
@@ -5535,8 +5534,8 @@ html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .s
   height: 100%;
   box-sizing: border-box;
   /* margin-left: 200%; */
-  border-radius: 30px !important;
-  font-size: 0.8rem !important;
+  border-radius: 10px !important;
+  font-size: 1.3rem !important;
   font-family: 'Lato', sans-serif !important;
   color: #666;
   text-align: center;
@@ -5909,7 +5908,6 @@ html.sap-desktop .sapMComboBoxBasePressed.sapMComboBoxSelectionActive .sapMCombo
   display: -webkit-box;
   display: flex;
   height: 3rem;
-  background: transparent !important;
 }
 .sapMILILabel {
   -webkit-box-flex: 1;
@@ -11154,8 +11152,7 @@ html.sap-desktop .sapUiFioriObjectPage > section {
   font-size: 1.125rem;
   font-family: Arial, Helvetica, sans-serif;
   color: #333333;
-  /* Marcin:background dla nag³ówka panelu */
-  background-color: #fff;
+  background-color: transparent;
 }
 .sapMPanelContent {
   padding: 1rem;
@@ -11174,8 +11171,7 @@ html.sap-desktop .sapUiFioriObjectPage > section {
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-  /* Marcin:t³o rozwijanego przycisku */
-  background-color: #fff;
+  background-color: #008349;
 }
 .sapMPanelExpandableIcon:focus {
   outline: none;
@@ -17909,7 +17905,7 @@ html[dir=rtl][data-sap-ui-browser^="ed"] .sapMTitleAlignEnd {
   font-size: 0.875rem;
 }
 .sapMIBar-CTX .sapMTitle {
-  color: #fff; /* mati */
+  color: #666666;
   text-shadow: 0 0 0.125rem #ffffff;
 }
 .sapMTB-Transparent-CTX .sapMTitle {
@@ -19645,8 +19641,7 @@ html.sap-desktop .sapUiSizeCompact .sapUiForm .sapMCb:not(.sapMCbBgDis):focus:be
 }
 .sapMDialog.sapMPopup-CTX > header.sapMHeader-CTX,
 .sapMDialog.sapMPopup-CTX > header.sapMSubHeader-CTX {
-  /* Marcin:t³o poprawione na bia³e poniewa¿ napisy s¹ czarne */
-  background-color: #fff;
+  background-color: #008349;
 }
 .sapMDialog > header {
   box-shadow: none;

@@ -1,52 +1,34 @@
 {
 	"Menu":[
 		{
-				"key":"spyesterday",
 				"text": "Sales Plan Yesterday",
 				"ref": "sap-icon://filter-analytics",
-				"selected":false
+				"selected":"false"
 			},
 			{
-				"key":"spweek",
 				"text": "Sales Plan Week",
 				"ref": "sap-icon://filter-analytics",
-				"selected":true
+				"selected":"false"
 			},
 			{
-				"key":"spmonth",
 				"text": "Sales Plan Month",
 				"ref": "sap-icon://filter-analytics",
-				"selected":false
+				"selected":"false"
 			},
 			{
-				"key":"spyear",
 				"text": "Sales Plan Year",
 				"ref": "sap-icon://filter-analytics",
-				"selected":false
+				"selected":"false"
+			},
+						{
+				"text": "Sales Plan Yesterday for BU",
+				"ref": "sap-icon://filter-analytics",
+				"selected":"false"
 			},
 			{
-				"key":"spmonthbu",
-				"text": "Month Sales Plan realization by BU",
+				"text": "Sales Plan Week for BU",
 				"ref": "sap-icon://filter-analytics",
-				"selected":false
-			},
-			{
-				"key":"tsmonth",
-				"text": "Total Sales in Month - line",
-				"ref": "sap-icon://filter-analytics",
-				"selected":false
-			},
-			{
-				"key":"tsmonthb",
-				"text": "Total Sales in Month - block",
-				"ref": "sap-icon://filter-analytics",
-				"selected":false
-			},
-			{
-				"key":"spmonthbm",
-				"text": "Map - Sales Plan in Month",
-				"ref": "sap-icon://filter-analytics",
-				"selected":false
+				"selected":"false"
 			}
 	]
 		

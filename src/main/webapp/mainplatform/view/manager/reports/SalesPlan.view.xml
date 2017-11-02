@@ -10,10 +10,9 @@
 			<Page showHeader="false" title="{i18n>managerPanel}" id="__page0">
 				<content>
 					<tnt:ToolHeader>
-						<Button icon="sap-icon://nav-back" press="onNavBack" />
-                        <ToolbarSpacer/>
+						<ToolbarSpacer />
 						<Image
-							src="./resources_s/images/eurocash_logo.png"
+							src="http://portalmedialny.pl/media/images/original/md5/f/1/f1abc0b2b873e36f1f6d56ef4375384a/eurocash.png"
 							width="160px" height="30px" />
 						<ToolbarSpacer />
 					</tnt:ToolHeader>
@@ -52,7 +51,7 @@
 									<FlexItemData growFactor="1" />
 								</layoutData>
 							</Button>
-							<InputListItem label="Group by" class="ecuInputList">
+							<InputListItem label="Group by">
 								<Select id="selectedGroup" change="onGrupChange">
 									<core:Item key="1" text="Date" />
 									<core:Item key="2" text="Bussines Unit" />
@@ -62,11 +61,11 @@
 						</HBox>
 						<HBox>
 							<Label text="From" labelFor="DP_f" class="sapUiSmallMargin" />
-							<DatePicker id="DP_f" 
-								displayFormat="short" valueFormat="yyyy.MM.dd" change="onDateSelect" class="test" />
+							<DatePicker id="DP_f" valueFormat="yyyy-MM-dd"
+								displayFormat="long" change="onDateSelect" class="sapUiSmallMarginBottom" />
 							<Label text="To" labelFor="DP_t" class="sapUiSmallMargin" />
-							<DatePicker id="DP_t" 
-								displayFormat="short" change="onDateSelect" class="sapUiSmallMarginBottom" />
+							<DatePicker id="DP_t" valueFormat="yyyy-MM-dd"
+								displayFormat="long" change="onDateSelect" class="sapUiSmallMarginBottom" />
 						</HBox>
 					</VBox>
 				</content>

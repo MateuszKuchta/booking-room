@@ -9,19 +9,28 @@
                 <content>
                     <tnt:ToolHeader>
                         <ToolbarSpacer/>
-                        <Image src="./resources_s/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
+                        <Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
                         <ToolbarSpacer/>
+                        <Button text="onDetails" press="onNavToDetails" />
                     </tnt:ToolHeader>
-                    <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Manager" subheader="Dashboard" press="naviToReports">
+                    <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="Raporty" subheader="Informacje" press="naviToReports">
                         <tileContent>
-                            <TileContent footer="KPI">
+                            <TileContent footer=" Jakis footer">
                                 <content>
                                     <ImageContent src="sap-icon://business-objects-experience"/>
                                 </content>
                             </TileContent>
                         </tileContent>
                     </GenericTile>
-                   
+                    <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="C level / Managers" subheader="Dane" state="Loaded" backgroundImage="https://itlever.files.wordpress.com/2011/02/managers.jpg">
+                        <tileContent>
+                            <TileContent footer="Jakis footer">
+                                <content>
+                                    <NumericContent scale="$" value="2.1" valueColor="Good" indicator="Up" />
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
                     <SlideTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout">
                         <tiles>
                             <GenericTile backgroundImage="http://www.foodtrucktalk.com/wp-content/uploads/yumbii-food-450x220.jpg" frameType="TwoByOne" state="Loaded" press="onCorpoPress">
