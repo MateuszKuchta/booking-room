@@ -38,7 +38,7 @@ public interface OutlookService {
 	Call<PagedResult<Room>> getRooms(@Query("$select") String select, @Query("$filter") String filter);
 
 	@Headers("Content-type: application/json")
-//	/users/{id | userPrincipalName}/events
+	// /users/{id | userPrincipalName}/events
 	@POST("/api/beta/users/ecroom1@itutil.com/events")
 	Call<Object> makeEvent(@Body Event event);
 
@@ -51,10 +51,6 @@ public interface OutlookService {
 	// 'OrganizationUser'
 	@GET("/api/v2.0/me/people")
 	Call<PagedResult<Object>> getUsers(@Query("$filter") String filter);
-	
-	@GET("/api/v2.0/me/people")
-	Call<PagedResult<Phones>> getPhones(@Query("$filter") String filter, @Query("$select") String select);
-	//Call<PagedResult<Phone>> getPhones(@Query("$select") String select);
 
 	@GET("/api/beta/me/events/{eventId}")
 	Call<Event> getEvent(@Path("eventId") String eventId);

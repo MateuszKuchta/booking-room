@@ -81,9 +81,9 @@ public class Event {
 	}
 
 	public void filterRoomsFromAttendees() {
-		for (Iterator<Recipient> it = attendees.iterator(); it.hasNext();) {
-			if(it.next().getEmailAddress().getName().contains("Room")){
-				it.remove();
+		for (Iterator<Recipient> recipient = attendees.iterator(); recipient.hasNext();) {
+			if(recipient.next().getEmailAddress().getName().contains("Room")){
+				recipient.remove();
 			}
 		}
 	}

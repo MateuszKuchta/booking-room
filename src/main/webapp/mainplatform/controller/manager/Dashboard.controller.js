@@ -7,7 +7,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
     'ecu/controller/manager/TileRadial',
     'ecu/lib/oDate',
     'sap/m/MessageToast'
-    ], function(BaseController, MessageBox,/* Utilities, */ History,QueryGenerator,FeedItem,TileRadial,oDate,MessageToast,) {
+    ], function(BaseController, MessageBox,/* Utilities, */ History,QueryGenerator,FeedItem,TileRadial,oDate,MessageToast) {
     "use strict";
     return BaseController.extend("ecu.controller.manager.Dashboard", {
 page : null,

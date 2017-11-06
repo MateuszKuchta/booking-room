@@ -19,8 +19,6 @@ import com.google.gson.Gson;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
-import pl.itutil.ecu.service.Phones;
-import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
 
@@ -58,10 +56,7 @@ public class UserEventsServlet extends HttpServlet {
 				for (Event event : events.getValue()) {
 					event.filterRoomsFromAttendees();
 				}
-				// Marcin: telefony
-//				List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));
-				// for (Event event : eventList) {
-				// setPhone(event, outlookService);
+				
 
 				// poprawka dla tabletu SONY
 				// try {
@@ -97,25 +92,6 @@ public class UserEventsServlet extends HttpServlet {
 			resp.getWriter().append("Please sign in to continue.");
 		}
 
-	}
-
-	private void setPhone(Event event, OutlookService outlookService) throws IOException {
-		// example
-		// https://graph.microsoft.com
-		/// v1.0/me/people?$filter=scoredEmailAddresses/any(a: a/address eq
-		// 'piotr.matosek@itutil.com')&$select=phones
-		for (Recipient rec : event.getAttendees()) {
-			String filter = "scoredEmailAddresses/any(a: a/address eq '" + rec.getEmailAddress().getAddress() + "')";
-			String select = "phones";
-
-			// Response<PagedResult<Phones>> phones = outlookService.getPhones(filter,
-			// select).execute();
-			PagedResult<Phones> phones = outlookService.getPhones(filter, select).execute().body();
-			if (!(phones.getValue()[0].getPhones().isEmpty())) {
-				// rec.setMobile(phones.getValue()[0].getPhones().get(1).getNumber());
-			}
-
-		}
 	}
 
 }
