@@ -8,7 +8,6 @@
         <pages>
             <Page showHeader="false">
                 <content class="freeRoom">
-                    <!-- <tnt:ToolHeader><ToolbarSpacer/><Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" /><ToolbarSpacer/></tnt:ToolHeader> -->
                     <Image id="roomDetailsImage" src="./resources/images/transparent2.png" class="" width="100%" height="100%" />
                     <FlexBox alignItems="Start" class="flexBoxHeaderClass">
                         <items>
@@ -93,7 +92,7 @@
                                 <Column width="20%" text="text"></Column>
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Name" class="roomDetailsColumnDesc"/>
-                                </Column>
+                                </Column>   
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Email address" class="roomDetailsColumnDesc"/>
                                 </Column>
@@ -102,6 +101,7 @@
                                 <ColumnListItem>
                                     <cells>
                                         <ObjectIdentifier title="" class="roomDetailsNextCurrent"/>
+                                        <!-- <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/> -->
                                         <Text text="{reservationTime>name}" class="roomDetailsTableDesc"/>
                                         <Text text="{reservationTime>address}" class="roomDetailsTableDesc" />
                                     </cells>
