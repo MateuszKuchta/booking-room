@@ -124,6 +124,8 @@ public class EventServlet extends HttpServlet {
 
 			PagedResult<Event> userEvents = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute()
 					.body();
+			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute();
+			if(userEvents != null) {
 			if (userEvents.getValue().length == 0) {
 				Response<Object> responseEvent = outlookService.makeEvent(event).execute();
 
@@ -133,6 +135,9 @@ public class EventServlet extends HttpServlet {
 			} else {
 				resp.setStatus(HttpStatus.SC_CONFLICT);
 				resp.getWriter().append("There is an event in given time already.");
+			} 
+			} else {
+				resp.getWriter().append(execute.errorBody().string());
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
