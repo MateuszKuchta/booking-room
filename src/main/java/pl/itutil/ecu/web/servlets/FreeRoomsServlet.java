@@ -23,6 +23,7 @@ import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
+import retrofit2.Response;
 
 @WebServlet("/freeRooms")
 public class FreeRoomsServlet extends HttpServlet {
@@ -31,7 +32,7 @@ public class FreeRoomsServlet extends HttpServlet {
 	/**
 	 * <h1>End Point zwracajacy wydarzenie pokoje wolne w tym momencie</h1>
 	 * <h2>Method GET</h2>
-	 * <h2>{@code example http://localhost:8080/ecu-web/freeRooms}
+	 * <h2>{@code example http://localhost:8080/room-reservation/freeRooms}
 	 * 
 	 * @return Event
 	 * @throws ServletException,
@@ -60,6 +61,7 @@ public class FreeRoomsServlet extends HttpServlet {
 			String select = "displayName,userPrincipalName,officeLocation";
 
 			PagedResult<Room> rooms = outlookService.getRooms(select, filter).execute().body();
+			Response<PagedResult<Room>> execute = outlookService.getRooms(select, filter).execute();
 			Room[] roomsArray = rooms.getValue();
 			List<Room> freeRooms = new ArrayList<>(Arrays.asList(roomsArray));
 

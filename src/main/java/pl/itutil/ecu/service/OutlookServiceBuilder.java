@@ -10,6 +10,7 @@ import okhttp3.Request.Builder;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class OutlookServiceBuilder {
@@ -21,7 +22,7 @@ public class OutlookServiceBuilder {
 			@Override
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				Request original = chain.request();
-				Builder builder = original.newBuilder().header("User-Agent", "java-tutorial")
+				Builder builder = original.newBuilder()
 						.header("client-request-id", UUID.randomUUID().toString())
 						.header("return-client-request-id", "true")
 						.header("Authorization", String.format("Bearer %s", accessToken))
@@ -45,8 +46,8 @@ public class OutlookServiceBuilder {
 				.addInterceptor(loggingInterceptor).build();
 
 		// Create and configure the Retrofit object
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://outlook.office.com").client(client)
-				.addConverterFactory(JacksonConverterFactory.create()).build();
+		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://graph.microsoft.com").client(client)
+				.addConverterFactory(GsonConverterFactory.create()).build();
 
 		// Generate the token service
 		return retrofit.create(OutlookService.class);

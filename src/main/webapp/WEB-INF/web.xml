@@ -4,4 +4,14 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>RoomsServlet</display-name>
+    <servlet-name>RoomsServlet</servlet-name>
+    <servlet-class>pl.itutil.ecu.web.servlets.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RoomsServlet</servlet-name>
+    <url-pattern>/RoomsServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

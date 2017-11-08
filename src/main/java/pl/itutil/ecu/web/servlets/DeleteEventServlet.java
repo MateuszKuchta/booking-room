@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
 
+import pl.itutil.ecu.service.DateTimeTimeZone;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
@@ -37,7 +38,6 @@ public class DeleteEventServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		String userEmail = req.getParameter("roomEmail");
-
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
 			Date now = new Date();
@@ -48,12 +48,16 @@ public class DeleteEventServlet extends HttpServlet {
 			if (events.getValue().length != 0) {
 				Event[] eventsValues = events.getValue();
 				String eventId = eventsValues[0].getId();
-
-				while (outlookService.deleteEvent(userEmail, eventId).execute().code() == 500) {
+				Event event = eventsValues[0];
+				DateTimeTimeZone end = event.getEnd();
+				end.setDateTime(ISO8601DateParser.toString(now));
+				Event justEndTimeEvent = new Event();
+				justEndTimeEvent.setEnd(end);
+				while (outlookService.endEvent(userEmail, eventId, justEndTimeEvent).execute().code() == 500) {
 				}
 
 				resp.setStatus(HttpStatus.SC_NO_CONTENT);
-				resp.getWriter().append("Event has been removed");
+				resp.getWriter().append("Event has been ended");
 			} else {
 				resp.getWriter().append("No events found");
 				resp.setStatus(HttpStatus.SC_NOT_FOUND);

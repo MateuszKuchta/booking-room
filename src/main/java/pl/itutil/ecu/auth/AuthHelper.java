@@ -23,11 +23,9 @@ public class AuthHelper {
 		"openid", 
 		"offline_access",
 		"profile", 
-		"https://outlook.office.com/mail.read",
-		"https://outlook.office.com/calendars.readWrite",
-		"https://outlook.office.com/calendars.readWrite.shared",
-		"https://outlook.office.com/contacts.readWrite",
-		
+		"Calendars.ReadWrite",
+		"Calendars.ReadWrite.Shared",
+		"Contacts.ReadWrite"
 	};
 	
 	private static String appId = null;

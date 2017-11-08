@@ -6,8 +6,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller",
     'sap/viz/ui5/controls/common/feeds/FeedItem',
     'ecu/controller/manager/TileRadial',
     'ecu/lib/oDate',
-    'sap/m/MessageToast',
-    ], function(BaseController, MessageBox,/* Utilities, */ History,QueryGenerator,FeedItem,TileRadial,oDate,MessageToast,) {
+    'sap/m/MessageToast'
+    ], function(BaseController, MessageBox,/* Utilities, */ History,QueryGenerator,FeedItem,TileRadial,oDate,MessageToast) {
     "use strict";
     return BaseController.extend("ecu.controller.manager.Dashboard", {
 page : null,

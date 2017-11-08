@@ -4,25 +4,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
-	@JsonProperty("Id")
 	private String id;
-	@JsonProperty("Subject")
 	private String subject;
-	@JsonProperty("Organizer")
 	private Recipient organizer;
-	@JsonProperty("Start")
 	private DateTimeTimeZone start;
-	@JsonProperty("End")
 	private DateTimeTimeZone end;
-	@JsonProperty("Location")
 	private Location location;
-	@JsonProperty("Attendees")
 	private List<Recipient> attendees;
-
 
 	public String getId() {
 		return id;
@@ -81,9 +72,9 @@ public class Event {
 	}
 
 	public void filterRoomsFromAttendees() {
-		for (Iterator<Recipient> it = attendees.iterator(); it.hasNext();) {
-			if(it.next().getEmailAddress().getName().contains("Room")){
-				it.remove();
+		for (Iterator<Recipient> recipient = attendees.iterator(); recipient.hasNext();) {
+			if (recipient.next().getEmailAddress().getName().contains("Room")) {
+				recipient.remove();
 			}
 		}
 	}
