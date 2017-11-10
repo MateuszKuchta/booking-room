@@ -125,8 +125,8 @@ public class EventServlet extends HttpServlet {
 			PagedResult<Event> userEvents = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute()
 					.body();
 			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute();
-			if(userEvents != null) {
-			if (userEvents.getValue().length == 0) {
+			if (userEvents != null) {
+				if (userEvents.getValue().length == 0) {
 				Response<Object> responseEvent = outlookService.makeEvent(event).execute();
 
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());

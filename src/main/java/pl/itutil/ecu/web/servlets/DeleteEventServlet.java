@@ -25,7 +25,6 @@ import pl.itutil.ecu.util.OutlookServiceUtil;
  * <h2>Method GET</h2>
  * <h2>{@code example http://localhost:8080/ecu-web/deleteCurrentEvent?roomEmail=ecroom1@itutil.com}
  * 
- * @return no-body
  * @throws ServletException,
  *             IOException
  * @since 2017-10-09

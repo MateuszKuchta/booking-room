@@ -42,10 +42,7 @@ public class RoomsServlet extends HttpServlet {
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
 			String filter = "personType/subclass EQ 'Room'";
-			String select = "displayName,userPrincipalName,officeLocation";
-
 			PagedResult<Room> rooms = outlookService.getRooms(null, filter).execute().body();
-			Response<PagedResult<Room>> execute = outlookService.getRooms(null, filter).execute();
 			resp.getWriter().append(gson.toJson(rooms));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
