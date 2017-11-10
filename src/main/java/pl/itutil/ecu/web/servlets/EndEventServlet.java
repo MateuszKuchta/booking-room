@@ -21,13 +21,13 @@ import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
 
 /**
- * <h1>End Point usuwajacy biezace wydarzenie</h1>
+ * <h1>End Point zakanczajacy biezace wydarzenie</h1>
  * <h2>Method GET</h2>
- * <h2>{@code example http://localhost:8080/ecu-web/deleteCurrentEvent?roomEmail=ecroom1@itutil.com}
+ * <h2>{@code example http://localhost:8080/ecu-web/endCurrentEvent?roomEmail=ecroom1@itutil.com}</h2>
  * 
  * @throws ServletException,
  *             IOException
- * @since 2017-10-09
+ * @since 2017-11-09
  */
 @WebServlet("/endCurrentEvent")
 public class EndEventServlet extends HttpServlet {
