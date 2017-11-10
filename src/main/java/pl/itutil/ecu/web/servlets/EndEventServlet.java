@@ -29,8 +29,8 @@ import pl.itutil.ecu.util.OutlookServiceUtil;
  *             IOException
  * @since 2017-10-09
  */
-@WebServlet("/deleteCurrentEvent")
-public class DeleteEventServlet extends HttpServlet {
+@WebServlet("/endCurrentEvent")
+public class EndEventServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

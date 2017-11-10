@@ -59,18 +59,18 @@ sap.ui.define([
                     "value": [{
                         "subject": {},
                         "reservationTime": {},
+                        "startDateTime": {},
+                        "endDateTime": {},
                         "attendees": []
                     }]
                 };
 
                 for (var i = 0; i < data.value.length; i++) {
-                    //var start = new Date(data.value[i].start.dateTime).getTime();
                     var start_dt_apple = data.value[i].start.dateTime.split("T");
                     var start_date_apple = start_dt_apple[0].split("-");
                     var start_time_apple = start_dt_apple[1].split(":");
                     var start = new Date(start_date_apple[0], (start_date_apple[1] - 1), start_date_apple[2], start_time_apple[0], start_time_apple[1], "00", "00").getTime();
 
-                    //var end = new Date(data.value[i].end.dateTime).getTime();
                     var end_dt_apple = data.value[i].end.dateTime.split("T");
                     var end_date_apple = end_dt_apple[0].split("-");
                     var end_time_apple = end_dt_apple[1].split(":");
@@ -101,12 +101,16 @@ sap.ui.define([
                         json.value.push({ 
                             "subject": {},
                             "reservationTime": {},
+                            "startDateTime": {},
+                            "endDateTime": {},
                             "attendees": []
                         });
                     }
 
                     json.value[i].subject = data.value[i].subject;
                     json.value[i].reservationTime = nhour_start + ":" + nmin_start + "-" + nhour_end + ":" + nmin_end;
+                    json.value[i].startDateTime = new Date(data.value[i].start.dateTime);
+                    json.value[i].endDateTime = new Date(data.value[i].end.dateTime);
 
                     for (var j = 0; j < data.value[i].attendees.length; j++) {
                         json.value[i].attendees.push({
@@ -131,6 +135,22 @@ sap.ui.define([
                 jsonMainHeader.setData(obj);
                 this.getView().setModel(jsonMainHeader, "reservationTimeHeader");
             }
+            console.log(jsonModel);
+        },
+
+        getAjax: function (myUrl) {
+            var myData = null;
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                url: myUrl,
+                dataType: "json",
+                success: function (data) {
+                    myData = data;
+                }
+            });
+            return myData;
         },
 
         updateStatus: function () {
@@ -139,8 +159,19 @@ sap.ui.define([
             var dateFrom = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "T" + d.toLocaleTimeString();
             var dateTo = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate() + 1) + "T" + d.toLocaleTimeString();
 
-            var url_reservation_details_find_another = "/room-reservation/freeRooms";
+            var url_reservation_details_find_another = "/room-reservation/rooms";
             this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_details_find_another), "reservationDetailsFindAnother");
+
+            var model1 = this.getAjax("/room-reservation/rooms");
+            var model2 = this.getAjax("/room-reservation/rooms");
+            model1 = JSON.stringify(model1)
+            model2 = JSON.stringify(model2)
+            if (model1 === model2) {
+                console.log("zmiana");
+            } else {
+                console.log("nie");
+            }
+            console.log(model1);
 
             var jsonModel = new sap.ui.model.json.JSONModel;
             var jsonStatusModel = new sap.ui.model.json.JSONModel;
@@ -618,7 +649,7 @@ sap.ui.define([
                     dataType: "json",
                     success: function (data) {
                         //if (data) {
-                            sap.ui.core.BusyIndicator.show();
+                        sap.ui.core.BusyIndicator.show();
                         thisRD.getView().byId("DTI4").setValue("");
                         thisRD.getView().byId("DTI1").setValue("");
                         thisRD.getView().byId("DTI2").setValue("");

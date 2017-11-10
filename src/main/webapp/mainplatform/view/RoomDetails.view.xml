@@ -2,7 +2,8 @@
     xmlns="sap.m" 
     xmlns:l="sap.ui.layout" 
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
-    xmlns:tnt="sap.tnt" 
+    xmlns:tnt="sap.tnt"
+    xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
     <App id="roomDetails">
         <pages>
@@ -63,6 +64,20 @@
                         <Image id="endNowAndQuickRes" src="" class="endNowAndQuickRes" press="onEndNowAndQuickRes"/>
                     </HBox>
                     <ScrollContainer id="roomDetailsScrollContainer" height='26%' vertical='true' class="roomDetailsTableMain">
+                        <VBox id="roomDetailsTableFindAnother" visible="false">
+                            <PlanningCalendar id="PC1" startDate="{path: 'reservationTime>/value/0/startDateTime'}" rows="{path: 'reservationTime>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
+                                <rows>
+                                    <PlanningCalendarRow icon="{pic}" title="EC ROOM 1" text="Available" appointments="{path : 'reservationTime>/value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
+                                        <appointments>
+                                            <unified:CalendarAppointment startDate="{reservationTime>startDateTime}" endDate="{reservationTime>endDateTime}" icon="sap-icon://sap-ui5" title="{reservationTime>subject}" type="Type01" tentative="false"></unified:CalendarAppointment>
+                                        </appointments>
+                                        <intervalHeaders>
+                                            <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}"  title="{endDate}" type="Type02"></unified:CalendarAppointment>
+                                        </intervalHeaders>
+                                    </PlanningCalendarRow>
+                                </rows>
+                            </PlanningCalendar>
+                        </VBox>
                         <HBox id="roomDetailsTableAll">
                             <Table id="roomDetailsTableReservations" inset="false" items="{path: 'reservationTime>/value/'}" class="roomDetailsTableAll">
                                 <columns>
@@ -92,7 +107,7 @@
                                 <Column width="20%" text="text"></Column>
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Name" class="roomDetailsColumnDesc"/>
-                                </Column>   
+                                </Column>
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Email address" class="roomDetailsColumnDesc"/>
                                 </Column>
@@ -108,7 +123,7 @@
                                 </ColumnListItem>
                             </items>
                         </Table>
-                        <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false">
+                        <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false">
                             <columns>
                                 <Column width="20%" text="text">
                                     <Text text="Name" class="roomDetailsColumnDesc"/>
@@ -129,7 +144,7 @@
                                     </cells>
                                 </ColumnListItem>
                             </items>
-                        </Table>
+                        </Table> -->
                         <HBox id="detailsHBox" width="100%" visible="false">
                             <VBox width="30%">
                                 <ComboBox id="DTI4" showSecondaryValues="true" items="{
