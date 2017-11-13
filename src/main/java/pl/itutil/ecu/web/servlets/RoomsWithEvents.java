@@ -22,6 +22,7 @@ import com.google.gson.JsonElement;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
+import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
@@ -68,20 +69,20 @@ public class RoomsWithEvents extends HttpServlet {
 				String userEmail = room.getUserPrincipalName();
 				PagedResult<Event> events = outlookService
 						.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute().body();
-				Response<PagedResult<Event>> execute = outlookService
-						.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute();
 				if (events != null) {
 					for (Event event : events.getValue()) {
 						event.filterRoomsFromAttendees();
+						for (Recipient recipient : event.getAttendees()) {
+							recipient.setPhone(outlookService);
+						}
 					}
 					JsonElement jsonElement = gson.toJsonTree(events);
-					jsonElement.getAsJsonObject().addProperty("emailAddres", userEmail);
+					jsonElement.getAsJsonObject().addProperty("emailAddress", userEmail);
 					resultList.add(jsonElement);
 				} else {
 					events = new PagedResult<>();
-					Event[] emptyArray = new Event[0];
 					JsonElement jsonElement = gson.toJsonTree(events);
-					jsonElement.getAsJsonObject().addProperty("emailAddres", userEmail);
+					jsonElement.getAsJsonObject().addProperty("emailAddress", userEmail);
 					resultList.add(jsonElement);
 				}
 			}

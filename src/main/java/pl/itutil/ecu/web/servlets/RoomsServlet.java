@@ -15,7 +15,6 @@ import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Response;
 
 /**
  * Servlet implementation class RoomsServlet

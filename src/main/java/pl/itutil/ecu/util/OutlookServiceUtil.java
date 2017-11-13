@@ -20,6 +20,7 @@ public class OutlookServiceUtil {
 		if (tokens == null) {
 			return null;
 		}
+		
 		Date now = new Date();
 		if (now.after(tokens.getExpirationTime())) {
 			tokens = AuthHelper.ensureTokens(tokens, tenantId);

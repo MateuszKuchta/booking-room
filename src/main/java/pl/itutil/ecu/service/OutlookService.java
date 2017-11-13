@@ -58,4 +58,8 @@ public interface OutlookService {
 	@Headers("Content-Type: application/json")
 	@PATCH("/v1.0/users/{userEmail}/calendar/events/{eventId}")
 	Call<Object> endEvent(@Path("userEmail") String userEmail, @Path("eventId") String eventId, @Body Event event);
+	
+	//https://graph.microsoft.com/v1.0/me/people?$filter=scoredEmailAddresses/any(a: a/address eq 'piotr.matosek@itutil.com')&$select=phones 
+	@GET("/v1.0/me/people")
+	Call<PagedResult<Person>> getPeople(@Query("$select") String select, @Query("$filter") String filter);
 }

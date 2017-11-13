@@ -19,8 +19,12 @@ import com.google.gson.Gson;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
+import pl.itutil.ecu.service.Person;
+import pl.itutil.ecu.service.Phone;
+import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
+import retrofit2.Response;
 
 @WebServlet("/getUserEvents")
 public class UserEventsServlet extends HttpServlet {
@@ -55,30 +59,10 @@ public class UserEventsServlet extends HttpServlet {
 			if (events != null) {
 				for (Event event : events.getValue()) {
 					event.filterRoomsFromAttendees();
+					for (Recipient recipient : event.getAttendees()) {
+						recipient.setPhone(outlookService);
+					}
 				}
-				
-
-				// poprawka dla tabletu SONY
-				// try {
-				// DateTimeTimeZone eventStart = event.getStart();
-				// DateTimeTimeZone eventEnd = event.getEnd();
-				//
-				// Date eventStartDateTime = ISO8601DateParser.parse(eventStart.getDateTime());
-				// Date eventEndDateTime = ISO8601DateParser.parse(eventEnd.getDateTime());
-				//
-				// eventStartDateTime = DateUtils.addHours(eventStartDateTime, -2);
-				// eventEndDateTime = DateUtils.addHours(eventEndDateTime, -2);
-				//
-				// eventStart.setDateTime(ISO8601DateParser.toString(eventStartDateTime));
-				// eventEnd.setDateTime(ISO8601DateParser.toString(eventEndDateTime));
-				//
-				// event.setStart(eventStart);
-				// event.setEnd(eventEnd);
-				// } catch (ParseException e) {
-				// e.printStackTrace();
-				// }
-				//
-				// }
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());
 				resp.setStatus(HttpStatus.SC_ACCEPTED);
 				resp.getWriter().append(gson.toJson(events));
@@ -93,5 +77,7 @@ public class UserEventsServlet extends HttpServlet {
 		}
 
 	}
+
+	
 
 }
