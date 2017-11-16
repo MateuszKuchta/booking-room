@@ -60,7 +60,7 @@ public class RoomsWithEvents extends HttpServlet {
 			Room[] value = rooms.body().getValue();
 
 			Date now = new Date();
-			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
+			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 0));
 			endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
 
 			for (Room room : value) {

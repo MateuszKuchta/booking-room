@@ -22,6 +22,7 @@ import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
+import retrofit2.Response;
 
 @WebServlet("/getUserEvents")
 public class UserEventsServlet extends HttpServlet {
@@ -48,10 +49,12 @@ public class UserEventsServlet extends HttpServlet {
 
 		if (outlookService != null) {
 			Date now = new Date();
-			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
+			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 0));
 			endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
-			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
-					.execute().body();
+			
+			 Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
+					.execute();
+			PagedResult<Event> events = execute.body();
 			gson = new Gson();
 			if (events != null) {
 				for (Event event : events.getValue()) {

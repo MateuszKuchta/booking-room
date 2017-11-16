@@ -40,7 +40,7 @@ public class EndEventServlet extends HttpServlet {
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
 			Date now = new Date();
-			String startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
+			String startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 0));
 			String endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
 			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
 					.execute().body();
