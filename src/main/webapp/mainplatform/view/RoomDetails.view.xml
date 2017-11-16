@@ -2,8 +2,8 @@
     xmlns="sap.m" 
     xmlns:l="sap.ui.layout" 
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
-    xmlns:tnt="sap.tnt"
-    xmlns:unified="sap.ui.unified"
+    xmlns:tnt="sap.tnt" 
+    xmlns:unified="sap.ui.unified" 
     xmlns:core="sap.ui.core">
     <App id="roomDetails">
         <pages>
@@ -65,14 +65,14 @@
                     </HBox>
                     <ScrollContainer id="roomDetailsScrollContainer" height='26%' vertical='true' class="roomDetailsTableMain">
                         <VBox id="roomDetailsTableFindAnother" visible="false">
-                            <PlanningCalendar id="PC1" startDate="{path: 'reservationTime>/value/0/startDateTime'}" rows="{path: 'reservationTime>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
+                            <PlanningCalendar id="PC1" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
                                 <rows>
-                                    <PlanningCalendarRow icon="{pic}" title="EC ROOM 1" text="Available" appointments="{path : 'reservationTime>/value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
+                                    <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddres/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
                                         <appointments>
-                                            <unified:CalendarAppointment startDate="{reservationTime>startDateTime}" endDate="{reservationTime>endDateTime}" icon="sap-icon://sap-ui5" title="{reservationTime>subject}" type="Type01" tentative="false"></unified:CalendarAppointment>
+                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" icon="sap-icon://sap-ui5" title="{allRoomsOccupancy>subject}" text="{allRoomsOccupancy>organizer/emailAddress/name}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
                                         </appointments>
                                         <intervalHeaders>
-                                            <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}"  title="{endDate}" type="Type02"></unified:CalendarAppointment>
+                                            <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}" title="{endDate}" type="Type02"></unified:CalendarAppointment>
                                         </intervalHeaders>
                                     </PlanningCalendarRow>
                                 </rows>
@@ -123,63 +123,19 @@
                                 </ColumnListItem>
                             </items>
                         </Table>
-                        <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false">
-                            <columns>
-                                <Column width="20%" text="text">
-                                    <Text text="Name" class="roomDetailsColumnDesc"/>
-                                </Column>
-                                <Column width="30%" demandPopin="true">
-                                    <Text text="Location" class="roomDetailsColumnDesc"/>
-                                </Column>
-                                <Column width="30%" demandPopin="true">
-                                    <Text text="Principal name" class="roomDetailsColumnDesc"/>
-                                </Column>
-                            </columns>
+                        <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false"><columns><Column width="20%" text="text"><Text text="Name" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Location" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Principal name" class="roomDetailsColumnDesc"/></Column></columns><items><ColumnListItem><cells><Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/></cells></ColumnListItem></items></Table> -->
+                        <VBox id="detailsHBox" width="100%" visible="false" justifyContent="Center" alignContent="Center" alignItems="Center" class="login_form">
                             <items>
-                                <ColumnListItem>
-                                    <cells>
-                                        <Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/>
-                                        <Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/>
-                                        <Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/>
-                                    </cells>
-                                </ColumnListItem>
+                                <Button width="15.5rem" icon="./resources/images/windows.png" class="saveButton" text="Login via Outlook" type="Emphasized" press="onOutlookLoginPress"/>
+                                <Input placeholder="Room e-mail" id="roomEmail" style="margin-top: 20px"/>
+                                <Button width="15.5rem" class="saveButton" text="Save" type="Emphasized" press="onSavePressButton"/>
                             </items>
-                        </Table> -->
-                        <HBox id="detailsHBox" width="100%" visible="false">
-                            <VBox width="30%">
-                                <ComboBox id="DTI4" showSecondaryValues="true" items="{
-                                    path: 'reservationDetailsPeople>/value/',
-                                    sorter: { path: 'FirstName' }
-                                }" placeholder="Organizer" class="comboBoxInput">
-                                    <core:Item key="{reservationDetailsPeople>DisplayName}" text="{reservationDetailsPeople>DisplayName}" additionalText="{reservationDetailsPeople>JobTitle}" />
-                                </ComboBox>
-                                <HBox width="100%" class="HBoxImages">
-                                    <Image id="projectorImage" src="./resources/images/projectorImageGray.png" class="roomDetailsProjectorImage" height="2.4em" width="60%" press="onProjectorPress" />
-                                    <Image id="cookiesImage" src="./resources/images/cookiesImageGray.png" class="roomDetailsCookieImage" height="2.4em" width="80%" press="onCookiePress" />
-                                    <Image id="coffeeImage" src="./resources/images/coffeeImageGray.png" class="roomDetailsCoffeeImage" height="2.4em" width="80%" press="onCoffeePress" />
-                                    <Image id="pearImage" src="./resources/images/pearImageGray.png" class="roomDetailsPearImage" height="2.4em" width="80%" press="onPearPress" />
-                                </HBox>
-                                <Image src="./resources/images/button_choose-additional-things.png" class="detailsRoomSelectExtras" press="onSelectDialogPress" width="97%">
-                                    <customData>
-                                        <core:CustomData key="multi" value="true" />
-                                        <core:CustomData key="remember" value="true" />
-                                    </customData>
-                                </Image>
-                            </VBox>
-                            <VBox width="40%" class="detailsDateInputVBox">
-                                <DateTimeInput id="DTI1" type="Date" placeholder="{i18n>Corpo.popover.inputDate}" class="displayDateFormat" width="70%" />
-                                <DateTimeInput id="DTI2" type="Time" placeholder="{i18n>Corpo.popover.inputHourFrom}" class="displayDateFormat" width="70%" />
-                                <DateTimeInput id="DTI3" type="Time" placeholder="{i18n>Corpo.popover.inputHourTo}" class="displayDateFormat" width="70%"/>
-                            </VBox>
-                            <VBox width="25%">
-                                <Image src="./resources/images/button_add-reservation.png" class="detailsAddReservationImage" height="2.3em" width="100%" press="onRoomDetailsAddReservation" />
-                            </VBox>
-                        </HBox>
+                        </VBox>
                     </ScrollContainer>
-                    <Image id="calendarImage" src="./resources/images/detailsCalendarWhite.png" class="roomDetailsImage" height="12%" width="8%" press="onRoomDetailsCalendarOpen" />
-                    <Image id="peopleImage" src="./resources/images/detailsPeopleGray.png" class="roomDetailsImage" height="12%" width="8%" press="onRoomDetailsPeopleOpen"/>
-                    <Image id="findAnotherImage" src="./resources/images/detailsFindAnotherGray.png" class="roomDetailsImage" height="12%" width="8%" press="onRoomDetailsFindOpen" />
-                    <Image id="openReservationImage" src="./resources/images/detailsOpenReservationGray.png" class="roomDetailsImageAdd" height="12%" width="8%" press="onRoomDetailsAddOpen" />
+                    <core:Icon id="calendarImage" src="sap-icon://calendar" class="whiteIcon roomDetailsImageMain" press="onRoomDetailsCalendarOpen"/>
+                    <core:Icon id="peopleImage" src="sap-icon://group" class="grayIcon roomDetailsImageMain" press="onRoomDetailsPeopleOpen"/>
+                    <core:Icon id="findAnotherImage" src="sap-icon://check-availability" class="grayIcon roomDetailsImageMain" press="onRoomDetailsFindOpen"/>
+                    <core:Icon id="openReservationImage" src="sap-icon://action-settings" class="grayIcon roomDetailsImageAdd" press="onRoomDetailsAddOpen"/>
                     <HBox class="imageDescHBox">
                         <Text id="calendarText" text="" class="roomDisplayImageCalendarDescription roomDisplayChangeTextColor"/>
                         <Text id="peopleText" text="" class="roomDisplayImageAttendeesDescription" />

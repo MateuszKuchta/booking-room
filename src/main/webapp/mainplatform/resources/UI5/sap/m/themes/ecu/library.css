@@ -724,14 +724,14 @@ html[dir='rtl'] .sapMBsyIndIcon {
   background-clip: padding-box;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.875rem;
-  height: 2.500rem;
+  font-size: 0.3em;
+  /* height: 2.500rem; */
   min-width: 2.500rem;
   margin: 0;
   padding: 0;
   text-align: center;
   position: relative;
-  background-color: #fff !important;
+  /* background-color: #fff !important; */
   border: 1px solid #ababab;
   border-radius: 0.2rem;
   color: #008349;
@@ -775,7 +775,7 @@ more vertical space than needed in IE */
   white-space: nowrap;
   vertical-align: top;
   line-height: 2.375rem;
-  color: #008349;
+  color: #777;
 }
 /* unstyled button content line height should be normal on iOS devices to fit into the button */
 html[data-sap-ui-os^="iOS"] .sapMBtnBase:not(.sapMBtn) .sapMBtnContent {
@@ -794,6 +794,7 @@ html[data-sap-ui-browser*='ie'] .sapMBtnContentWithIcon {
   text-align: center;
   margin: 0;
   padding: 0;
+  height: 2.3rem;
   vertical-align: top;
   max-height: 2.375rem;
   color: #fff; /* merge */
@@ -982,10 +983,10 @@ span.sapMBtnInner.sapMBtnReject {
 /* ---------------------------------------- */
 span.sapMBtnInner.sapMBtnEmphasized {
   background-image: none;
-  background-color: #5496cd;
-  border-color: #418ac7;
+  background-color: #fff;
+  border-color: #555;
   color: #ffffff;
-  text-shadow: 0 0 0.125rem #000000;
+  /* text-shadow: 0 0 0.125rem #000000; */
 }
 :not(.sapMBtnDisabled) > span.sapMBtnInner.sapMBtnEmphasized > .sapMBtnIcon {
   color: #ffffff;
@@ -1030,8 +1031,8 @@ span.sapMBtnInner.sapMBtnEmphasized {
 .sapMBar .sapMBtnInner,
 .sapMHeader-CTX .sapMBtnInner,
 .sapMFooter-CTX .sapMBtnInner {
-  background: transparent;
-  border-color: transparent;
+  background: #fff;
+  border-color: #555;
 }
 .sapMSubHeader-CTX .sapMBtnInner {
   background: transparent;
@@ -5534,12 +5535,10 @@ html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .s
   height: 100%;
   box-sizing: border-box;
   /* margin-left: 200%; */
-  border-radius: 10px !important;
   font-size: 1.3rem !important;
   font-family: 'Lato', sans-serif !important;
   color: #666;
   text-align: center;
-  margin-left: -35px !important; /* merge */
 }
 .sapMInputDivWrapper {
   position: relative;
@@ -5555,8 +5554,6 @@ html.sap-desktop .sapMInputVH:not(.sapMInputBaseReadonly) .sapMInputValHelp > .s
 .sapMInputBasePlaceholder {
   /* box-sizing: border-box; */
   line-height: 0;
-  /* mati */
-  margin-left: 4vw;
 }
 .sapMInputBaseState .sapMInputDivWrapper .sapMInputValHelp {
   top: 0.1rem;
@@ -10845,7 +10842,7 @@ html.sap-desktop .sapMP13nColumnsPanel .sapMLIBSelected:not(.sapMLIBActive):not(
 .sapMPage > section.sapMPageEnableScrolling {
   overflow-y: auto;
   background-color: #dedede;
-  background-image: url('../../../../../Base/baseLib/ecu/img/misc/eurocash_bg.png');
+  background-image: "";
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -19641,7 +19638,7 @@ html.sap-desktop .sapUiSizeCompact .sapUiForm .sapMCb:not(.sapMCbBgDis):focus:be
 }
 .sapMDialog.sapMPopup-CTX > header.sapMHeader-CTX,
 .sapMDialog.sapMPopup-CTX > header.sapMSubHeader-CTX {
-  background-color: #008349;
+  background-color: #555555;
 }
 .sapMDialog > header {
   box-shadow: none;

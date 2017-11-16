@@ -419,7 +419,6 @@ html[data-sap-ui-browser^="ed"] .sapUiIcon:focus::after {
 }
 .sapUiIcon::before {
   content: attr(data-sap-ui-icon-content);
-  color: #008349;
   speak: none;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
@@ -1123,7 +1122,7 @@ html.sap-tablet:not(.sap-desktop) .sapUiSelectable {
 .sapUiBodyBackground,
 .sapUiBody {
   background-color: #fafafa;
-  background-image: url("../../../../../../Base/baseLib/ecu/img/misc/background.jpg");
+  background-image: "";
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
