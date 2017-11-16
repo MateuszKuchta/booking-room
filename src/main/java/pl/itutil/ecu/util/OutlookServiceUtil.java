@@ -1,10 +1,6 @@
 package pl.itutil.ecu.util;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.time.DateUtils;
 
 import pl.itutil.ecu.auth.AuthHelper;
 import pl.itutil.ecu.auth.TokenResponse;
@@ -20,12 +16,10 @@ public class OutlookServiceUtil {
 		if (tokens == null) {
 			return null;
 		}
-		Date now = new Date();
-		if (now.after(tokens.getExpirationTime())) {
-			tokens = AuthHelper.ensureTokens(tokens, tenantId);
-			session.removeAttribute("tokens");
-			session.setAttribute("tokens", tokens);
-		}
+
+		tokens = AuthHelper.ensureTokens(tokens, tenantId);
+		session.removeAttribute("tokens");
+		session.setAttribute("tokens", tokens);
 
 		String email = (String) session.getAttribute("userEmail");
 

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
-import org.apache.http.entity.ContentType;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -22,10 +21,10 @@ import com.google.gson.JsonElement;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
+import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Call;
 import retrofit2.Response;
 
 /**
@@ -68,26 +67,27 @@ public class RoomsWithEvents extends HttpServlet {
 				String userEmail = room.getUserPrincipalName();
 				PagedResult<Event> events = outlookService
 						.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute().body();
-				Response<PagedResult<Event>> execute = outlookService
-						.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute();
 				if (events != null) {
 					for (Event event : events.getValue()) {
 						event.filterRoomsFromAttendees();
+						for (Recipient recipient : event.getAttendees()) {
+							recipient.setPhone(outlookService);
+						}
 					}
 					JsonElement jsonElement = gson.toJsonTree(events);
-					jsonElement.getAsJsonObject().addProperty("emailAddres", userEmail);
+					jsonElement.getAsJsonObject().addProperty("emailAddress", userEmail);
 					resultList.add(jsonElement);
 				} else {
 					events = new PagedResult<>();
-					Event[] emptyArray = new Event[0];
 					JsonElement jsonElement = gson.toJsonTree(events);
-					jsonElement.getAsJsonObject().addProperty("emailAddres", userEmail);
+					jsonElement.getAsJsonObject().addProperty("emailAddress", userEmail);
 					resultList.add(jsonElement);
 				}
 			}
 			resp.getWriter().append(gson.toJson(resultList));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 
 	}

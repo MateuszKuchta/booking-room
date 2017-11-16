@@ -11,27 +11,21 @@ import javax.ws.rs.core.UriBuilder;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-
 
 public class AuthHelper {
 	private static final String authority = "https://login.microsoftonline.com";
 	private static final String authorizeUrl = authority + "/common/oauth2/v2.0/authorize";
-	
-	private static String[] scopes = { 
-		"openid", 
-		"offline_access",
-		"profile", 
-		"Calendars.ReadWrite",
-		"Calendars.ReadWrite.Shared",
-		"Contacts.ReadWrite"
-	};
-	
+
+	private static String[] scopes = { "openid", "offline_access", "profile", "Calendars.ReadWrite",
+			"Calendars.ReadWrite.Shared", "Contacts.ReadWrite" };
+
 	private static String appId = null;
 	private static String appPassword = null;
 	private static String redirectUrl = null;
-	
+
 	private static String getAppId() {
 		if (appId == null) {
 			try {
@@ -42,6 +36,7 @@ public class AuthHelper {
 		}
 		return appId;
 	}
+
 	private static String getAppPassword() {
 		if (appPassword == null) {
 			try {
@@ -52,7 +47,7 @@ public class AuthHelper {
 		}
 		return appPassword;
 	}
-	
+
 	private static String getRedirectUrl() {
 		if (redirectUrl == null) {
 			try {
@@ -63,19 +58,19 @@ public class AuthHelper {
 		}
 		return redirectUrl;
 	}
-	
+
 	private static String getScopes() {
 		StringBuilder sb = new StringBuilder();
-		for (String scope: scopes) {
+		for (String scope : scopes) {
 			sb.append(scope + " ");
 		}
 		return sb.toString().trim();
 	}
-	
+
 	private static void loadConfig() throws IOException {
 		String authConfigFile = "auth.properties";
 		InputStream authConfigStream = AuthHelper.class.getClassLoader().getResourceAsStream(authConfigFile);
-		
+
 		if (authConfigStream != null) {
 			Properties authProps = new Properties();
 			try {
@@ -86,14 +81,13 @@ public class AuthHelper {
 			} finally {
 				authConfigStream.close();
 			}
-		}
-		else {
+		} else {
 			throw new FileNotFoundException("Property file '" + authConfigFile + "' not found in the classpath.");
 		}
 	}
-	
+
 	public static String getLoginUrl(UUID state, UUID nonce) {
-		
+
 		UriBuilder urlBuilder = UriBuilder.fromPath(authorizeUrl);
 		urlBuilder.queryParam("client_id", getAppId());
 		urlBuilder.queryParam("redirect_uri", getRedirectUrl());
@@ -102,31 +96,27 @@ public class AuthHelper {
 		urlBuilder.queryParam("state", state);
 		urlBuilder.queryParam("nonce", nonce);
 		urlBuilder.queryParam("response_mode", "form_post");
-		
+
 		return urlBuilder.toTemplate();
 	}
-	
+
 	public static TokenResponse getTokenFromAuthCode(String authCode, String tenantId) {
 		// Create a logging interceptor to log request and responses
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-		
-		OkHttpClient client = new OkHttpClient.Builder()
-				.addInterceptor(interceptor).build();
-		
+
+		OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
 		// Create and configure the Retrofit object
-		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl(authority)
-				.client(client)
-				.addConverterFactory(JacksonConverterFactory.create())
-				.build();
-		
+		Retrofit retrofit = new Retrofit.Builder().baseUrl(authority).client(client)
+				.addConverterFactory(JacksonConverterFactory.create()).build();
+
 		// Generate the token service
 		TokenService tokenService = retrofit.create(TokenService.class);
-		
+
 		try {
-			return tokenService.getAccessTokenFromAuthCode(tenantId, getAppId(), getAppPassword(), 
-					"authorization_code", authCode, getRedirectUrl()).execute().body();
+			return tokenService.getAccessTokenFromAuthCode(tenantId, getAppId(), getAppPassword(), "authorization_code",
+					authCode, getRedirectUrl()).execute().body();
 		} catch (IOException e) {
 			TokenResponse error = new TokenResponse();
 			error.setError("IOException");
@@ -134,36 +124,32 @@ public class AuthHelper {
 			return error;
 		}
 	}
-	 
+
 	public static TokenResponse ensureTokens(TokenResponse tokens, String tenantId) {
 		// Are tokens still valid?
 		Calendar now = Calendar.getInstance();
-		if (now.getTime().after(tokens.getExpirationTime())) {
+		if (now.getTime().before(tokens.getExpirationTime())) {
 			// Still valid, return them as-is
 			return tokens;
-		}
-		else {
+		} else {
 			// Expired, refresh the tokens
 			// Create a logging interceptor to log request and responses
 			HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 			interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-			
-			OkHttpClient client = new OkHttpClient.Builder()
-					.addInterceptor(interceptor).build();
-			
+
+			OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
 			// Create and configure the Retrofit object
-			Retrofit retrofit = new Retrofit.Builder()
-					.baseUrl(authority)
-					.client(client)
-					.addConverterFactory(JacksonConverterFactory.create())
-					.build();
-			
+			Retrofit retrofit = new Retrofit.Builder().baseUrl(authority).client(client)
+					.addConverterFactory(JacksonConverterFactory.create()).build();
+
 			// Generate the token service
 			TokenService tokenService = retrofit.create(TokenService.class);
-			
+
 			try {
-				return tokenService.getAccessTokenFromRefreshToken(tenantId, getAppId(), getAppPassword(), 
-						"refresh_token", tokens.getRefreshToken(), getRedirectUrl()).execute().body();
+				Response<TokenResponse> tokenResponse = tokenService.getAccessTokenFromRefreshToken(tenantId, getAppId(), getAppPassword(),
+						"refresh_token", tokens.getRefreshToken(), getRedirectUrl()).execute();
+				return tokenResponse.body();
 			} catch (IOException e) {
 				TokenResponse error = new TokenResponse();
 				error.setError("IOException");

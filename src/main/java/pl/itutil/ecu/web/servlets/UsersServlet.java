@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpStatus;
+
 import com.google.gson.Gson;
 
 import pl.itutil.ecu.service.OutlookService;
@@ -43,6 +45,7 @@ public class UsersServlet extends HttpServlet {
 			resp.getWriter().append(gson.toJson(users));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 	}
 

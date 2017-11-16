@@ -63,6 +63,7 @@ public class EndEventServlet extends HttpServlet {
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 
 	}

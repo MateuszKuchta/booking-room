@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import pl.itutil.ecu.auth.AuthHelper;
 import pl.itutil.ecu.auth.IdToken;
 import pl.itutil.ecu.auth.TokenResponse;
+import pl.itutil.ecu.util.Utils;
 
 /**
  * Servlet implementation class OutlookAuthorizationServlet
@@ -43,7 +44,7 @@ public class AuthorizationServlet extends HttpServlet {
 				session.setAttribute("userConnected", true);
 				session.setAttribute("userName", idTokenObj.getName());
 				session.setAttribute("userTenantId", idTokenObj.getTenantId());
-				resp.sendRedirect(resp.encodeRedirectURL("http://localhost:8080/room-reservation/mainplatform/#/roomDetails"));
+				resp.sendRedirect(resp.encodeRedirectURL(Utils.getBaseUrl(req) + "/mainplatform/#/roomDetails"));
 			} else {
 				session.setAttribute("error", "ID token failed validation.");
 			}
