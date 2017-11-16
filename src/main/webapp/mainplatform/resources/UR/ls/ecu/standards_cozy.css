@@ -4181,7 +4181,7 @@ html[data-sap-ls-system-device='standards'] .urSTCVisibilityOnDemand {
   top: 0;
   bottom: 0;
   right: 0;
-  background-image: url('../../../Base/baseLib/ecu/img/misc/background.jpg');
+  background-image: "";
   opacity: 1.0;
   z-index: -1;
   background-repeat: no-repeat;

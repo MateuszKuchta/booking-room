@@ -449,7 +449,7 @@ body {
 	position: relative;
 	width: 59.5vw !important;
 	margin-top: 0.5vw !important;
-    margin-right: 0.5vw !important;
+	margin-right: 0.5vw !important;
 }
 
 .roomDetailsTableCurrentOrUse {
@@ -463,6 +463,7 @@ body {
 	width: 80% !important;
 	margin-top: 2% !important;
 	margin-left: 10% !important;
+	overflow: overlay !important;
 	background-color: rgba(82, 82, 82, 0.19);
 }
 
@@ -506,16 +507,16 @@ body {
 	font-family: 'Lato', sans-serif !important;
 }
 
-.roomDetailsImage {
+.roomDetailsImageMain {
 	margin-top: 2%;
-	margin-left: 9%;
+	margin-left: 10%;
 	position: relative;
 }
 
 .roomDetailsImageAdd {
 	float: right;
 	margin-top: 2%;
-	margin-right: 13%;
+	margin-right: 11%;
 	position: relative;
 }
 
@@ -543,7 +544,7 @@ body {
 	margin-top: 1em;
 }
 
-.roomDetailsCoffeeImage{ 
+.roomDetailsCoffeeImage {
 	margin-left: 15%;
 	margin-top: 1em;
 }
@@ -585,18 +586,18 @@ body {
 	margin-left: -1vw;
 }
 
-.roomDetailsAddButton { 
+.roomDetailsAddButton {
 	font-size: 3vw !important;
 	margin-bottom: 10%;
 }
 
 .detailsRoomSelectExtras {
 	font-size: 3rem !important;
-    width: 95% !important;
-    height: 0.8em;
-    margin-top: 0.2em !important;
-    margin-left: 6.4% !important;
-    color: #666 !important;
+	width: 95% !important;
+	height: 0.8em;
+	margin-top: 0.2em !important;
+	margin-left: 6.4% !important;
+	color: #666 !important;
 }
 
 .roomDetailsTableClosest {
@@ -607,7 +608,7 @@ body {
 
 .endNowAndQuickRes {
 	background-size: 100% 100%;
-	float:right !important;
+	float: right !important;
 	width: 20vw;
 	height: 10vmax;
 }
@@ -656,4 +657,28 @@ body {
 
 .comboBoxInput {
 	margin-left: 0.8em;
+}
+
+.isOverflowClass {
+	overflow: overlay;
+}
+
+.saveButton {
+	color: #555 !important;
+	font-size: 3em !important;
+    width: 19vw !important;
+}
+
+.whiteIcon {
+	font-size: 7vw;
+	color: #fff !important;
+}
+
+.grayIcon {
+	font-size: 7vw;
+	color: #666 !important;
+}
+
+.windowsImage {
+	color: white;
 }
