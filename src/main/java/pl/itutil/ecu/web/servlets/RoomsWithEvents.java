@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
-import org.apache.http.entity.ContentType;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -26,7 +25,6 @@ import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Call;
 import retrofit2.Response;
 
 /**
@@ -89,6 +87,7 @@ public class RoomsWithEvents extends HttpServlet {
 			resp.getWriter().append(gson.toJson(resultList));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 
 	}

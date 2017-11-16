@@ -19,12 +19,9 @@ import com.google.gson.Gson;
 import pl.itutil.ecu.service.Event;
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
-import pl.itutil.ecu.service.Person;
-import pl.itutil.ecu.service.Phone;
 import pl.itutil.ecu.service.Recipient;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Response;
 
 @WebServlet("/getUserEvents")
 public class UserEventsServlet extends HttpServlet {
@@ -74,6 +71,7 @@ public class UserEventsServlet extends HttpServlet {
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 
 	}

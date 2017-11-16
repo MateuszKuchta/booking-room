@@ -19,7 +19,6 @@ import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Response;
 
 /**
  * <h1>End Point zakanczajacy biezace wydarzenie</h1>
@@ -45,8 +44,6 @@ public class EndEventServlet extends HttpServlet {
 			String endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
 			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
 					.execute().body();
-			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
-			.execute();
 			if (events.getValue().length != 0) {
 				Event[] eventsValues = events.getValue();
 				String eventId = eventsValues[0].getId();
@@ -66,6 +63,7 @@ public class EndEventServlet extends HttpServlet {
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 
 	}

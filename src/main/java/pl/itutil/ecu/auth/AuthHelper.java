@@ -9,12 +9,10 @@ import java.util.UUID;
 
 import javax.ws.rs.core.UriBuilder;
 
-import com.google.gson.GsonBuilder;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class AuthHelper {
@@ -130,7 +128,7 @@ public class AuthHelper {
 	public static TokenResponse ensureTokens(TokenResponse tokens, String tenantId) {
 		// Are tokens still valid?
 		Calendar now = Calendar.getInstance();
-		if (now.getTime().after(tokens.getExpirationTime())) {
+		if (now.getTime().before(tokens.getExpirationTime())) {
 			// Still valid, return them as-is
 			return tokens;
 		} else {
@@ -143,14 +141,15 @@ public class AuthHelper {
 
 			// Create and configure the Retrofit object
 			Retrofit retrofit = new Retrofit.Builder().baseUrl(authority).client(client)
-					.addConverterFactory(GsonConverterFactory.create()).build();
+					.addConverterFactory(JacksonConverterFactory.create()).build();
 
 			// Generate the token service
 			TokenService tokenService = retrofit.create(TokenService.class);
 
 			try {
-				return tokenService.getAccessTokenFromRefreshToken(tenantId, getAppId(), getAppPassword(),
-						"refresh_token", tokens.getRefreshToken(), getRedirectUrl()).execute().body();
+				Response<TokenResponse> tokenResponse = tokenService.getAccessTokenFromRefreshToken(tenantId, getAppId(), getAppPassword(),
+						"refresh_token", tokens.getRefreshToken(), getRedirectUrl()).execute();
+				return tokenResponse.body();
 			} catch (IOException e) {
 				TokenResponse error = new TokenResponse();
 				error.setError("IOException");

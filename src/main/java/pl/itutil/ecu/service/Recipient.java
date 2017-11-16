@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import retrofit2.Response;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Recipient {
 	private EmailAddress emailAddress;
@@ -43,7 +41,6 @@ public class Recipient {
 		select = null;
 		filter = "scoredEmailAddresses/any(a: a/address eq \'" + this.getEmailAddress().getAddress() + "\')";
 		PagedResult<Person> persons = outlookService.getPeople(select, filter).execute().body();
-		Response<PagedResult<Person>> execute = outlookService.getPeople(select, filter).execute();
 		Person person = persons.getValue()[0];
 		preferedPhoneType = "mobile";
 		if (person.getPhones() != null && !person.getPhones().isEmpty()) {

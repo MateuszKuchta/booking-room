@@ -127,7 +127,7 @@ public class EventServlet extends HttpServlet {
 			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute();
 			if (userEvents != null) {
 				if (userEvents.getValue().length == 0) {
-				Response<Object> responseEvent = outlookService.makeEvent(event).execute();
+				Response<Object> responseEvent = outlookService.makeEvent(userEmail, event).execute();
 
 				resp.setContentType(ContentType.APPLICATION_JSON.toString());
 				resp.setStatus(HttpStatus.SC_CREATED);
@@ -141,6 +141,7 @@ public class EventServlet extends HttpServlet {
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 	}
 
@@ -196,6 +197,7 @@ public class EventServlet extends HttpServlet {
 			}
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 	}
 
