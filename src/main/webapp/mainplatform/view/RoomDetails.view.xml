@@ -67,7 +67,7 @@
                         <VBox id="roomDetailsTableFindAnother" visible="false">
                             <PlanningCalendar id="PC1" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
                                 <rows>
-                                    <PlanningCalendarRow class="testFontSize" icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
+                                    <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
                                         <appointments>
                                             <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" title="{allRoomsOccupancy>subject}" text="{allRoomsOccupancy>organizer/emailAddress/name}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
                                         </appointments>

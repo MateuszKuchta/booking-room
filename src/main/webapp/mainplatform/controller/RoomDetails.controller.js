@@ -81,6 +81,41 @@ sap.ui.define([
             });
         },
 
+        setOccupancyRoomStatus: function () {
+            window.thisRD = this;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/room-reservation/getRoomsWithEvents",
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0)
+                                data[i].startTime = new Date();
+                            if ((data[i].value != null) && (data[i].value.length != 0)) {
+                                if (new Date(data[i].value[0].start.dateTime).getTime() > new Date().getTime()) {
+                                    data[i].available = "Available";
+                                } else {
+                                    data[i].available = "In use";
+                                }
+                                for (var j = 0; j < data[i].value.length; j++) {
+                                    data[i].value[j].start.dateTime = new Date(data[i].value[j].start.dateTime);
+                                    data[i].value[j].end.dateTime = new Date(data[i].value[j].end.dateTime);
+                                    data[i].value[j].type = "Type0" + Math.floor((Math.random() * 4) + 1);
+                                }
+                            } else {
+                                data[i].available = "Available";
+                            }
+                        }
+                    }
+
+                    window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
+                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
+                }
+            });
+        },
+
         GetClock: function () {
             var tday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             var d = new Date();
