@@ -1101,7 +1101,7 @@ html.sap-tablet:not(.sap-desktop) .sapUiSelectable {
   bottom: 0;
   right: 0;
   opacity: 1;
-  background-image: url("../../../../../Base/baseLib/ecu/img/misc/background.jpg");
+  background-image: "";
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1124,7 +1124,7 @@ html.sap-tablet:not(.sap-desktop) .sapUiSelectable {
 .sapUiBodyBackground,
 .sapUiBody {
   background-color: #fafafa;
-  background-image: url("../../../../../Base/baseLib/ecu/img/misc/background.jpg");
+  background-image: "";
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

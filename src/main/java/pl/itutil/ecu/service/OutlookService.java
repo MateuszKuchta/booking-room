@@ -1,11 +1,8 @@
 package pl.itutil.ecu.service;
 
-import pl.itutil.ecu.auth.TokenResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
@@ -35,8 +32,8 @@ public interface OutlookService {
 
 	@Headers("Content-type: application/json")
 	// /users/{id | userPrincipalName}/events
-	@POST("/beta/users/ecroom1@itutil.com/events")
-	Call<Object> makeEvent(@Body Event event);
+	@POST("/beta/users/{userEmail}/events")
+	Call<Object> makeEvent(@Path(value = "userEmail") String userEmail, @Body Event event);
 
 	// https://graph.microsoft.com/beta/users/ecroom1@itutil.com/calendarview?startdatetime=2017-10-12T10:00:00&enddatetime=2017-10-12T18:00:00
 	@GET("/beta/users/{userEmail}/calendarview")
@@ -58,4 +55,8 @@ public interface OutlookService {
 	@Headers("Content-Type: application/json")
 	@PATCH("/v1.0/users/{userEmail}/calendar/events/{eventId}")
 	Call<Object> endEvent(@Path("userEmail") String userEmail, @Path("eventId") String eventId, @Body Event event);
+	
+	//https://graph.microsoft.com/v1.0/me/people?$filter=scoredEmailAddresses/any(a: a/address eq 'piotr.matosek@itutil.com')&$select=phones 
+	@GET("/v1.0/me/people")
+	Call<PagedResult<Person>> getPeople(@Query("$select") String select, @Query("$filter") String filter);
 }

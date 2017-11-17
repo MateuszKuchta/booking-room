@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpStatus;
+
 import com.google.gson.Gson;
 
 import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.service.Room;
 import pl.itutil.ecu.util.OutlookServiceUtil;
-import retrofit2.Response;
 
 /**
  * Servlet implementation class RoomsServlet
@@ -46,6 +47,7 @@ public class RoomsServlet extends HttpServlet {
 			resp.getWriter().append(gson.toJson(rooms));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
+			resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
 		}
 	}
 

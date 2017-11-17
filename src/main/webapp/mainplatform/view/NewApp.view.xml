@@ -9,7 +9,6 @@
                 <content>
                     <tnt:ToolHeader>
                         <ToolbarSpacer/>
-                        <Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
                         <ToolbarSpacer/>
                         <Button text="onDetails" press="onNavToDetails" />
                     </tnt:ToolHeader>
