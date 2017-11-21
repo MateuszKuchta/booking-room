@@ -609,7 +609,7 @@ body {
 .endNowAndQuickRes {
 	background-size: 100% 100%;
 	float: right !important;
-	width: 20vw;
+	width: 20vw !important;
 	height: 10vmax;
 }
 
@@ -675,12 +675,12 @@ body {
 }
 
 .whiteIcon {
-	font-size: 7vw;
+	font-size: 6vw;
 	color: #fff !important;
 }
 
 .grayIcon {
-	font-size: 7vw;
+	font-size: 6vw;
 	color: #666 !important;
 }
 

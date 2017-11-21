@@ -33,8 +33,7 @@ sap.ui.define([
             this.getView().setModel(new sap.ui.model.json.JSONModel("/room-reservation/users"), "reservationDetailsPeople");
             this.getView().setModel(new sap.ui.model.json.JSONModel("/room-reservation/rooms"), "allRooms");
 
-            
-            if(this.showCookie("Name") != undefined) {
+            if (this.showCookie("Name") != undefined) {
                 var oModel = new sap.ui.model.json.JSONModel();
                 var json = { 
                     "value": [{
@@ -76,7 +75,6 @@ sap.ui.define([
                     }
 
                     window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
-                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
                 }
             });
         },
@@ -109,9 +107,7 @@ sap.ui.define([
                             }
                         }
                     }
-
                     window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
-                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
                 }
             });
         },
@@ -142,6 +138,7 @@ sap.ui.define([
                 var json = { 
                     "value": [{
                         "subject": {},
+                        "organizer": {},
                         "reservationTime": {},
                         "startDateTime": {},
                         "endDateTime": {},
@@ -184,6 +181,7 @@ sap.ui.define([
                     } else {
                         json.value.push({ 
                             "subject": {},
+                            "organizer": {},
                             "reservationTime": {},
                             "startDateTime": {},
                             "endDateTime": {},
@@ -192,23 +190,32 @@ sap.ui.define([
                     }
 
                     json.value[i].subject = data.value[i].subject;
+                    json.value[i].organizer = data.value[i].organizer.emailAddress.name;
                     json.value[i].reservationTime = nhour_start + ":" + nmin_start + "-" + nhour_end + ":" + nmin_end;
                     json.value[i].startDateTime = new Date(data.value[i].start.dateTime);
                     json.value[i].endDateTime = new Date(data.value[i].end.dateTime);
 
                     for (var j = 0; j < data.value[i].attendees.length; j++) {
-                        json.value[i].attendees.push({
-                            name: data.value[i].attendees[j].emailAddress.name,
-                            address: data.value[i].attendees[j].emailAddress.address
-                        });
+
+                        if (data.value[i].attendees[j].phone != undefined) {
+                            json.value[i].attendees.push({
+                                name: data.value[i].attendees[j].emailAddress.name,
+                                address: data.value[i].attendees[j].emailAddress.address,
+                                phone: data.value[i].attendees[j].phone.number
+                            });
+                        } else {
+                            json.value[i].attendees.push({
+                                name: data.value[i].attendees[j].emailAddress.name,
+                                address: data.value[i].attendees[j].emailAddress.address
+                            });
+                        }
                     }
                 }
                 jsonModel.setData(json);
                 this.getView().setModel(jsonModel, "reservationTime");
-                var oModel = new sap.ui.model.json.JSONModel(jsonModel);
             } else {
                 var email = this.showCookie("Email");
-                var url_reservation_next_all = "/room-reservation/getUserEvents?userEmail="+email;
+                var url_reservation_next_all = "/room-reservation/getUserEvents?userEmail=" + email;
                 this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_next_all), "reservationTime");
                 var time = "";
                 var jsonMainHour = '{ "time" : [' +
@@ -219,21 +226,6 @@ sap.ui.define([
                 this.getView().setModel(jsonMainHeader, "reservationTimeHeader");
             }
             this.setOccupancyRoomStatus();
-        },
-
-        getAjax: function (myUrl) {
-            var myData = null;
-            $.ajax({
-                type: "GET",
-                async: false,
-                contentType: "application/json; charset=utf-8",
-                url: myUrl,
-                dataType: "json",
-                success: function (data) {
-                    myData = data;
-                }
-            });
-            return myData;
         },
 
         updateStatus: function () {
@@ -260,12 +252,12 @@ sap.ui.define([
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                url: "/room-reservation/getUserEvents?userEmail="+email,
+                url: "/room-reservation/getUserEvents?userEmail=" + email,
                 dataType: "json",
                 success: function (data) {
                     var model_actual = JSON.stringify(this.actualReservationData);
                     var model_incoming = JSON.stringify(data);
-                    
+
                     if (data.value.length != 0) {
                         var start_dt_apple = data.value["0"].start.dateTime.split("T");
                         var start_date_apple = start_dt_apple[0].split("-");
@@ -317,7 +309,6 @@ sap.ui.define([
                             jsonStatusModel.oData.status["0"].CurrentOrNext = "Next";
                         }
                     } else {
-                        console.log("else");
                         window.thisRD.addReservationText(0);
                         jsonStatusModel.oData.status["0"].CurrentOrUse = "Available";
                         jsonStatusModel.oData.status["0"].ProgressBar = "0";
@@ -331,7 +322,6 @@ sap.ui.define([
                     window.thisRD.getView().setModel(jsonStatusModel, "ActualStatus");
                 },
                 error: function () {
-                    console.log("error");
                     window.thisRD.addReservationText(0);
                     jsonStatusModel.oData.status["0"].CurrentOrUse = "Available";
                     jsonStatusModel.oData.status["0"].ProgressBar = "0";
@@ -435,14 +425,17 @@ sap.ui.define([
                 minutes = new Date(minutes).getMinutes();
                 this.onQuickReservation(minutes);
             } else {
+                sap.ui.core.BusyIndicator.show();
                 var email = this.showCookie("Email");
                 window.thisRD = this;
                 $.get({
                     url: "/room-reservation/endCurrentEvent?roomEmail=" + email,
                     success: function (data) {
+                        sap.ui.core.BusyIndicator.hide();
                         thisRD.updateStatus();
                     },
                     error: function (errMsg) {
+                        sap.ui.core.BusyIndicator.hide();
                         sap.m.MessageToast.show("Error with connecting to the server");
                     }
                 });
@@ -455,6 +448,14 @@ sap.ui.define([
 
             var i = 1;
             if (minutes != 0) {
+                sap.ui.core.BusyIndicator.show();
+                // var dialog = new sap.m.BusyDialog({
+
+                //     text: 'Loading Data...'
+
+                // });
+
+                // dialog.open();
                 var date = new Date();
                 date.setSeconds(date.getSeconds() + 1);
                 var nhour = date.getHours(),
@@ -495,6 +496,12 @@ sap.ui.define([
                         "type": "optional"
                     }, {
                         "emailAddress": {
+                            "address": "piotr.matosek@itutil.com",
+                            "name": "Piotr Matosek"
+                        },
+                        "type": "optional"
+                    }, {
+                        "emailAddress": {
                             "address": this.showCookie("Email"),
                             "name": this.showCookie("Name")
                         },
@@ -510,17 +517,19 @@ sap.ui.define([
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
+                        // dialog.close();
+                        sap.ui.core.BusyIndicator.hide();
                         sap.m.MessageToast.show("Booked for " + minutes + " minutes");
                         thisRD.updateStatus();
                     },
                     error: function (errMsg, data) {
+                        sap.ui.core.BusyIndicator.hide();
                         if (errMsg.status === "409")
                             sap.m.MessageToast.show("Room is already in use");
                         else
                             sap.m.MessageToast.show("Error with connecting to the server");
                     }
                 });
-
             }
             if (minutes > 15 || minutes < 1) {
                 if (this.getView().byId("quickReservationHBox").getVisible()) {
@@ -568,7 +577,7 @@ sap.ui.define([
                 document.cookie = "Email=" + email + "; expires=Fri, 31 Dec 2037 23:59:59 GMT; path=/"
                 document.cookie = "Name=" + name + "; expires=Fri, 31 Dec 2037 23:59:59 GMT; path=/"
             }
-            if(this.showCookie("Name") != undefined) {
+            if (this.showCookie("Name") != undefined) {
                 var oModel = new sap.ui.model.json.JSONModel();
                 var json = { 
                     "value": [{

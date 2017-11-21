@@ -94,7 +94,7 @@
                                 <items>
                                     <ColumnListItem>
                                         <cells>
-                                            <Text text="{reservationTime>attendees/0/name}" class="roomDetailsTableDesc"/>
+                                            <Text text="{reservationTime>organizer}" class="roomDetailsTableDesc"/>
                                             <Text text="{reservationTime>subject}" class="roomDetailsTableDesc"/>
                                             <Text text="{reservationTime>reservationTime}" class="roomDetailsTableDesc"/>
                                         </cells>
@@ -104,9 +104,11 @@
                         </HBox>
                         <Table id="roomDetailsTablePeople" inset="false" items="{path: 'reservationTime>/value/0/attendees/'}" visible="false">
                             <columns>
-                                <Column width="20%" text="text"></Column>
-                                <Column width="30%" demandPopin="true">
+                                <Column width="25%" text="text">
                                     <Text text="Name" class="roomDetailsColumnDesc"/>
+                                </Column>
+                                <Column width="25%" demandPopin="true">
+                                    <Text text="Phone" class="roomDetailsColumnDesc"/>
                                 </Column>
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Email address" class="roomDetailsColumnDesc"/>
@@ -115,9 +117,8 @@
                             <items>
                                 <ColumnListItem>
                                     <cells>
-                                        <ObjectIdentifier title="" class="roomDetailsNextCurrent"/>
-                                        <!-- <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/> -->
                                         <Text text="{reservationTime>name}" class="roomDetailsTableDesc"/>
+                                        <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/>
                                         <Text text="{reservationTime>address}" class="roomDetailsTableDesc" />
                                     </cells>
                                 </ColumnListItem>
