@@ -240,6 +240,7 @@ sap.ui.define([
             var jsonStatusModel = new sap.ui.model.json.JSONModel;
             window.thisRD = this;
 
+            console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
             var json = '{ "status" : [' +
                 '{ "CurrentOrUse":" " , "ProgressBar":"0" , "CurrentOrNext": " "}]}';
@@ -478,11 +479,11 @@ sap.ui.define([
                     "subject": "Conference meeting",
                      "start": {   
                         "dateTime": fromDateTime,
-                           "timeZone": "Europe/Warsaw" 
+                           "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
                     },
                      "end": {   
                         "dateTime": toDateTime,
-                           "timeZone": "Europe/Warsaw" 
+                           "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone 
                     },
                      "location": {
                         "displayName": this.showCookie("Email"),
