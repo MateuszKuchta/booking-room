@@ -609,7 +609,7 @@ body {
 .endNowAndQuickRes {
 	background-size: 100% 100%;
 	float: right !important;
-	width: 20vw;
+	width: 20vw !important;
 	height: 10vmax;
 }
 
@@ -665,20 +665,29 @@ body {
 
 .saveButton {
 	color: #555 !important;
-	font-size: 3em !important;
+	font-size: 0.9em !important;
+    width: 19vw !important;
+}
+
+.selectButton {
+	color: #555 !important;
     width: 19vw !important;
 }
 
 .whiteIcon {
-	font-size: 7vw;
+	font-size: 6vw;
 	color: #fff !important;
 }
 
 .grayIcon {
-	font-size: 7vw;
+	font-size: 6vw;
 	color: #666 !important;
 }
 
 .windowsImage {
 	color: white;
+}
+
+.testFontSize {
+	font-size: 5rem !important;
 }

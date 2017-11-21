@@ -31,6 +31,18 @@ sap.ui.define([
             }, 1000);
             this.getView().byId("quickReservationHBox").setVisible(false);
             this.getView().setModel(new sap.ui.model.json.JSONModel("/room-reservation/users"), "reservationDetailsPeople");
+            this.getView().setModel(new sap.ui.model.json.JSONModel("/room-reservation/rooms"), "allRooms");
+
+            if (this.showCookie("Name") != undefined) {
+                var oModel = new sap.ui.model.json.JSONModel();
+                var json = { 
+                    "value": [{
+                        "roomName": this.showCookie("Name")
+                    }]
+                };
+                oModel.setData(json);
+                this.getView().setModel(oModel, "roomName");
+            }
         },
 
         setOccupancyRoomStatus: function () {
@@ -63,7 +75,39 @@ sap.ui.define([
                     }
 
                     window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
-                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
+                }
+            });
+        },
+
+        setOccupancyRoomStatus: function () {
+            window.thisRD = this;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/room-reservation/getRoomsWithEvents",
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0)
+                                data[i].startTime = new Date();
+                            if ((data[i].value != null) && (data[i].value.length != 0)) {
+                                if (new Date(data[i].value[0].start.dateTime).getTime() > new Date().getTime()) {
+                                    data[i].available = "Available";
+                                } else {
+                                    data[i].available = "In use";
+                                }
+                                for (var j = 0; j < data[i].value.length; j++) {
+                                    data[i].value[j].start.dateTime = new Date(data[i].value[j].start.dateTime);
+                                    data[i].value[j].end.dateTime = new Date(data[i].value[j].end.dateTime);
+                                    data[i].value[j].type = "Type0" + Math.floor((Math.random() * 4) + 1);
+                                }
+                            } else {
+                                data[i].available = "Available";
+                            }
+                        }
+                    }
+                    window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
                 }
             });
         },
@@ -94,6 +138,7 @@ sap.ui.define([
                 var json = { 
                     "value": [{
                         "subject": {},
+                        "organizer": {},
                         "reservationTime": {},
                         "startDateTime": {},
                         "endDateTime": {},
@@ -136,6 +181,7 @@ sap.ui.define([
                     } else {
                         json.value.push({ 
                             "subject": {},
+                            "organizer": {},
                             "reservationTime": {},
                             "startDateTime": {},
                             "endDateTime": {},
@@ -144,22 +190,32 @@ sap.ui.define([
                     }
 
                     json.value[i].subject = data.value[i].subject;
+                    json.value[i].organizer = data.value[i].organizer.emailAddress.name;
                     json.value[i].reservationTime = nhour_start + ":" + nmin_start + "-" + nhour_end + ":" + nmin_end;
                     json.value[i].startDateTime = new Date(data.value[i].start.dateTime);
                     json.value[i].endDateTime = new Date(data.value[i].end.dateTime);
 
                     for (var j = 0; j < data.value[i].attendees.length; j++) {
-                        json.value[i].attendees.push({
-                            name: data.value[i].attendees[j].emailAddress.name,
-                            address: data.value[i].attendees[j].emailAddress.address
-                        });
+
+                        if (data.value[i].attendees[j].phone != undefined) {
+                            json.value[i].attendees.push({
+                                name: data.value[i].attendees[j].emailAddress.name,
+                                address: data.value[i].attendees[j].emailAddress.address,
+                                phone: data.value[i].attendees[j].phone.number
+                            });
+                        } else {
+                            json.value[i].attendees.push({
+                                name: data.value[i].attendees[j].emailAddress.name,
+                                address: data.value[i].attendees[j].emailAddress.address
+                            });
+                        }
                     }
                 }
                 jsonModel.setData(json);
                 this.getView().setModel(jsonModel, "reservationTime");
-                var oModel = new sap.ui.model.json.JSONModel(jsonModel);
             } else {
-                var url_reservation_next_all = "/room-reservation/getUserEvents?userEmail=ecroom1@itutil.com";
+                var email = this.showCookie("Email");
+                var url_reservation_next_all = "/room-reservation/getUserEvents?userEmail=" + email;
                 this.getView().setModel(new sap.ui.model.json.JSONModel(url_reservation_next_all), "reservationTime");
                 var time = "";
                 var jsonMainHour = '{ "time" : [' +
@@ -170,21 +226,6 @@ sap.ui.define([
                 this.getView().setModel(jsonMainHeader, "reservationTimeHeader");
             }
             this.setOccupancyRoomStatus();
-        },
-
-        getAjax: function (myUrl) {
-            var myData = null;
-            $.ajax({
-                type: "GET",
-                async: false,
-                contentType: "application/json; charset=utf-8",
-                url: myUrl,
-                dataType: "json",
-                success: function (data) {
-                    myData = data;
-                }
-            });
-            return myData;
         },
 
         updateStatus: function () {
@@ -199,6 +240,7 @@ sap.ui.define([
             var jsonStatusModel = new sap.ui.model.json.JSONModel;
             window.thisRD = this;
 
+            console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
             var json = '{ "status" : [' +
                 '{ "CurrentOrUse":" " , "ProgressBar":"0" , "CurrentOrNext": " "}]}';
@@ -207,10 +249,11 @@ sap.ui.define([
 
             var date = new Date();
             var actual = new Date().getTime();
+            var email = this.showCookie("Email");
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                url: "/room-reservation/getUserEvents?userEmail=ecroom1@itutil.com",
+                url: "/room-reservation/getUserEvents?userEmail=" + email,
                 dataType: "json",
                 success: function (data) {
                     var model_actual = JSON.stringify(this.actualReservationData);
@@ -232,7 +275,6 @@ sap.ui.define([
                             window.thisRD.addReservationText(data);
                         }
 
-                        window.thisRD.actualReservationData = model_incoming;
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("freeRoom");
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("almostFreeRoom");
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("inUserRoom");
@@ -277,7 +319,7 @@ sap.ui.define([
                         window.thisRD.getView().byId("roomDetailsImage").addStyleClass("freeRoom");
                         window.thisRD.getView().byId("endNowAndQuickRes").setSrc("./resources/images/button_quick-booking.png");
                     }
-
+                    window.thisRD.actualReservationData = model_incoming;
                     window.thisRD.getView().setModel(jsonStatusModel, "ActualStatus");
                 },
                 error: function () {
@@ -376,207 +418,6 @@ sap.ui.define([
             this.getView().byId("openReservationImage").addStyleClass("grayIcon");
         },
 
-        onRoomDetailsAddReservation: function () {
-            var date = this.getView().byId("DTI1").getValue();
-            var hourFrom = this.getView().byId("DTI2").getValue();
-            var hourTo = this.getView().byId("DTI3").getValue();
-            var organizer = this.getView().byId("DTI4").getValue();
-            date = date.split(".");
-            var d = new Date();
-
-            var fromDateTime = date[2] + "-" + date[1] + "-" + date[0] + "T" + hourFrom + ":00";
-            var toDateTime = date[2] + "-" + date[1] + "-" + date[0] + "T" + hourTo + ":00";
-
-            hourFrom = hourFrom.split(":");
-            hourTo = hourTo.split(":");
-
-            var dateToSendFrom = new Date(date[2], (date[1] - 1), date[0], hourFrom[0], hourFrom[1], "00", "00");
-            var dateToSendTo = new Date(date[2], (date[1] - 1), date[0], hourTo[0], hourTo[1], "00", "00");
-
-            dateToSendFrom = dateToSendFrom.getTime();
-            dateToSendTo = dateToSendTo.getTime();
-            var actualTime = new Date().getTime();
-
-            var mail = "";
-            if (organizer) {
-                var fullName = organizer.split(" ");
-                mail = fullName[0].toLowerCase() + "." + fullName[1].toLowerCase() + "@itutil.com";
-            }
-
-            thisRD = this;
-            var json = { 
-                "subject": "Conference meeting",
-                 "start": {   
-                    "dateTime": fromDateTime,
-                       "timeZone": "Europe/Warsaw" 
-                },
-                 "end": {   
-                    "dateTime": toDateTime,
-                       "timeZone": "Europe/Warsaw" 
-                },
-                 "location": {
-                    "displayName": "ecroom1@itutil.com",
-                    "locationType": "ConferenceRoom"
-                },
-                "attendees": [{
-                    "emailAddress": {
-                        "address": mail,
-                        "name": organizer
-                    },
-                    "type": "optional"
-                }, {
-                    "emailAddress": {
-                        "address": "mateusz.kuchta@itutil.com",
-                        "name": "Mateusz Kuchta"
-                    },
-                    "type": "optional"
-                }, {
-                    "emailAddress": {
-                        "address": "piotr.matosek@itutil.com",
-                        "name": "Piotr Matosek"
-                    },
-                    "type": "optional"
-                }, {
-                    "emailAddress": {
-                        "address": "kamil.szopa@itutil.com",
-                        "name": "Kamil Szopa"
-                    },
-                    "type": "optional"
-                }, {
-                    "emailAddress": {
-                        "address": "marcin.stanowski@itutil.com",
-                        "name": "Marcin Stanowski"
-                    },
-                    "type": "optional"
-                }, {
-                    "emailAddress": {
-                        "address": "ecroom1@itutil.com",
-                        "name": "ecu room 1"
-                    },
-                    "type": "required"   
-                } ]
-            };
-
-            var json = JSON.stringify(json);
-            if ((dateToSendFrom && dateToSendTo && organizer) && (dateToSendTo > dateToSendFrom) && (dateToSendFrom >= actualTime)) {
-                $.ajax({
-                    type: "POST",
-                    url: "/room-reservation/event",
-                    data: json,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data) {
-                            sap.m.MessageToast.show("Added!");
-                            thisRD.getView().byId("DTI4").setValue("");
-                            thisRD.getView().byId("DTI1").setValue("");
-                            thisRD.getView().byId("DTI2").setValue("");
-                            thisRD.getView().byId("DTI3").setValue("");
-                            thisRD.updateStatus();
-                        } else {
-                            // sap.m.MessageToast.show("Room already in use");
-                        }
-                    },
-                    failure: function (errMsg) {
-                        sap.m.MessageToast.show("Error with connecting to the server");
-                    }
-                });
-            } else {
-                sap.m.MessageToast.show("All of inputs are valid?");
-            }
-        },
-
-        onProjectorPress: function () {
-
-            if (this.getView().byId("projectorImage").getSrc() === "./resources/images/projectorImageGray.png") {
-                this.getView().byId("projectorImage").setSrc("./resources/images/projectorImageWhite.png")
-            } else {
-                this.getView().byId("projectorImage").setSrc("./resources/images/projectorImageGray.png")
-            }
-        },
-
-        onCookiePress: function () {
-
-            if (this.getView().byId("cookiesImage").getSrc() === "./resources/images/cookiesImageGray.png") {
-                this.getView().byId("cookiesImage").setSrc("./resources/images/cookiesImageWhite.png")
-            } else {
-                this.getView().byId("cookiesImage").setSrc("./resources/images/cookiesImageGray.png")
-            }
-        },
-
-        onCoffeePress: function () {
-
-            if (this.getView().byId("coffeeImage").getSrc() === "./resources/images/coffeeImageGray.png") {
-                this.getView().byId("coffeeImage").setSrc("./resources/images/coffeeImageWhite.png")
-            } else {
-                this.getView().byId("coffeeImage").setSrc("./resources/images/coffeeImageGray.png")
-            }
-        },
-
-        onPearPress: function () {
-
-            if (this.getView().byId("pearImage").getSrc() === "./resources/images/pearImageGray.png") {
-                this.getView().byId("pearImage").setSrc("./resources/images/pearImageWhite.png")
-            } else {
-                this.getView().byId("pearImage").setSrc("./resources/images/pearImageGray.png")
-            }
-        },
-
-        onSelectDialogPress: function (oEvent) {
-            if (!this._oDialog) {
-                this._oDialog = sap.ui.xmlfragment("dialogChooseExtra", "ecu.view.Dialogs.Dialog", this);
-
-            }
-
-            var bMultiSelect = !!oEvent.getSource().data("multi");
-            this._oDialog.setMultiSelect(bMultiSelect);
-
-            var bRemember = !!oEvent.getSource().data("remember");
-            this._oDialog.setRememberSelections(bRemember);
-
-            this._oDialog.open();
-        },
-
-        handleClose: function (oEvent) {
-            var aContexts = oEvent.getParameter("selectedContexts");
-            var arr = new Array();
-            var enums = {
-                0: {
-                    "image": "projectorImage",
-                    "name": "Projector"
-                },
-                1: {
-                    "image": "cookiesImage",
-                    "name": "Cookies"
-                },
-                2: {
-                    "image": "coffeeImage",
-                    "name": "Coffee"
-                },
-                3: {
-                    "image": "pearImage",
-                    "name": "Fruits"
-                }
-            }
-
-            for (var i = 0; i < 4; i++) {
-
-                if (oEvent.mParameters.selectedItems[i] !== undefined) {
-                    for (var j = 0; j < 4; j++) {
-                        if (oEvent.mParameters.selectedItems[i].mProperties.title === enums[j].name) {
-                            this.getView().byId(enums[j].image).setSrc("./resources/images/" + enums[j].image + "White.png");
-                            arr.push(j);
-                        }
-                    }
-                }
-            }
-            for (var i = 0; i < 4; i++) {
-                if (arr.indexOf(i) == -1) {
-                    this.getView().byId(enums[i].image).setSrc("./resources/images/" + enums[i].image + "Gray.png");
-                }
-            }
-        },
-
         onEndNowAndQuickRes: function () {
             if (this.getView().byId("endNowAndQuickRes").getSrc() === "./resources/images/button_quick-booking.png") {
                 this.onQuickReservation(0);
@@ -585,14 +426,17 @@ sap.ui.define([
                 minutes = new Date(minutes).getMinutes();
                 this.onQuickReservation(minutes);
             } else {
-
+                sap.ui.core.BusyIndicator.show();
+                var email = this.showCookie("Email");
                 window.thisRD = this;
                 $.get({
-                    url: "/room-reservation/endCurrentEvent?roomEmail=ecroom1@itutil.com",
+                    url: "/room-reservation/endCurrentEvent?roomEmail=" + email,
                     success: function (data) {
+                        sap.ui.core.BusyIndicator.hide();
                         thisRD.updateStatus();
                     },
                     error: function (errMsg) {
+                        sap.ui.core.BusyIndicator.hide();
                         sap.m.MessageToast.show("Error with connecting to the server");
                     }
                 });
@@ -605,6 +449,14 @@ sap.ui.define([
 
             var i = 1;
             if (minutes != 0) {
+                sap.ui.core.BusyIndicator.show();
+                // var dialog = new sap.m.BusyDialog({
+
+                //     text: 'Loading Data...'
+
+                // });
+
+                // dialog.open();
                 var date = new Date();
                 date.setSeconds(date.getSeconds() + 1);
                 var nhour = date.getHours(),
@@ -627,14 +479,14 @@ sap.ui.define([
                     "subject": "Conference meeting",
                      "start": {   
                         "dateTime": fromDateTime,
-                           "timeZone": "Europe/Warsaw" 
+                           "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone
                     },
                      "end": {   
                         "dateTime": toDateTime,
-                           "timeZone": "Europe/Warsaw" 
+                           "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone 
                     },
                      "location": {
-                        "displayName": "ecroom1@itutil.com",
+                        "displayName": this.showCookie("Email"),
                         "locationType": "ConferenceRoom"
                     },
                     "attendees": [{
@@ -651,20 +503,8 @@ sap.ui.define([
                         "type": "optional"
                     }, {
                         "emailAddress": {
-                            "address": "kamil.szopa@itutil.com",
-                            "name": "Kamil Szopa"
-                        },
-                        "type": "optional"
-                    }, {
-                        "emailAddress": {
-                            "address": "marcin.stanowski@itutil.com",
-                            "name": "Marcin Stanowski"
-                        },
-                        "type": "optional"
-                    }, {
-                        "emailAddress": {
-                            "address": "ecroom1@itutil.com",
-                            "name": "ecu room 1"
+                            "address": this.showCookie("Email"),
+                            "name": this.showCookie("Name")
                         },
                         "type": "required"   
                     } ]
@@ -678,18 +518,19 @@ sap.ui.define([
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
+                        // dialog.close();
+                        sap.ui.core.BusyIndicator.hide();
                         sap.m.MessageToast.show("Booked for " + minutes + " minutes");
                         thisRD.updateStatus();
                     },
                     error: function (errMsg, data) {
-                        console.log(errMsg.status);
+                        sap.ui.core.BusyIndicator.hide();
                         if (errMsg.status === "409")
                             sap.m.MessageToast.show("Room is already in use");
                         else
                             sap.m.MessageToast.show("Error with connecting to the server");
                     }
                 });
-
             }
             if (minutes > 15 || minutes < 1) {
                 if (this.getView().byId("quickReservationHBox").getVisible()) {
@@ -721,14 +562,49 @@ sap.ui.define([
 
         handleAppointmentSelect: function (oEvent) {
             var oAppointment = oEvent.getParameter("appointment");
-            console.log(oAppointment);
             if (oAppointment) {
                 sap.m.MessageBox.show("Subject " + oAppointment.getTitle() + "\n" + "Organizer: " + oAppointment.getText());
             }
         },
 
-        onOutlookLoginPress: function() {
-            window.location.replace('http://' + window.location.host+ '/room-reservation/login');
+        onOutlookLoginPress: function () {
+            window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+        },
+
+        onSavePressButton: function () {
+            var email = this.getView().byId("selectRoomId").getSelectedKey();
+            if (this.getView().byId("selectRoomId").getSelectedItem() != null) {
+                var name = this.getView().byId("selectRoomId").getSelectedItem().getText();
+                document.cookie = "Email=" + email + "; expires=Fri, 31 Dec 2037 23:59:59 GMT; path=/"
+                document.cookie = "Name=" + name + "; expires=Fri, 31 Dec 2037 23:59:59 GMT; path=/"
+            }
+            if (this.showCookie("Name") != undefined) {
+                var oModel = new sap.ui.model.json.JSONModel();
+                var json = { 
+                    "value": [{
+                        "roomName": this.showCookie("Name")
+                    }]
+                };
+                oModel.setData(json);
+                this.getView().setModel(oModel, "roomName");
+            }
+            this.updateStatus();
+        },
+
+        showCookie: function (name) {
+            if (document.cookie != "") {
+                var cookies = document.cookie.split("; ");
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookieName = cookies[i].split("=")[0];
+                    var cookieVal = cookies[i].split("=")[1];
+                    if (cookieName === name) {
+                        return decodeURI(cookieVal);
+                    }
+                    if (cookieVal === name) {
+                        return decodeURI(cookieName);
+                    }
+                }
+            }
         }
     });
 });

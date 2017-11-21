@@ -12,7 +12,7 @@
                     <Image id="roomDetailsImage" src="./resources/images/transparent2.png" class="" width="100%" height="100%" />
                     <FlexBox alignItems="Start" class="flexBoxHeaderClass">
                         <items>
-                            <Text text="ECU ROOM 1" class="detailsText">
+                            <Text text="{roomName>/value/0/roomName}" class="detailsText">
                                 <layoutData>
                                     <FlexItemData growFactor="1" />
                                 </layoutData>
@@ -67,9 +67,9 @@
                         <VBox id="roomDetailsTableFindAnother" visible="false">
                             <PlanningCalendar id="PC1" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
                                 <rows>
-                                    <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddres/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
+                                    <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
                                         <appointments>
-                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" icon="sap-icon://sap-ui5" title="{allRoomsOccupancy>subject}" text="{allRoomsOccupancy>organizer/emailAddress/name}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
+                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" title="{allRoomsOccupancy>subject}" text="{allRoomsOccupancy>organizer/emailAddress/name}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
                                         </appointments>
                                         <intervalHeaders>
                                             <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}" title="{endDate}" type="Type02"></unified:CalendarAppointment>
@@ -94,7 +94,7 @@
                                 <items>
                                     <ColumnListItem>
                                         <cells>
-                                            <Text text="{reservationTime>attendees/0/name}" class="roomDetailsTableDesc"/>
+                                            <Text text="{reservationTime>organizer}" class="roomDetailsTableDesc"/>
                                             <Text text="{reservationTime>subject}" class="roomDetailsTableDesc"/>
                                             <Text text="{reservationTime>reservationTime}" class="roomDetailsTableDesc"/>
                                         </cells>
@@ -104,9 +104,11 @@
                         </HBox>
                         <Table id="roomDetailsTablePeople" inset="false" items="{path: 'reservationTime>/value/0/attendees/'}" visible="false">
                             <columns>
-                                <Column width="20%" text="text"></Column>
-                                <Column width="30%" demandPopin="true">
+                                <Column width="25%" text="text">
                                     <Text text="Name" class="roomDetailsColumnDesc"/>
+                                </Column>
+                                <Column width="25%" demandPopin="true">
+                                    <Text text="Phone" class="roomDetailsColumnDesc"/>
                                 </Column>
                                 <Column width="30%" demandPopin="true">
                                     <Text text="Email address" class="roomDetailsColumnDesc"/>
@@ -115,9 +117,8 @@
                             <items>
                                 <ColumnListItem>
                                     <cells>
-                                        <ObjectIdentifier title="" class="roomDetailsNextCurrent"/>
-                                        <!-- <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/> -->
                                         <Text text="{reservationTime>name}" class="roomDetailsTableDesc"/>
+                                        <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/>
                                         <Text text="{reservationTime>address}" class="roomDetailsTableDesc" />
                                     </cells>
                                 </ColumnListItem>
@@ -126,9 +127,15 @@
                         <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false"><columns><Column width="20%" text="text"><Text text="Name" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Location" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Principal name" class="roomDetailsColumnDesc"/></Column></columns><items><ColumnListItem><cells><Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/></cells></ColumnListItem></items></Table> -->
                         <VBox id="detailsHBox" width="100%" visible="false" justifyContent="Center" alignContent="Center" alignItems="Center" class="login_form">
                             <items>
-                                <Button width="15.5rem" icon="./resources/images/windows.png" class="saveButton" text="Login via Outlook" type="Emphasized" press="onOutlookLoginPress"/>
-                                <Input placeholder="Room e-mail" id="roomEmail" style="margin-top: 20px"/>
-                                <Button width="15.5rem" class="saveButton" text="Save" type="Emphasized" press="onSavePressButton"/>
+                                <Button icon="./resources/images/windows.png" class="saveButton" text="Login via Outlook" type="Emphasized" press="onOutlookLoginPress"/>
+                                <VBox>
+                                    <Select id="selectRoomId" class="selectButton" forceSelection="false" items="{
+                                        path: 'allRooms>/value'
+                                    }">
+                                        <core:Item key="{allRooms>userPrincipalName}" text="{allRooms>displayName}" />
+                                    </Select>
+                                </VBox>
+                                <Button class="saveButton" text="Save" type="Emphasized" press="onSavePressButton"/>
                             </items>
                         </VBox>
                     </ScrollContainer>
