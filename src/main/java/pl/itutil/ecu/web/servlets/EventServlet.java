@@ -2,7 +2,6 @@ package pl.itutil.ecu.web.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 
@@ -91,6 +89,7 @@ public class EventServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Gson gson = new Gson();
 		HttpSession session = req.getSession();
+		String prefer = (String) session.getAttribute("prefer");
 
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
@@ -112,19 +111,12 @@ public class EventServlet extends HttpServlet {
 			String userEmail = event.getLocation().getDisplayName();
 			Date startDateTime = new Date();
 			Date endDateTime = new Date();
-			try {
-				startDateTime = DateUtils.addHours(ISO8601DateParser.parse(event.getStart().getDateTime()), -2);
-				endDateTime = DateUtils.addHours(ISO8601DateParser.parse(event.getEnd().getDateTime()), -2);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			
 			String start = ISO8601DateParser.toString(startDateTime);
 			String end = ISO8601DateParser.toString(endDateTime);
 
-			PagedResult<Event> userEvents = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute()
-					.body();
-			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(userEmail, start, end).execute();
+			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(prefer, userEmail, start, end).execute();
+			PagedResult<Event> userEvents = execute.body();
 			if (userEvents != null) {
 				if (userEvents.getValue().length == 0) {
 				Response<Object> responseEvent = outlookService.makeEvent(userEmail, event).execute();
@@ -160,7 +152,7 @@ public class EventServlet extends HttpServlet {
 		Gson gson = new Gson();
 		HttpSession session = req.getSession();
 		Calendar calendar = Calendar.getInstance();
-
+		String prefer = (String) session.getAttribute("prefer");
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
 			calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -177,7 +169,7 @@ public class EventServlet extends HttpServlet {
 			String eventId = req.getParameter("eventId");
 			String userEmail = req.getParameter("userEmail");
 			
-			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
+			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime)
 					.execute().body();
 
 			List<Event> eventList = new ArrayList<>(Arrays.asList(events.getValue()));

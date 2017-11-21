@@ -2,6 +2,7 @@ package pl.itutil.ecu.service;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -25,7 +26,7 @@ public class OutlookServiceBuilder {
 						.header("client-request-id", UUID.randomUUID().toString())
 						.header("return-client-request-id", "true")
 						.header("Authorization", String.format("Bearer %s", accessToken))
-						.header("Prefer", "outlook.timezone=\"Europe/Warsaw\"")
+//						.header("Prefer", "outlook.timezone=\"Europe/Warsaw\"")
 						.method(original.method(), original.body());
 
 				if (userEmail != null && !userEmail.isEmpty()) {
@@ -42,7 +43,7 @@ public class OutlookServiceBuilder {
 		loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 		OkHttpClient client = new OkHttpClient.Builder().addInterceptor(requestInterceptor)
-				.addInterceptor(loggingInterceptor).build();
+				.addInterceptor(loggingInterceptor).readTimeout(60, TimeUnit.SECONDS).build();
 
 		// Create and configure the Retrofit object
 		Retrofit retrofit = new Retrofit.Builder().baseUrl("https://graph.microsoft.com").client(client)

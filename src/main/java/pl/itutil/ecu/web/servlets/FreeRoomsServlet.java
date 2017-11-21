@@ -45,7 +45,7 @@ public class FreeRoomsServlet extends HttpServlet {
 		Gson gson = new Gson();
 		HttpSession session = req.getSession();
 		Calendar calendar = Calendar.getInstance();
-
+		String prefer = (String) session.getAttribute("prefer");
 		Date now = new Date();
 
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -70,8 +70,8 @@ public class FreeRoomsServlet extends HttpServlet {
 					String startString = ISO8601DateParser.toString(d1);
 					String endString = ISO8601DateParser.toString(d2);
 					PagedResult<Event> events = outlookService
-							.getUserEventsInGivenTime(room.getUserPrincipalName(), startString, endString).execute()
-							.body();
+							.getUserEventsInGivenTime(prefer, room.getUserPrincipalName(), startString, endString)
+							.execute().body();
 					if (events != null) {
 						for (Event event : events.getValue()) {
 							Date start;

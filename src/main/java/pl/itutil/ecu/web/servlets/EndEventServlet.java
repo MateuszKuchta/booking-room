@@ -1,6 +1,9 @@
 package pl.itutil.ecu.web.servlets;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -19,6 +22,7 @@ import pl.itutil.ecu.service.OutlookService;
 import pl.itutil.ecu.service.PagedResult;
 import pl.itutil.ecu.util.ISO8601DateParser;
 import pl.itutil.ecu.util.OutlookServiceUtil;
+import retrofit2.Response;
 
 /**
  * <h1>End Point zakanczajacy biezace wydarzenie</h1>
@@ -36,23 +40,32 @@ public class EndEventServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
+		String prefer = (String) session.getAttribute("prefer");
 		String userEmail = req.getParameter("roomEmail");
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 		if (outlookService != null) {
 			Date now = new Date();
-			String startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 0));
+			String startDateTime = ISO8601DateParser.toString(now);
 			String endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
-			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
-					.execute().body();
+			Response<PagedResult<Event>> pagedResultEevents = outlookService
+					.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime).execute();
+			PagedResult<Event> events = pagedResultEevents.body();
 			if (events.getValue().length != 0) {
+				
 				Event[] eventsValues = events.getValue();
 				String eventId = eventsValues[0].getId();
 				Event event = eventsValues[0];
+				
 				DateTimeTimeZone end = event.getEnd();
-				end.setDateTime(ISO8601DateParser.toString(now));
+				ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of(end.getTimeZone()));
+				LocalDateTime newDate = zonedDateTime.toLocalDateTime();
+
 				Event justEndTimeEvent = new Event();
+				end.setDateTime(newDate.toString());
 				justEndTimeEvent.setEnd(end);
-				while (outlookService.endEvent(userEmail, eventId, justEndTimeEvent).execute().code() == 500) {
+				Response<Object> execute = outlookService.endEvent(userEmail, eventId, justEndTimeEvent).execute();
+				while (execute.code() == 500) {
+					execute = outlookService.endEvent(userEmail, eventId, justEndTimeEvent).execute();
 				}
 
 				resp.setStatus(HttpStatus.SC_NO_CONTENT);

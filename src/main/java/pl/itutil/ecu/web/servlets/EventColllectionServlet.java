@@ -42,6 +42,7 @@ public class EventColllectionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Gson gson = new Gson();
 		HttpSession session = req.getSession();
+		String prefer = (String) session.getAttribute("prefer");
 		Calendar calendar = Calendar.getInstance();
 		String userEmail = req.getParameter("userEmail");
 		Date now = new Date();
@@ -58,7 +59,7 @@ public class EventColllectionServlet extends HttpServlet {
 			String startDateTime = ISO8601DateParser.toString(d1);
 			String endDateTime = ISO8601DateParser.toString(d2);
 
-			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime)
+			PagedResult<Event> events = outlookService.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime)
 					.execute().body();
 			List<Event> resultList = new ArrayList<>();
 			Event[] eventArray = events.getValue();
