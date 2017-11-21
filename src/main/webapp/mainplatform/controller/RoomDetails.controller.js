@@ -568,7 +568,7 @@ sap.ui.define([
         },
 
         onOutlookLoginPress: function () {
-            window.location.replace('http://' + window.location.host + '/room-reservation/login');
+            window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
         },
 
         onSavePressButton: function () {
