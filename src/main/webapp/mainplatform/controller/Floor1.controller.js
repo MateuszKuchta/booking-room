@@ -436,7 +436,6 @@ sap.ui.define([
                         // })
                     ], false)
                 ];
-                console.log(filters);
             }
 
             this.oSF.getBinding("suggestionItems").filter(filters);
