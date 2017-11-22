@@ -425,7 +425,7 @@ sap.ui.define([
                         new sap.ui.model.Filter("FirstName", function (sText) {
                             return (sText || "").toUpperCase().indexOf(value.toUpperCase()) > -1;
                         }),
-                        new sap.ui.model.Filter("SurName", function (sText) {
+                        new sap.ui.model.Filter("SurNames", function (sText) {
                             return (sText || "").toUpperCase().indexOf(value.toUpperCase()) > -1;
                         }),
                         new sap.ui.model.Filter("DefaultRoomNumber", function (sText) {
@@ -436,6 +436,7 @@ sap.ui.define([
                         // })
                     ], false)
                 ];
+                console.log(filters);
             }
 
             this.oSF.getBinding("suggestionItems").filter(filters);
