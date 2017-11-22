@@ -11,4 +11,11 @@ public class Utils {
 		String contextPath = request.getContextPath();
 		return scheme + serverName + serverPort + contextPath;
 	}
+
+	public static String getOutlookTimeZone(String timeZone) {
+		StringBuilder outLookTimeZone = new StringBuilder();
+		outLookTimeZone.append("outlook.timezone=\"").append(timeZone).append("\"");
+		return outLookTimeZone.toString();
+	}
+
 }

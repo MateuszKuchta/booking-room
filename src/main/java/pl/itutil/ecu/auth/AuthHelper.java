@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthHelper {
 	private static final String authority = "https://login.microsoftonline.com";
@@ -109,14 +109,17 @@ public class AuthHelper {
 
 		// Create and configure the Retrofit object
 		Retrofit retrofit = new Retrofit.Builder().baseUrl(authority).client(client)
-				.addConverterFactory(JacksonConverterFactory.create()).build();
+				.addConverterFactory(GsonConverterFactory.create()).build();
 
 		// Generate the token service
 		TokenService tokenService = retrofit.create(TokenService.class);
 
 		try {
-			return tokenService.getAccessTokenFromAuthCode(tenantId, getAppId(), getAppPassword(), "authorization_code",
-					authCode, getRedirectUrl()).execute().body();
+			Response<TokenResponse> tokenResponse = tokenService.getAccessTokenFromAuthCode(tenantId, getAppId(),
+					getAppPassword(), "authorization_code", authCode, getRedirectUrl()).execute();
+			TokenResponse body = tokenResponse.body();
+			body.setExpiresIn(body.getExpiresIn());
+			return body;
 		} catch (IOException e) {
 			TokenResponse error = new TokenResponse();
 			error.setError("IOException");
@@ -141,15 +144,16 @@ public class AuthHelper {
 
 			// Create and configure the Retrofit object
 			Retrofit retrofit = new Retrofit.Builder().baseUrl(authority).client(client)
-					.addConverterFactory(JacksonConverterFactory.create()).build();
-
+					.addConverterFactory(GsonConverterFactory.create()).build();
 			// Generate the token service
 			TokenService tokenService = retrofit.create(TokenService.class);
-
 			try {
-				Response<TokenResponse> tokenResponse = tokenService.getAccessTokenFromRefreshToken(tenantId, getAppId(), getAppPassword(),
-						"refresh_token", tokens.getRefreshToken(), getRedirectUrl()).execute();
-				return tokenResponse.body();
+				Response<TokenResponse> tokenResponse = tokenService.getAccessTokenFromRefreshToken(tenantId,
+						getAppId(), getAppPassword(), "refresh_token", tokens.getRefreshToken(), getRedirectUrl())
+						.execute();
+				TokenResponse body = tokenResponse.body();
+				body.setExpiresIn(body.getExpiresIn());
+				return body;
 			} catch (IOException e) {
 				TokenResponse error = new TokenResponse();
 				error.setError("IOException");

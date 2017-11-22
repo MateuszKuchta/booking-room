@@ -51,6 +51,7 @@ public class RoomsWithEvents extends HttpServlet {
 		Gson gson = new Gson();
 		String startDateTime, endDateTime;
 		HttpSession session = req.getSession();
+		String prefer = (String) session.getAttribute("prefer");
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 
 		if (outlookService != null) {
@@ -60,13 +61,14 @@ public class RoomsWithEvents extends HttpServlet {
 			Room[] value = rooms.body().getValue();
 
 			Date now = new Date();
-			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
+			 startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 0));
+//			startDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, -1));
 			endDateTime = ISO8601DateParser.toString(DateUtils.addHours(now, 24));
 
 			for (Room room : value) {
 				String userEmail = room.getUserPrincipalName();
 				PagedResult<Event> events = outlookService
-						.getUserEventsInGivenTime(userEmail, startDateTime, endDateTime).execute().body();
+						.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime).execute().body();
 				if (events != null) {
 					for (Event event : events.getValue()) {
 						event.filterRoomsFromAttendees();

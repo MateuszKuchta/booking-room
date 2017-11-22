@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -37,7 +38,7 @@ public interface OutlookService {
 
 	// https://graph.microsoft.com/beta/users/ecroom1@itutil.com/calendarview?startdatetime=2017-10-12T10:00:00&enddatetime=2017-10-12T18:00:00
 	@GET("/beta/users/{userEmail}/calendarview")
-	Call<PagedResult<Event>> getUserEventsInGivenTime(@Path("userEmail") String userEmail,
+	Call<PagedResult<Event>> getUserEventsInGivenTime(@Header("Prefer") String prefer, @Path("userEmail") String userEmail,
 			@Query("startdatetime") String startDateTime, @Query("enddatetime") String endDateTime);
 
 	// https://graph.microsoft.com/v1.0/me/people?$filter=personType/subclass EQ
