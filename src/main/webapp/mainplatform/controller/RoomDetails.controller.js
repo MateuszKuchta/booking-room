@@ -1,9 +1,11 @@
+/* global moment:true */
 sap.ui.define([
     "ecu/controller/BaseController",
     "sap/ui/model/odata/ODataModel",
     "sap/ui/core/Fragment",
-    "sap/m/MessageBox"
-], function (BaseController, Fragment, MessageBox) {
+    "sap/m/MessageBox",
+    "ecu/lib/moment"
+], function (BaseController, Fragment, MessageBox, momentjs) {
     "use strict";
     return BaseController.extend("ecu.controller.RoomDetails", {
         thisRD: null,
@@ -239,8 +241,6 @@ sap.ui.define([
             var jsonModel = new sap.ui.model.json.JSONModel;
             var jsonStatusModel = new sap.ui.model.json.JSONModel;
             window.thisRD = this;
-
-            console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
             var json = '{ "status" : [' +
                 '{ "CurrentOrUse":" " , "ProgressBar":"0" , "CurrentOrNext": " "}]}';
@@ -568,7 +568,11 @@ sap.ui.define([
         },
 
         onOutlookLoginPress: function () {
-            window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+        	$.get("http://ip-api.com/json", function(response) {
+        		console.log(response.timezone);
+        		window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + response.timezone);
+          	}, "jsonp");
+            
         },
 
         onSavePressButton: function () {

@@ -46,7 +46,7 @@ public class UserEventsServlet extends HttpServlet {
 		Gson gson;
 		HttpSession session = req.getSession();
 		String prefer = (String) session.getAttribute("prefer");
-		
+
 		OutlookService outlookService = OutlookServiceUtil.getOutlookService(session);
 
 		if (outlookService != null) {
