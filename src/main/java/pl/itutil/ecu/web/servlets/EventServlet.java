@@ -105,9 +105,9 @@ public class EventServlet extends HttpServlet {
 			}
 
 			Event event = new Event();
-
 			event = gson.fromJson(sb.toString(), Event.class);
-
+			
+			event.translateCET();
 			String userEmail = event.getLocation().getDisplayName();
 			Date startDateTime = new Date();
 			Date endDateTime = new Date();

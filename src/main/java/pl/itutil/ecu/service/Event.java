@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import pl.itutil.ecu.util.Utils;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 	private String id;
@@ -77,5 +79,10 @@ public class Event {
 				recipient.remove();
 			}
 		}
+	}
+	
+	public void translateCET() {
+		end.setTimeZone(Utils.translateCET(end.getTimeZone()));
+		start.setTimeZone(Utils.translateCET(start.getTimeZone()));
 	}
 }

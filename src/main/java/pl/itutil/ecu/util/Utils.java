@@ -14,8 +14,16 @@ public class Utils {
 
 	public static String getOutlookTimeZone(String timeZone) {
 		StringBuilder outLookTimeZone = new StringBuilder();
+		timeZone = translateCET(timeZone);
 		outLookTimeZone.append("outlook.timezone=\"").append(timeZone).append("\"");
 		return outLookTimeZone.toString();
+	}
+
+	public static String translateCET(String string) {
+		if(string.equals("CET")) {
+			string = "Europe/Warsaw";
+		}
+		return string;
 	}
 
 }

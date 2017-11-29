@@ -568,10 +568,7 @@ sap.ui.define([
         },
 
         onOutlookLoginPress: function () {
-        	$.get("http://ip-api.com/json", function(response) {
-        		console.log(response.timezone);
-        		window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + response.timezone);
-          	}, "jsonp");
+        		window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
             
         },
 
