@@ -86,6 +86,7 @@ public class RoomsWithEvents extends HttpServlet {
 					resultList.add(jsonElement);
 				}
 			}
+			
 			resp.getWriter().append(gson.toJson(resultList));
 		} else {
 			resp.getWriter().append("Please sign in to continue.");
