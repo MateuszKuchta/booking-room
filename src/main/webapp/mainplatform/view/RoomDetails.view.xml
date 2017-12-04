@@ -127,7 +127,8 @@
                         <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false"><columns><Column width="20%" text="text"><Text text="Name" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Location" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Principal name" class="roomDetailsColumnDesc"/></Column></columns><items><ColumnListItem><cells><Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/></cells></ColumnListItem></items></Table> -->
                         <VBox id="detailsHBox" width="100%" visible="false" justifyContent="Center" alignContent="Center" alignItems="Center" class="login_form">
                             <items>
-                                <Button icon="./resources/images/windows.png" class="saveButton" text="Login via Outlook" type="Emphasized" press="onOutlookLoginPress"/>
+                                <Button icon="./resources/images/windows.png" class="saveButton" text="Login" type="Emphasized" press="onOutlookLoginPress"/>
+                                <Button icon="./resources/images/windows.png" class="saveButton" text="Logout" type="Emphasized" press="onOutlookLogoutPress"/>
                                 <VBox>
                                     <Select id="selectRoomId" class="selectButton" forceSelection="false" items="{
                                         path: 'allRooms>/value'
