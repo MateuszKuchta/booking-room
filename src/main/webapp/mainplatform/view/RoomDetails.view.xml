@@ -69,7 +69,7 @@
                                 <rows>
                                     <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
                                         <appointments>
-                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" title="{allRoomsOccupancy>subject}" text="{allRoomsOccupancy>organizer/emailAddress/name}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
+                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" title="{allRoomsOccupancy>totalTime}" text="{allRoomsOccupancy>subject}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
                                         </appointments>
                                         <intervalHeaders>
                                             <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}" title="{endDate}" type="Type02"></unified:CalendarAppointment>
