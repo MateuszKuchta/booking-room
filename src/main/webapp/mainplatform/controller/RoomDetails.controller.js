@@ -9,7 +9,7 @@ sap.ui.define([
     "use strict";
     return BaseController.extend("ecu.controller.RoomDetails", {
         thisRD: null,
-        ifLogged: false,
+        ifLogged: null,
         actualReservationData: null,
         onInit: function () {
             // this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -21,7 +21,7 @@ sap.ui.define([
             oTarget.attachDisplay(function (oEvent) {
                 this._oData = oEvent.getParameter("data");
             }, this);
-
+            
             this.updateStatus();
             var oLabel = this.getView().byId("oClock");
             var result = this.GetClock();
@@ -46,10 +46,11 @@ sap.ui.define([
                 oModel.setData(json);
                 this.getView().setModel(oModel, "roomName");
             }
+            
         },
 
         setOccupancyRoomStatus: function () {
-            window.thisRD = this;
+            window.thisRD = this; 
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -207,11 +208,11 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 url: "/room-reservation/rooms",
+                async:false,
                 dataType: "json",
                 success: function (data) {
-                	window.ifLogged = true;
-                	console.log("---");
-                	console.log(window.thisRD.showCookie("Email"));
+                	window.thisRD.ifLogged = true;
+
                 	if(window.thisRD.showCookie("Email") === undefined) {
                 		window.thisRD.getView().byId("roomDetailsTableAll").setVisible(false);
                         window.thisRD.getView().byId("calendarImage").setSrc("");
@@ -234,7 +235,7 @@ sap.ui.define([
                 },
                 error: function(err) {
                 	if(err.status == "401") {
-                		window.ifLogged = false;
+                		window.thisRD.ifLogged = false;
                 		window.thisRD.getView().byId("roomDetailsTableAll").setVisible(false);
                         window.thisRD.getView().byId("calendarImage").setSrc("");
                         
@@ -344,7 +345,7 @@ sap.ui.define([
                         window.thisRD.getView().byId("roomDetailsImage").addStyleClass("freeRoom");
                         window.thisRD.getView().byId("endNowAndQuickRes").setSrc("./resources/images/button_quick-booking.png");
                     }
-                    if(window.ifLogged === false) {
+                    if(window.thisRD.ifLogged === false) {
                     	jsonStatusModel.oData.status["0"].CurrentOrUse = "Not logged in";
                     }
                     
@@ -362,7 +363,7 @@ sap.ui.define([
                     window.thisRD.getView().byId("roomDetailsImage").addStyleClass("freeRoom");
                     window.thisRD.getView().byId("endNowAndQuickRes").setSrc("./resources/images/button_quick-booking.png");
                     
-                    if(window.ifLogged === false) {
+                    if(window.thisRD.ifLogged === false) {
                     	jsonStatusModel.oData.status["0"].CurrentOrUse = "Not logged in";
                     }
                     window.thisRD.getView().setModel(jsonStatusModel, "ActualStatus");
@@ -562,7 +563,7 @@ sap.ui.define([
                     }
                 });
             }
-            if (minutes > 15 || minutes < 1) {
+            if (minutes > 14 || minutes < 1) {
                 if (this.getView().byId("quickReservationHBox").getVisible()) {
                     this.getView().byId("quickReservationHBox").setVisible(false);
 
@@ -598,7 +599,7 @@ sap.ui.define([
         },
 
         onOutlookLoginPress: function () {
-        	if(window.ifLogged) {
+        	if(window.thisRD.ifLogged) {
         		sap.ui.core.BusyIndicator.show();
         		window.thisRD = this;
             	$.ajax({
