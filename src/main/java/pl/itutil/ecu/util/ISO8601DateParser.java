@@ -16,7 +16,12 @@ package pl.itutil.ecu.util;
  */
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * ISO 8601 date parsing utility. Designed for parsing the ISO subset used in
@@ -36,16 +41,34 @@ public class ISO8601DateParser {
 
 	}
 
+	public static String toString(Date date, String timeZone) {
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		if (timeZone != null) {
+			TimeZone tz = TimeZone.getTimeZone(timeZone);
+			df.setTimeZone(tz);
+		}
+		return df.format(date);
+
+	}
+	
 	public static String toString(Date date) {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-//		TimeZone tz = TimeZone.getTimeZone("UTC");
-//
-//		df.setTimeZone(tz);
-
 		return df.format(date);
 
 	}
+	
+	public static String toUTC(String date, String timeZone) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+		ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime,ZoneId.of(timeZone));
+		LocalDateTime localUTC = zonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+		return localUTC.format(formatter);
+	}
+	
+	
 
 }

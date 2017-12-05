@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 
@@ -109,12 +110,17 @@ public class EventServlet extends HttpServlet {
 			
 			event.translateCET();
 			String userEmail = event.getLocation().getDisplayName();
-			Date startDateTime = new Date();
-			Date endDateTime = new Date();
 			
-			String start = ISO8601DateParser.toString(startDateTime);
-			String end = ISO8601DateParser.toString(endDateTime);
-
+//			Date startDateTime = new Date();
+//			Date endDateTime = DateUtils.addHours(new Date(), 1);
+			
+			String start = event.getStart().getDateTime();
+			String end = event.getEnd().getDateTime();
+			
+			String timeZone = event.getStart().getTimeZone();
+//			start = ISO8601DateParser.toUTC(start, timeZone);
+//			end = ISO8601DateParser.toUTC(end, timeZone);
+			
 			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(prefer, userEmail, start, end).execute();
 			PagedResult<Event> userEvents = execute.body();
 			if (userEvents != null) {
