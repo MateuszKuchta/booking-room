@@ -1,16 +1,14 @@
 package pl.itutil.ecu.web.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpStatus;
-
-import pl.itutil.ecu.util.Utils;
 
 /**
  * <h1>Endpoint usuwajacy z sesje tokeny co powoduje brak dostepu do zasobow(wylogowywujacy)</h1>
@@ -28,7 +26,8 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getSession().removeAttribute("tokens");
-		resp.sendRedirect(resp.encodeRedirectURL(Utils.getBaseUrl(req) + "/mainplatform/#/roomDetails"));
+		resp.setStatus(HttpStatus.SC_NO_CONTENT);
+		resp.getWriter().append("The user has been logged out");
 	}
        
 	

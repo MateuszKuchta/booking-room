@@ -118,10 +118,10 @@ public class EventServlet extends HttpServlet {
 			String end = event.getEnd().getDateTime();
 			
 			String timeZone = event.getStart().getTimeZone();
-//			start = ISO8601DateParser.toUTC(start, timeZone);
-//			end = ISO8601DateParser.toUTC(end, timeZone);
+			start = ISO8601DateParser.toUTC(start, timeZone);
+			end = ISO8601DateParser.toUTC(end, timeZone);
 			
-			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(prefer, userEmail, start, end).execute();
+			Response<PagedResult<Event>> execute = outlookService.getUserEventsInGivenTime(null, userEmail, start, end).execute();
 			PagedResult<Event> userEvents = execute.body();
 			if (userEvents != null) {
 				if (userEvents.getValue().length == 0) {
