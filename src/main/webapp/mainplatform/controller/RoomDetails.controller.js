@@ -582,28 +582,28 @@ sap.ui.define([
         },
 
         onOutlookLoginPress: function () {
-        	window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+        	if(window.ifLogged) {
+        		sap.ui.core.BusyIndicator.show();
+        		window.thisRD = this;
+            	$.ajax({
+                    type: "GET",
+                    url: "/room-reservation/logout",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                    	sap.m.MessageToast.show("Logged out");
+                    	sap.ui.core.BusyIndicator.hide();
+                    },
+                    error: function () {
+                    	sap.m.MessageToast.show("Logged out");
+                    	sap.ui.core.BusyIndicator.hide();
+                    	window.thisRD.updateStatus();
+                    }
+                });
 
-        },
-        
-        onOutlookLogoutPress: function() {
-        	sap.ui.core.BusyIndicator.show();
-        	console.log("przed");
-        	$.ajax({
-                type: "GET",
-                url: "/room-reservation/logout",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                	sap.m.MessageToast.show("Logged out");
-                	console.log("po w success");
-                	sap.ui.core.BusyIndicator.hide();
-                },
-                error: function () {
-                	console.log("po w error");
-                	sap.ui.core.BusyIndicator.hide();
-                }
-            });
+        	} else {
+        		window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+        	}
         },
 
         onSavePressButton: function () {

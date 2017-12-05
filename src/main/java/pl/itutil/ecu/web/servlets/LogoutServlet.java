@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+
 /**
  * <h1>Endpoint usuwajacy z sesje tokeny co powoduje brak dostepu do zasobow(wylogowywujacy)</h1>
  * <h2>Method GET</h2>
