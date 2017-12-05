@@ -477,24 +477,28 @@ sap.ui.define([
                 date.setSeconds(date.getSeconds() + 1);
                 var nhour = date.getHours(),
                     nmin = date.getMinutes(),
-                    nsec = date.getSeconds();
+                    nsec = date.getSeconds(),
+                    ndays = date.getDate(),
+                    nmonth = (date.getMonth() + 1);
 
+                if (nmonth <= 9) nmonth = "0" + nmonth;
+                if (ndays <= 9) ndays = "0" + ndays;
                 if (nhour <= 9) nhour = "0" + nhour;
                 if (nmin <= 9) nmin = "0" + nmin;
                 if (nsec <= 9) nsec = "0" + nsec;
-                var fromDateTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "T" + nhour + ":" + nmin + ":" + nsec;
+                var fromDateTime = date.getFullYear() + "-" + nmonth + "-" + ndays + "T" + nhour + ":" + nmin + ":" + nsec;
 
                 date.setMinutes(date.getMinutes() + minutes);
-                month = (date.getMonth() + 1);
-                days = date.getDate();
+                nmonth = (date.getMonth() + 1);
+                ndays = date.getDate();
                 nhour = date.getHours();
                 nmin = date.getMinutes();
-                if (month <= 9) month = "0" + month;
-                if (days <= 9) days = "0" + days;
+                if (nmonth <= 9) nmonth = "0" + nmonth;
+                if (ndays <= 9) ndays = "0" + ndays;
                 if (nhour <= 9) nhour = "0" + nhour;
                 if (nmin <= 9) nmin = "0" + nmin;
 
-                var toDateTime = date.getFullYear() + "-" + month + "-" + days + "T" + nhour + ":" + nmin + ":00";
+                var toDateTime = date.getFullYear() + "-" + nmonth + "-" + ndays + "T" + nhour + ":" + nmin + ":00";
                 var json = { 
                     "subject": "Conference meeting",
                      "start": {   
@@ -584,6 +588,7 @@ sap.ui.define([
         
         onOutlookLogoutPress: function() {
         	sap.ui.core.BusyIndicator.show();
+        	console.log("przed");
         	$.ajax({
                 type: "GET",
                 url: "/room-reservation/logout",
@@ -591,9 +596,11 @@ sap.ui.define([
                 dataType: "json",
                 success: function (data) {
                 	sap.m.MessageToast.show("Logged out");
+                	console.log("po w success");
                 	sap.ui.core.BusyIndicator.hide();
                 },
                 error: function () {
+                	console.log("po w error");
                 	sap.ui.core.BusyIndicator.hide();
                 }
             });
