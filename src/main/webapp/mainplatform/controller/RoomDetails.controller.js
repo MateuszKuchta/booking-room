@@ -72,7 +72,6 @@ sap.ui.define([
                                     data[i].value[j].start.dateTime = new Date(data[i].value[j].start.dateTime);
                                     data[i].value[j].end.dateTime = new Date(data[i].value[j].end.dateTime);
                                     data[i].value[j].type = "Type0" + Math.floor((Math.random() * 4) + 1);
-                                    console.log(data[i].value[j].start.dateTime.getHours() + ":" + data[i].value[j].start.dateTime.getMinutes() + "-" + data[i].value[j].end.dateTime.getHours() + ":" + data[i].value[j].end.dateTime.getMinutes());
                                     data[i].value[j].totalTime = data[i].value[j].start.dateTime.getHours() + ":" + data[i].value[j].start.dateTime.getMinutes() + "-" + data[i].value[j].end.dateTime.getHours() + ":" + data[i].value[j].end.dateTime.getMinutes();
                                 }
                             } else {
@@ -81,7 +80,6 @@ sap.ui.define([
                         }
                     }
                     window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
-                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
                 }
             });
         },
@@ -212,9 +210,27 @@ sap.ui.define([
                 dataType: "json",
                 success: function (data) {
                 	window.ifLogged = true;
-                    window.thisRD.getView().byId("calendarImage").setSrc("sap-icon://calendar");
-                    window.thisRD.getView().byId("peopleImage").setSrc("sap-icon://group");
-                    window.thisRD.getView().byId("findAnotherImage").setSrc("sap-icon://check-availability");
+                	console.log("---");
+                	console.log(window.thisRD.showCookie("Email"));
+                	if(window.thisRD.showCookie("Email") === undefined) {
+                		window.thisRD.getView().byId("roomDetailsTableAll").setVisible(false);
+                        window.thisRD.getView().byId("calendarImage").setSrc("");
+                        
+                        window.thisRD.getView().byId("roomDetailsTablePeople").setVisible(false);
+                        window.thisRD.getView().byId("peopleImage").setSrc("");
+
+                        window.thisRD.getView().byId("roomDetailsTableFindAnother").setVisible(false);
+                        window.thisRD.getView().byId("findAnotherImage").setSrc("");
+                        
+                        window.thisRD.getView().byId("detailsHBox").setVisible(true);
+                        window.thisRD.getView().byId("openReservationImage").removeStyleClass("grayIcon");
+                        window.thisRD.getView().byId("openReservationImage").addStyleClass("whiteIcon");
+                	} else {
+                        window.thisRD.getView().byId("calendarImage").setSrc("sap-icon://calendar");
+                        window.thisRD.getView().byId("peopleImage").setSrc("sap-icon://group");
+                        window.thisRD.getView().byId("findAnotherImage").setSrc("sap-icon://check-availability");
+                	}
+
                 },
                 error: function(err) {
                 	if(err.status == "401") {
@@ -253,7 +269,7 @@ sap.ui.define([
                 '{ "CurrentOrUse":" " , "ProgressBar":"0" , "CurrentOrNext": " "}]}';
             var obj = JSON.parse(json);
             jsonStatusModel.setData(obj);
-            console.log(window.ifLogged);
+
             var date = new Date();
             var actual = new Date().getTime();
             var email = this.showCookie("Email");
