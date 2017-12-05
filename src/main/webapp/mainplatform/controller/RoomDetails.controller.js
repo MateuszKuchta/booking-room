@@ -539,7 +539,7 @@ sap.ui.define([
                     },
                     error: function (errMsg, data) {
                         sap.ui.core.BusyIndicator.hide();
-                        if (errMsg.status === "409")
+                        if (errMsg.status == "409")
                             sap.m.MessageToast.show("Room is already in use");
                         else
                             sap.m.MessageToast.show("Error with connecting to the server");
@@ -591,13 +591,13 @@ sap.ui.define([
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
+                    	window.thisRD.updateStatus();
                     	sap.m.MessageToast.show("Logged out");
                     	sap.ui.core.BusyIndicator.hide();
                     },
-                    error: function () {
-                    	sap.m.MessageToast.show("Logged out");
+                    error: function (err) {
                     	sap.ui.core.BusyIndicator.hide();
-                    	window.thisRD.updateStatus();
+                    	sap.m.MessageToast.show("Error with connecting to the server");
                     }
                 });
 
