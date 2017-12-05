@@ -9,6 +9,7 @@ sap.ui.define([
     "use strict";
     return BaseController.extend("ecu.controller.RoomDetails", {
         thisRD: null,
+        ifLogged: false,
         actualReservationData: null,
         onInit: function () {
             // this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -71,6 +72,8 @@ sap.ui.define([
                                     data[i].value[j].start.dateTime = new Date(data[i].value[j].start.dateTime);
                                     data[i].value[j].end.dateTime = new Date(data[i].value[j].end.dateTime);
                                     data[i].value[j].type = "Type0" + Math.floor((Math.random() * 4) + 1);
+                                    console.log(data[i].value[j].start.dateTime.getHours() + ":" + data[i].value[j].start.dateTime.getMinutes() + "-" + data[i].value[j].end.dateTime.getHours() + ":" + data[i].value[j].end.dateTime.getMinutes());
+                                    data[i].value[j].totalTime = data[i].value[j].start.dateTime.getHours() + ":" + data[i].value[j].start.dateTime.getMinutes() + "-" + data[i].value[j].end.dateTime.getHours() + ":" + data[i].value[j].end.dateTime.getMinutes();
                                 }
                             } else {
                                 data[i].available = "Available";
@@ -82,64 +85,7 @@ sap.ui.define([
                 }
             });
         },
-
-//        setOccupancyRoomStatus: function () {
-//            window.thisRD = this;
-//            $.ajax({
-//                type: "GET",
-//                contentType: "application/json; charset=utf-8",
-//                url: "/room-reservation/getRoomsWithEvents",
-//                dataType: "json",
-//                success: function (data) {
-//
-//                    if (data != null) {
-//                        for (var i = 0; i < data.length; i++) {
-//                            if (i == 0)
-//                                data[i].startTime = new Date();
-//                            if ((data[i].value != null) && (data[i].value.length != 0)) {
-//                            	var time = data[i].value[0].start.dateTime.split("T"),
-//                            		time_date = time[0].split("-"),
-//                            		time_clock = time[1].split(":"),
-//                            		year = time_date[0],
-//                            		month = time_date[1],
-//                            		day = time_date[2],
-//                            		hour = time_clock[0],
-//                            		mins = time_clock[1],
-//                            		sec = time_clock[2];
-//                            	var time_end = data[i].value[0].end.dateTime.split("T"),
-//	                        		time_date_end = time_end[0].split("-"),
-//	                        		time_clock_end = time_end[1].split(":"),
-//	                        		year_end = time_date_end[0],
-//	                        		month_end = time_date_end[1],
-//	                        		day_end = time_date_end[2],
-//	                        		hour_end = time_clock_end[0],
-//	                        		mins_end = time_clock_end[1],
-//	                        		sec_end = time_clock_end[2];
-//                            	var myTime_start = new Date(year,month,day,hour,mins,sec);
-//                            	var myTime_end = new Date(year_end,month_end,day_end,hour_end,mins_end,sec_end);
-//                            	data[i].startTime = new Date(year,month,day,hour,mins,sec).getTime();
-//                            	
-//                                if (myTime_start.getTime() > new Date().getTime()) {
-//                                    data[i].available = "Available";
-//                                } else {
-//                                    data[i].available = "In use";
-//                                }
-//                                for (var j = 0; j < data[i].value.length; j++) {
-//                                    data[i].value[j].start.dateTime = myTime_start;
-//                                    data[i].value[j].end.dateTime = myTime_end;
-//                                    data[i].value[j].type = "Type0" + Math.floor((Math.random() * 4) + 1);
-//                                }
-//                            } else {
-//                                data[i].available = "Available";
-//                            }
-//                        }
-//                    }
-//                    window.thisRD.getView().setModel(new sap.ui.model.json.JSONModel(data), "allRoomsOccupancy");
-//                    console.log(window.thisRD.getView().getModel("allRoomsOccupancy"));
-//                }
-//            });
-//        },
-//        
+ 
         GetClock: function () {
             var tday = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
             var d = new Date();
@@ -193,7 +139,7 @@ sap.ui.define([
                     if (nmin_start <= 9) nmin_start = "0" + nmin_start;
                     if (nhour_end <= 9) nhour_end = "0" + nhour_end;
                     if (nmin_end <= 9) nmin_end = "0" + nmin_end;
-
+                    
                     if (i == 0) {
                         if (start > new Date().getTime()) {
                             var time = "until " + nhour_start + ":" + nmin_start;
@@ -255,8 +201,43 @@ sap.ui.define([
             }
             this.setOccupancyRoomStatus();
         },
+        
+        checkIfLoggedIn: function() {
+        	window.thisRD = this;
+        	
+        	$.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/room-reservation/rooms",
+                dataType: "json",
+                success: function (data) {
+                	window.ifLogged = true;
+                    window.thisRD.getView().byId("calendarImage").setSrc("sap-icon://calendar");
+                    window.thisRD.getView().byId("peopleImage").setSrc("sap-icon://group");
+                    window.thisRD.getView().byId("findAnotherImage").setSrc("sap-icon://check-availability");
+                },
+                error: function(err) {
+                	if(err.status == "401") {
+                		window.ifLogged = false;
+                		window.thisRD.getView().byId("roomDetailsTableAll").setVisible(false);
+                        window.thisRD.getView().byId("calendarImage").setSrc("");
+                        
+                        window.thisRD.getView().byId("roomDetailsTablePeople").setVisible(false);
+                        window.thisRD.getView().byId("peopleImage").setSrc("");
+
+                        window.thisRD.getView().byId("roomDetailsTableFindAnother").setVisible(false);
+                        window.thisRD.getView().byId("findAnotherImage").setSrc("");
+                        
+                        window.thisRD.getView().byId("detailsHBox").setVisible(true);
+                        window.thisRD.getView().byId("openReservationImage").removeStyleClass("grayIcon");
+                        window.thisRD.getView().byId("openReservationImage").addStyleClass("whiteIcon");
+                	}
+                }
+        	})
+        },
 
         updateStatus: function () {
+        	this.checkIfLoggedIn();
             var d = new Date();
             var dateFrom = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "T" + d.toLocaleTimeString();
             var dateTo = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate() + 1) + "T" + d.toLocaleTimeString();
@@ -272,7 +253,7 @@ sap.ui.define([
                 '{ "CurrentOrUse":" " , "ProgressBar":"0" , "CurrentOrNext": " "}]}';
             var obj = JSON.parse(json);
             jsonStatusModel.setData(obj);
-
+            console.log(window.ifLogged);
             var date = new Date();
             var actual = new Date().getTime();
             var email = this.showCookie("Email");
@@ -297,16 +278,14 @@ sap.ui.define([
                         var end_time_apple = end_dt_apple[1].split(":");
                         var end = new Date(end_date_apple[0], (end_date_apple[1] - 1), end_date_apple[2], end_time_apple[0], end_time_apple[1], "00", "00").getTime();
 
-                        if (window.thisRD.actualReservationData !== model_incoming) {
+                        if ((window.thisRD.actualReservationData !== model_incoming) || (window.thisRD.getView().byId("roomDetailsImage").hasStyleClass("almostFreeRoom") && (start <= actual))) {
                             window.thisRD.addReservationText(data);
                         }
-
+                        
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("freeRoom");
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("almostFreeRoom");
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("inUseRoom");
-                        console.log(start);
-                        console.log("---");
-                        console.log(actual);
+
                         if (start <= actual) {
 
                             window.thisRD.getView().byId("roomDetailsImage").addStyleClass("inUseRoom");
@@ -344,10 +323,15 @@ sap.ui.define([
                         jsonStatusModel.oData.status["0"].ProgressBar = "0";
                         jsonStatusModel.oData.status["0"].CurrentOrNext = "No reservations";
 
+                        window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("almostFreeRoom");
                         window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("inUseRoom");
                         window.thisRD.getView().byId("roomDetailsImage").addStyleClass("freeRoom");
                         window.thisRD.getView().byId("endNowAndQuickRes").setSrc("./resources/images/button_quick-booking.png");
                     }
+                    if(window.ifLogged === false) {
+                    	jsonStatusModel.oData.status["0"].CurrentOrUse = "Not logged in";
+                    }
+                    
                     window.thisRD.actualReservationData = model_incoming;
                     window.thisRD.getView().setModel(jsonStatusModel, "ActualStatus");
                 },
@@ -361,7 +345,10 @@ sap.ui.define([
                     window.thisRD.getView().byId("roomDetailsImage").removeStyleClass("inUseRoom");
                     window.thisRD.getView().byId("roomDetailsImage").addStyleClass("freeRoom");
                     window.thisRD.getView().byId("endNowAndQuickRes").setSrc("./resources/images/button_quick-booking.png");
-
+                    
+                    if(window.ifLogged === false) {
+                    	jsonStatusModel.oData.status["0"].CurrentOrUse = "Not logged in";
+                    }
                     window.thisRD.getView().setModel(jsonStatusModel, "ActualStatus");
                 }
 
@@ -449,6 +436,7 @@ sap.ui.define([
         },
 
         onEndNowAndQuickRes: function () {
+
             if (this.getView().byId("endNowAndQuickRes").getSrc() === "./resources/images/button_quick-booking.png") {
                 this.onQuickReservation(0);
             } else if (this.getView().byId("endNowAndQuickRes").getSrc() === "./resources/images/button_quick-booking-orange.png") {
@@ -464,7 +452,6 @@ sap.ui.define([
                     success: function (data) {
                     	setTimeout(
 	            		    function() {
-	            		    	console.log(data);
 	            		    	sap.ui.core.BusyIndicator.hide();
 	                            thisRD.updateStatus();
 	                            sap.m.MessageToast.show("Conference has ended!");
@@ -472,8 +459,6 @@ sap.ui.define([
                         
                     },
                     error: function (errMsg) {
-                    	console.log("error");
-                    	console.log(errMsg);
                         sap.ui.core.BusyIndicator.hide();
                         sap.m.MessageToast.show("Error with connecting to the server");
                     }
@@ -488,13 +473,6 @@ sap.ui.define([
             var i = 1;
             if (minutes != 0) {
                 sap.ui.core.BusyIndicator.show();
-                // var dialog = new sap.m.BusyDialog({
-
-                //     text: 'Loading Data...'
-
-                // });
-
-                // dialog.open();
                 var date = new Date();
                 date.setSeconds(date.getSeconds() + 1);
                 var nhour = date.getHours(),
@@ -507,12 +485,16 @@ sap.ui.define([
                 var fromDateTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "T" + nhour + ":" + nmin + ":" + nsec;
 
                 date.setMinutes(date.getMinutes() + minutes);
+                month = (date.getMonth() + 1);
+                days = date.getDate();
                 nhour = date.getHours();
                 nmin = date.getMinutes();
+                if (month <= 9) month = "0" + month;
+                if (days <= 9) days = "0" + days;
                 if (nhour <= 9) nhour = "0" + nhour;
                 if (nmin <= 9) nmin = "0" + nmin;
 
-                var toDateTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "T" + nhour + ":" + nmin + ":00";
+                var toDateTime = date.getFullYear() + "-" + month + "-" + days + "T" + nhour + ":" + nmin + ":00";
                 var json = { 
                     "subject": "Conference meeting",
                      "start": {   
@@ -528,18 +510,6 @@ sap.ui.define([
                         "locationType": "ConferenceRoom"
                     },
                     "attendees": [{
-                        "emailAddress": {
-                            "address": "mateusz.kuchta@itutil.com",
-                            "name": "Mateusz Kuchta"
-                        },
-                        "type": "optional"
-                    }, {
-                        "emailAddress": {
-                            "address": "piotr.matosek@itutil.com",
-                            "name": "Piotr Matosek"
-                        },
-                        "type": "optional"
-                    }, {
                         "emailAddress": {
                             "address": this.showCookie("Email"),
                             "name": this.showCookie("Name")
@@ -558,7 +528,6 @@ sap.ui.define([
                     success: function (data) {
                         setTimeout(
     	            		    function() {
-    	            		    	console.log(data);
     	            		    	sap.ui.core.BusyIndicator.hide();
     	                            sap.m.MessageToast.show("Booked for " + minutes + " minutes");
     	                            thisRD.updateStatus();
@@ -604,21 +573,30 @@ sap.ui.define([
         handleAppointmentSelect: function (oEvent) {
             var oAppointment = oEvent.getParameter("appointment");
             if (oAppointment) {
-                sap.m.MessageBox.show("Subject " + oAppointment.getTitle() + "\n" + "Organizer: " + oAppointment.getText());
+                sap.m.MessageBox.show("Subject " + oAppointment.getText() + "\n" + "Time: " + oAppointment.getTitle());
             }
         },
 
         onOutlookLoginPress: function () {
-//        	$.getJSON('https://freegeoip.net/json/?callback=?', function(data) {
-//        		console.log(data.time_zone);
-//        		  window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + data.time_zone);
-//        		});
-//        	$.getJSON('//ipapi.co/json/', function(data) {
-//        		window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + data.timezone);
-//        		});
         	window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
-        	 
 
+        },
+        
+        onOutlookLogoutPress: function() {
+        	sap.ui.core.BusyIndicator.show();
+        	$.ajax({
+                type: "GET",
+                url: "/room-reservation/logout",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                	sap.m.MessageToast.show("Logged out");
+                	sap.ui.core.BusyIndicator.hide();
+                },
+                error: function () {
+                	sap.ui.core.BusyIndicator.hide();
+                }
+            });
         },
 
         onSavePressButton: function () {

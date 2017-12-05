@@ -67,8 +67,9 @@ public class RoomsWithEvents extends HttpServlet {
 
 			for (Room room : value) {
 				String userEmail = room.getUserPrincipalName();
-				PagedResult<Event> events = outlookService
-						.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime).execute().body();
+				Response<PagedResult<Event>> execute = outlookService
+						.getUserEventsInGivenTime(prefer, userEmail, startDateTime, endDateTime).execute();
+				PagedResult<Event> events = execute.body();
 				if (events != null) {
 					for (Event event : events.getValue()) {
 						event.filterRoomsFromAttendees();
