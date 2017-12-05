@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpStatus;
+
 import pl.itutil.ecu.util.Utils;
 
 /**
@@ -26,7 +28,8 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getSession().removeAttribute("tokens");
-		resp.sendRedirect(resp.encodeRedirectURL(Utils.getBaseUrl(req) + "/mainplatform/#/roomDetails"));
+		//resp.sendRedirect(resp.encodeRedirectURL(Utils.getBaseUrl(req) + "/mainplatform/#/roomDetails"));
+		resp.setStatus(HttpStatus.SC_ACCEPTED);
 	}
        
 	
