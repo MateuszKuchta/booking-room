@@ -1,0 +1,44 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core">
+    <Popover showHeader="false" contentWidth="240px" contentHeight="350px" placement="Top">
+        <NavContainer id="navConImage">
+            <Page id="master" showHeader="false">
+                <ObjectHeader title="Wolna">
+                    <attributes>
+                        <ObjectAttribute text="Zajetosc sali: wolna" />
+                        <ObjectAttribute text="Numer sali: 21" />
+                        <ObjectAttribute text="Najbliższa rezerwacja: Kto / kiedy" />
+                    </attributes>
+                </ObjectHeader>
+                <footer>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://add" text="{i18n>Corpo.popover.reserve}" press="onReservePress" />
+                        <ToolbarSpacer/>
+                    </Toolbar>
+                </footer>
+            </Page>
+            <Page id="reserve" showNavButton="true" navButtonPress="onPopNavBack" title="Rezerwuj">
+                <Input placeholder="{i18n>Corpo.popover.userData}" id="userData"/>
+                <DateTimeInput id="DTI1" type="Date" placeholder="{i18n>Corpo.popover.inputDate}" class="sapUiSmallMarginBottom" />
+                <DateTimeInput id="DTI2" type="Time" placeholder="{i18n>Corpo.popover.inputHourFrom}" class="sapUiSmallMarginBottom" />
+                <DateTimeInput id="DTI3" type="Time" placeholder="{i18n>Corpo.popover.inputHourTo}" class="sapUiSmallMarginBottom" />
+                <footer>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <ToolbarSpacer/>
+                        <Button type="Accept" text="{i18n>Corpo.popover.add}" press="onAcceptRoomReservation">
+                            <layoutData>
+                                <OverflowToolbarLayoutData moveToOverflow="false" />
+                            </layoutData>
+                        </Button>
+                    </Toolbar>
+                </footer>
+            </Page>
+        </NavContainer>
+    </Popover>
+</core:FragmentDefinition>

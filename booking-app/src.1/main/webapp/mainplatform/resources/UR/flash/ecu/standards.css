@@ -1,0 +1,516 @@
+/**
+* Copyright (c) 2012-2016 SAP SE, All Rights Reserved
+*
+* Theming Engine 1.26.14
+* data:{"Path": "UR.flash.ecu.standards", "PathPattern": "/%frameworkId%/%libId%/%themeId%/%fileId%.css", "IECssRuleLimitFiles": [], "Extends": ["sap_belize","sap_bluecrystal","sap_goldreflection","baseTheme"], "Tags": ["Fiori_2"], "Version": { "Build":"10.30.7.274797.20170919152339", "Source": "10.30.7.274797.0", "Engine": "1.26.14"}}
+*/
+
+
+/**
+* Base.baseLib.baseTheme.base (Version 11.0.3)
+*/
+
+.sapSvgLibs {
+  background-image: none, url('../../../Base/baseLib/sap_belize/svg/libs/SAPGUI-icons.svg'), url('../../../Base/baseLib/sap_belize/svg/libs/SAPWeb-icons.svg');
+}
+.sapSvgIconPositive {
+  fill: #2b7d2b !important;
+}
+.sapSvgIconCritical {
+  fill: #e78c07 !important;
+}
+.sapSvgIconNegative {
+  fill: #bb0000 !important;
+}
+
+/**
+* UR.baseLib.baseTheme.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.baseLib.baseTheme.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.baseTheme.base (Version 10.30.7.274797.0)
+*/
+
+Global {
+  modalTransparencyBlur: 0;
+}
+Application {
+  background-color: #fafafa;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333333;
+  font-size: 14px;
+}
+Text {
+  color: #000;
+  leading: 0;
+  padding-top: 2;
+  padding-right: 2;
+  padding-bottom: 2;
+  padding-left: 2;
+}
+Label {
+  color: #666;
+  disabledLabelFontColor: ".DisabledLabelFontColor";
+  padding-top: 0;
+  padding-right: 4px;
+  padding-bottom: 0;
+  padding-left: 7px;
+}
+.DisabledLabelFontColor {
+  color: #333333;
+}
+TextInput {
+  border-color: #bfbfbf;
+  color: #000;
+  background-color: #ffffff;
+  border-thickness: 1;
+  corner-radius: 2;
+  disabledTextInputStyle: ".DisabledTextInputStyle";
+  border-style: solid;
+}
+TextArea {
+  border-color: #bfbfbf;
+  color: #000;
+  background-color: #ffffff;
+  border-thickness: 1;
+  corner-radius: 2;
+  padding-top: 0;
+  padding-right: 2px;
+  padding-bottom: 0;
+  padding-left: 2px;
+  border-style: solid;
+  disabledTextAreaStyle: ".DisabledTextInputStyle";
+}
+ComboBox {
+  border-style: solid;
+  border-thickness: 1;
+  corner-radius: 2;
+  font-weight: normal;
+  fill-alphas: 1, 1, 1, 1;
+  background-color: #ffffff;
+  border-color: #bfbfbf;
+  color: #333333;
+  comboBoxRollOverStyle: ".ComboBoxRollOverStyle";
+  comboBoxSelectionStyle: ".ComboBoxSelectionStyle";
+  comboBoxExtensionStyle: ".ComboBoxExtensionStyle";
+}
+.ComboBoxExtensionStyle {
+  background-color: #ffffff;
+}
+.ComboBoxRollOverStyle {
+  background-color: #f0f0f0;
+  color: #333333;
+}
+.ComboBoxSelectionStyle {
+  background-color: #f7f7f7;
+  color: #333333;
+}
+Panel {
+  border-style: solid;
+  border-thickness: 1;
+  corner-radius: 3;
+  vertical-gap: 0;
+  drop-shadow-enabled: true;
+  shadow-direction: right;
+  border-color: #e5e5e5;
+  highlightAlphas: 0, 0;
+  background-color: #fafafa;
+  padding-top: 1;
+  padding-right: 1;
+  padding-bottom: 1;
+  padding-left: 1;
+  panelBodyStyle: ".PanelBodyStyle";
+}
+.PanelBodyStyle {
+  background-color: #fff;
+}
+HScrollBar {
+  scrollbar-darkshadow-color: #fff;
+  scrollbar-face-color: #fff;
+  scrollbar-track-color: #fff;
+  scrollbar-arrow-color: #666;
+  corner-radius: 2;
+  highlightAlphas: 0, 0;
+  fillAlphas: 1, 1, 1, 1;
+  thumbOffset: 1;
+}
+VScrollBar {
+  scrollbar-darkshadow-color: #fff;
+  scrollbar-face-color: #fff;
+  scrollbar-track-color: #fff;
+  scrollbar-arrow-color: #666;
+  corner-radius: 2;
+  highlightAlphas: 0, 0;
+  fillAlphas: 1, 1, 1, 1;
+  thumbOffset: 1;
+}
+DateField {
+  dateChooserStyleName: ".DateChooserStyle";
+}
+.DateChooserStyle {
+  border-color: #c5c5c5;
+  background-color: #fff;
+  color: #333333;
+  dateChooserSelectionStyle: ".DateChooserSelectionStyle";
+  border-style: solid;
+}
+.DateChooserSelectionStyle {
+  background-color: #427cac;
+}
+Button {
+  border-color: #ababab;
+  color: #346187;
+  corner-radius: 2;
+  buttonDisabledStyle: ".ButtonDisabledStyle";
+  background-color: #f7f7f7;
+  fillAlphas: 1, 1;
+  text-decoration: none;
+  buttonHoveredStyle: ".ButtonHoveredStyle";
+  padding-top: 0;
+  padding-right: 5px;
+  padding-bottom: 0;
+  padding-left: 5px;
+  border-style: solid;
+  font-weight: normal;
+  text-align: center;
+}
+.ButtonDisabledStyle {
+  color: #346187;
+}
+.ButtonHoveredStyle {
+  border-color: #ababab;
+}
+TabNavigator {
+  background-color: #fff;
+  border-color: #d1e0ee;
+  border-style: solid;
+  border-thickness: 1;
+  selectedTabTextStyleName: ".SAPSelectedTab";
+  height: 26px;
+  fillAlphas: 1, 1;
+  highlightAlphas: 0, 0;
+}
+.SAPSelectedTab {
+  font-weight: normal;
+  color: #333333;
+}
+Tab {
+  border-color: #d1e0ee;
+  notSelectedTabBGStyle: ".NotSelectedTabBGStyle";
+  background-color: #e8f0f6;
+}
+.NotSelectedTabBGStyle {
+  background-color: #fff;
+}
+TabBar {
+  padding-left: 0;
+}
+DataGrid {
+  background-color: #ffffff;
+  dataGridHeaderStyle: ".DataGridHeaderStyle";
+  horizontalGridLines: true;
+  dataGridHZGridLineStyle: ".DataGridHZGridLineStyle";
+  dataGridVGridLineStyle: ".DataGridVGridLineStyle";
+  useRollOver: false;
+  dataGridSelectionStyle: ".DataGridSelectionStyle";
+  color: #333;
+  alternatingItemColors: ".DGAlternatingItemColor1",".DGAlternatingItemColor2";
+  border-color: #e5e5e5;
+}
+.DataGridHeaderStyle {
+  background-color: #f7f7f7;
+}
+.DataGridVGridLineStyle {
+  border-color: #e5e5e5;
+}
+.DataGridHZGridLineStyle {
+  border-color: #e5e5e5;
+}
+.DataGridSelectionStyle {
+  background-color: #e8f0f6;
+  color: #333;
+}
+.DGAlternatingItemColor1 {
+  background-color: #ffffff;
+}
+.DGAlternatingItemColor2 {
+  background-color: #eff7fb;
+}
+LinkButton {
+  color: #0070b1;
+  linkButtonRollOverStyle: ".LinkButtonRollOverStyle";
+  linkButtonSelectedStyle: ".LinkButtonSelectedStyle";
+  linkButtonDisabledStyle: ".LinkButtonDisabledStyle";
+}
+.LinkButtonRollOverStyle {
+  color: #0070b1;
+  background-color: #fafafa;
+}
+.LinkButtonSelectedStyle {
+  color: #0070b1;
+}
+.LinkButtonDisabledStyle {
+  color: #0070b1;
+}
+MenuBar {
+  fillAlphas: 1, 1;
+  background-color: transparent;
+  border-color: #c5c5c5;
+  color: #346187;
+  menuBarDisabledStyle: ".MenuBarDisabledStyle";
+  menuBarSelectStyle: ".MenuBarSelectStyle";
+  highlightAlphas: 0, 0;
+}
+.MenuBarDisabledStyle {
+  color: #346187;
+}
+.MenuBarSelectStyle {
+  color: #346187;
+}
+Menu {
+  background-color: #ffffff;
+  color: #333333;
+  menuRollOverStyle: ".MenuRollOverStyle";
+  menuDisabledStyle: ".MenuDisabledStyle";
+}
+.MenuRollOverStyle {
+  background-color: #f0f0f0;
+}
+.MenuDisabledStyle {
+  background-color: #ffffff;
+  color: rgba(51,51,51,0.5);
+}
+List {
+  background-color: #ffffff;
+  border-color: #bfbfbf;
+  border-style: solid;
+  color: #000;
+  listSelectionStyle: ".ListSelectionStyle";
+  listDisabledStyle: ".ListDisabledStyle";
+  useRollOver: false;
+}
+Alert {
+  border-style: solid;
+  border-thickness: 1;
+  corner-radius: 3;
+  vertical-gap: 0;
+  border-color: #e5e5e5;
+  alertTitleStyle: ".AlertTitleStyle";
+  titleStyleName: ".SAPAlertTitle";
+  messageStyleName: ".SAPAlertMessage";
+}
+.AlertTitleStyle {
+  background-color: #2e6695;
+}
+.SAPAlertTitle {
+  color: #fff;
+  fontWeight: bold;
+}
+.SAPAlertMessage {
+  color: #000;
+}
+Tree {
+  background-color: transparent;
+  border-color: #bfd3e7;
+  borderStyle: solid;
+  borderThickness: 1;
+  cornerRadius: 2;
+  color: #333333;
+  treeLevel1Style: ".TreeLevel1Style";
+  treeLevel2Style: ".TreeLevel2Style";
+  treeLevel3Style: ".TreeLevel3Style";
+  treeLevel4Style: ".TreeLevel4Style";
+  useRollOver: false;
+  treeSelectionStyle: ".TreeSelectionStyle";
+  depthColors: ".TreeLevel1Style", ".TreeLevel2Style", ".TreeLevel3Style", ".TreeLevel4Style";
+}
+.TreeLevel1Style {
+  background-color: #ffffff;
+}
+.TreeLevel2Style {
+  background-color: #ffffff;
+}
+.TreeLevel3Style {
+  background-color: #ffffff;
+}
+.TreeLevel4Style {
+  background-color: #ffffff;
+}
+.TreeSelectionStyle {
+  background-color: #e8f0f6;
+  color: rgba(51,51,51,0.5);
+}
+ProgressBar {
+  border-color: #bfbfbf;
+  background-color: #5e696e;
+  color: #333333;
+  height: 26px;
+  progressBarTrackStyle: ".ProgressBarTrackStyle";
+}
+.ProgressBarTrackStyle {
+  background-color: #fafafa;
+}
+.SAPSeries1 {
+  stroke: #658fc5;
+  fill: #7fa8de;
+}
+.SAPSeries2 {
+  stroke: #adc566;
+  fill: #c4dd7c;
+}
+.SAPSeries3 {
+  stroke: #e6cc57;
+  fill: #ffe571;
+}
+.SAPSeries4 {
+  stroke: #ab9ad3;
+  fill: #c1b0eb;
+}
+.SAPSeries5 {
+  stroke: #90b3ac;
+  fill: #a9cdc6;
+}
+.SAPSeries6 {
+  stroke: #ae9370;
+  fill: #c7ac8a;
+}
+.SAPSeries7 {
+  stroke: #c371a3;
+  fill: #dc8bbc;
+}
+.SAPSeries8 {
+  stroke: #ffffff;
+  fill: #fff;
+}
+.SAPSeries9 {
+  stroke: #7a952b;
+  fill: #91ab43;
+}
+.SAPSeries10 {
+  stroke: #d8a900;
+  fill: #f1c20a;
+}
+WDAnalyticsChart {
+  chartSeriesStyles: ".SAPSeries1", ".SAPSeries2", ".SAPSeries3", ".SAPSeries4", ".SAPSeries5", ".SAPSeries6", ".SAPSeries7", ".SAPSeries8", ".SAPSeries9", ".SAPSeries10";
+}
+
+/**
+* UR.flash.baseTheme.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* Base.baseLib.sap_goldreflection.base (Version 11.0.3)
+*/
+
+
+/**
+* UR.baseLib.sap_goldreflection.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.baseLib.sap_goldreflection.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_goldreflection.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_goldreflection.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* Base.baseLib.sap_bluecrystal.base (Version 11.0.3)
+*/
+
+
+/**
+* UR.baseLib.sap_bluecrystal.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.baseLib.sap_bluecrystal.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_bluecrystal.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_bluecrystal.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* Base.baseLib.sap_belize.base (Version 11.0.3)
+*/
+
+
+/**
+* UR.baseLib.sap_belize.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.baseLib.sap_belize.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_belize.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.sap_belize.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* Base.baseLib.ecu.custom (Version 11.0.3)
+*/
+
+
+/**
+* Base.baseLib.ecu.base (Version 11.0.3)
+*/
+
+
+/**
+* UR.baseLib.ecu.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.baseLib.ecu.standards (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.ecu.custom (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.ecu.base (Version 10.30.7.274797.0)
+*/
+
+
+/**
+* UR.flash.ecu.standards (Version 10.30.7.274797.0)
+*/
+

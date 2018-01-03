@@ -1,0 +1,10 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core">
+    <SelectDialog noDataText="No Products Found" title="Select" confirm="handleClose" close="handleClose" width="50%" height="50%">
+        <StandardListItem title="Projector" icon="./resources/images/projectorImageGray.png" iconDensityAware="false" iconInset="false" type="Active" />
+        <StandardListItem title="Cookies" icon="./resources/images/cookiesImageGray.png" iconDensityAware="false" iconInset="false" type="Active" />
+        <StandardListItem title="Coffee" icon="./resources/images/coffeeImageGray.png" iconDensityAware="false" iconInset="false" type="Active" />
+        <StandardListItem title="Fruits" icon="./resources/images/pearImageGray.png" iconDensityAware="false" iconInset="false" type="Active" />
+    </SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,41 @@
+<mvc:View controllerName="ecu.controller.Corpo" 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt">
+    <App id="corpo">
+        <pages>
+            <Page showHeader="false">
+                <content>
+                    <tnt:ToolHeader>
+                        <Button icon="sap-icon://nav-back" press="onNavBack" />
+                        <ToolbarSpacer/>
+                        <Image src="./resources/images/eurocash_logo.png" width="160px" height="30px" press="onNavToMainPage" />
+                        <ToolbarSpacer/>
+                    </tnt:ToolHeader>
+                    <l:VerticalLayout id="listId" class="sapUiContentPadding listContent listTile listMaxWidth">
+                        <l:content>
+                            <List items="{news>/d/results}">
+                                <FeedListItem sender="{news>Author}" 
+                                    icon="sap-icon://hint" 
+                                    senderPress="onPress" 
+                                    iconDensityAware="false" 
+                                    info="{news>Time}" 
+                                    timestamp="{news>Description}" 
+                                    text="{news>Title}" 
+                                    convertLinksToAnchorTags="All" 
+                                    type="Active" 
+                                    press="onNewsListPress" />
+                            </List>
+                        </l:content>
+                    </l:VerticalLayout>
+                    <TileContainer id="container" height="40%">
+                        <StandardTile icon="sap-icon://meal" type="type" number="{i18n>Corpo.food}" numberUnit="-" title="{i18n>Corpo.foodCheck}" info="info" press="onOpenFoodPopover" />
+                        <StandardTile icon="sap-icon://map-3" type="type" number="{i18n>Corpo.navigation}" numberUnit="-" title="{i18n>Corpo.navigationPosition}" press="onNavigationPopover" />
+                        <StandardTile icon="sap-icon://task" type="type" number="{i18n>Corpo.roomReserve}" numberUnit="-" title="{i18n>Corpo.roomReserveDesc}" press="onReservationRoomPopover" />
+                    </TileContainer>
+                </content>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

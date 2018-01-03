@@ -1,0 +1,99 @@
+<mvc:View controllerName="ecu.controller.Navigation" 
+    xmlns="sap.m" 
+    xmlns:l="sap.ui.layout" 
+    xmlns:core="sap.ui.core" 
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
+    xmlns:tnt="sap.tnt" 
+    xmlns:unified="sap.ui.unified" 
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <App id="navigation">
+        <pages>
+            <Page showHeader="false">
+                <html:div class="navbar" id="myTopnav">
+                    <Label class="roomTitle" text="{roomName>/value/0/roomName}"/>
+                    <html:a id="openMenuLink" href="javascript:void(0);" style="font-size:4vh;" class="icon">&#9776;</html:a>
+                    <Label id="oClock" class="headerClock"/>
+                </html:div>
+                <html:div class="parent">
+                    <html:div class="w3-sidebar w3-bar-block w3-card w3-animate-right sideBar" id="rightMenu">
+                        <html:a id="loginButton" class="w3-bar-item w3-button" style="border-bottom:1px solid #313030;">Login</html:a>
+                        <html:a id="settingsButton" class="w3-bar-item w3-button" style="border-bottom:1px solid #313030;">Settings</html:a>
+                        <VBox id="settingsBox" visible="false">
+                            <Select id="selectRoomId" class="selectButton" forceSelection="false" items="{
+                                        path: 'allRooms>/value'
+                                    }" change="onRoomChange">
+                                <core:Item key="{allRooms>userPrincipalName}" text="{allRooms>displayName}" />
+                            </Select>
+                            <HBox>
+                                <Input id="urlInput" type="Text" placeholder="Background image url" />
+                                <core:Icon src="sap-icon://add-process" class="saveImage" press="onUrlSave" />
+                            </HBox>
+                        </VBox>
+                    </html:div>
+                    <html:div id="child" class="child-1">
+                        <html:div class="mainAddButton">
+                            <Text id="availableReservation" text="{ActualStatus>/status/0/CurrentOrUse}" class="ifAvailableText"/>
+                            <Image id="15minReservation" src="./resources/images/15mins.png" class="quickReservationOtherButton" visible="false" press="onQuick15"/>
+                        </html:div>
+                        <html:div class="mainAddButton">
+                            <Image id="plusReservation" src="./resources/images/plus.png" class="quickReservationMainButton" press="onEndNowAndQuickRes"/>
+                        </html:div>
+                        <html:div class="mainAddButton">
+                            <Image id="45minReservation" src="./resources/images/45mins.png" class="quickReservationOtherButton" visible="false" press="onQuick45"/>
+                            <Text id="timeReservation" text="{reservationTimeHeader>/time/0/mainTime}" class="ifAvailableText"/>
+                        </html:div>
+                        <html:div id="footer" class="cancelFooter"><Link text="Cancel" class="cancelButton" press="onCancelButton"/></html:div>
+                    </html:div>
+                    <html:div class="child-2">
+                        <ScrollContainer vertical='true'>
+                            <List id="reservationsList" headerText="Reservations" visible="true" class="childMainView" items="{path: 'reservationTime>/value/'}">
+                                <items>
+                                    <ObjectListItem title="{reservationTime>subject}" type="Active" press="onListItemPress" number="{reservationTime>reservationTime}">
+                                        <attributes>
+                                            <ObjectAttribute text="{reservationTime>organizer}" />
+                                        </attributes>
+                                    </ObjectListItem>
+                                </items>
+                            </List>
+                            <List id="attendeesList" headerText="Attendees" visible="false" class="childMainView" items="{path: 'reservationTime>/value/0/attendees/'}">
+                                <items>
+                                    <ObjectListItem title="{reservationTime>name}" type="Active" press="onListItemPress" number="{reservationTime>phone}">
+                                        <attributes>
+                                            <ObjectAttribute text="{reservationTime>address}" />
+                                        </attributes>
+                                    </ObjectListItem>
+                                </items>
+                            </List>
+                            <PlanningCalendar id="calendarView" class="childMainView" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false" visible="false">
+                                <rows>
+                                    <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
+                                        <appointments>
+                                            <unified:CalendarAppointment startDate="{allRoomsOccupancy>start/dateTime}" endDate="{allRoomsOccupancy>end/dateTime}" title="{allRoomsOccupancy>totalTime}" text="{allRoomsOccupancy>subject}" type="{allRoomsOccupancy>type}" tentative="false"></unified:CalendarAppointment>
+                                        </appointments>
+                                        <intervalHeaders>
+                                            <unified:CalendarAppointment startDate="{startDate}" endDate="{endDate}" title="{endDate}" type="Type02"></unified:CalendarAppointment>
+                                        </intervalHeaders>
+                                    </PlanningCalendarRow>
+                                </rows>
+                            </PlanningCalendar>
+                        </ScrollContainer>
+                        <HBox class="hboxIcons">
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon src="" class="grayIcon"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="reservationsIcon" src="sap-icon://check-availability" class="grayIcon" press="onReservationPress"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="attendeesIcon" src="sap-icon://group" class="grayIcon" press="onAttendeesPress"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="calendarIcon" src="sap-icon://calendar" class="grayIcon" press="onCalendarPress"/>
+                            </html:div>
+                        </HBox>
+                    </html:div>
+                </html:div>
+            </Page>
+        </pages>
+    </App>
+</mvc:View>

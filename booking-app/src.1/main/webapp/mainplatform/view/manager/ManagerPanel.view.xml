@@ -1,0 +1,65 @@
+<mvc:View xmlns="sap.m" xmlns:c="ecu.controller.manager"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:ch="sap.suite.ui.microchart"
+	xmlns:tnt="sap.tnt" controllerName="ecu.controller.manager.ManagerPanel">
+
+	<App id="newapp">
+		<pages>
+			<Page showHeader="false" title="{i18n>managerPanel}" id="__page0">
+				<content>
+					<tnt:ToolHeader>
+						<ToolbarSpacer />
+						<Image
+							src="http://portalmedialny.pl/media/images/original/md5/f/1/f1abc0b2b873e36f1f6d56ef4375384a/eurocash.png"
+							width="160px" height="30px" />
+						<ToolbarSpacer />
+					</tnt:ToolHeader>
+					<VBox>
+						<HBox class="ecuHBox">
+
+							<GenericTile id="dailyPlan"
+								class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+								header="{i18n>dailyPlan}" press="naviToSalesPlane">
+								<tileContent>
+									<TileContent id="dailyPlanPlanTC" footer="{i18n>completed}">
+										<content>
+											<NumericContent id="dailyPlanValue" scale="%"
+												icon="sap-icon://collections-insight" />
+										</content>
+									</TileContent>
+								</tileContent>
+							</GenericTile>
+
+							<GenericTile id="quarterPlan"
+								class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+								header="{i18n>quarterPlan}" press="naviToSalesPlane"
+								subheader="{i18n>for}{/quarterPlan/quarter}">
+								<tileContent>
+									<TileContent id="quarterPlanTC" footer="{i18n>completed}">
+										<content>
+											<ch:BulletMicroChart id="targetValue">
+												<ch:actual>
+													<ch:BulletMicroChartData id="actualValue"
+														value="{QuarterPlan>/results/0/ActualSale}" color="Good" />
+												</ch:actual>
+												<ch:thresholds>
+													<ch:BulletMicroChartData value="0"
+														color="Error" />
+													<ch:BulletMicroChartData id="criticalValue"
+														color="Critical" />
+													<ch:BulletMicroChartData id="goodValue"
+														color="Good" />
+												</ch:thresholds>
+											</ch:BulletMicroChart>
+										</content>
+									</TileContent>
+								</tileContent>
+							</GenericTile>
+						</HBox>
+
+
+					</VBox>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

@@ -1,0 +1,56 @@
+ [
+	{
+		"text": "Sales Plan",
+		"ref": "sap-icon://paid-leave",
+		"nodes":
+		[
+			{
+				"text": "Sales Plan Yesterday",
+				"ref": "sap-icon://filter-analytics",
+				"selected":false
+			},
+			{
+				"text": "Sales Plan Week",
+				"ref": "sap-icon://filter-analytics",
+				"selected":false
+			},
+			{
+				"text": "Sales Plan Month",
+				"ref": "sap-icon://filter-analytics",
+				"selected":false
+			},
+			{
+				"text": "Sales Plan Year",
+				"ref": "sap-icon://filter-analytics",
+				"selected":true
+			},
+						{
+				"text": "Sales Plan Yesterday for BU",
+				"ref": "sap-icon://filter-analytics",
+				"selected":false
+			},
+			{
+				"text": "Sales Plan Week for BU",
+				"ref": "sap-icon://filter-analytics",
+				"selected":false
+			}
+			
+		]
+	},
+	{
+		"text": "Total Sales",
+		"ref": "sap-icon://lead",
+		"nodes":[
+			{
+				"text": "Total Sales in month",
+				"ref": "sap-icon://line-chart",
+				"selected":false
+			},
+						{
+				"text": "Total Sales in year",
+				"ref": "sap-icon://line-chart",
+				"selected":false
+			}
+		]
+	}
+]
