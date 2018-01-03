@@ -96,6 +96,11 @@
 				"target": "roomDetails"
 			},
 			{
+				"pattern": "navigation",
+				"name": "Navigation",
+				"target": "navigation"
+			},
+			{
 				"pattern":"manager",
 				"name":"managerLogin",
 				"target":"managerLogin"
@@ -159,6 +164,10 @@
 				},
 				"roomDetails": {
 					"viewName": "RoomDetails",
+					"transition": "slide"
+				},
+				"navigation": {
+					"viewName": "Navigation",
 					"transition": "slide"
 				},
 				"managerLogin":{

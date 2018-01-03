@@ -1,71 +1,72 @@
 <mvc:View controllerName="ecu.controller.RoomDetails" 
     xmlns="sap.m" 
     xmlns:l="sap.ui.layout" 
+    xmlns:core="sap.ui.core" 
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" 
     xmlns:tnt="sap.tnt" 
     xmlns:unified="sap.ui.unified" 
-    xmlns:core="sap.ui.core">
+    xmlns:html="http://www.w3.org/1999/xhtml">
     <App id="roomDetails">
         <pages>
             <Page showHeader="false">
-                <content class="freeRoom">
-                    <Image id="roomDetailsImage" src="./resources/images/transparent2.png" class="" width="100%" height="100%" />
-                    <FlexBox alignItems="Start" class="flexBoxHeaderClass">
-                        <items>
-                            <Text text="{roomName>/value/0/roomName}" class="detailsText">
-                                <layoutData>
-                                    <FlexItemData growFactor="1" />
-                                </layoutData>
-                            </Text>
-                            <Label id="oClock" class="headerClock">
-                                <layoutData>
-                                    <FlexItemData growFactor="1" />
-                                </layoutData>
-                            </Label>
-                        </items>
-                    </FlexBox>
-                    <FlexBox alignItems="Start" class="flexBoxClass">
-                        <items>
-                            <Text text="{ActualStatus>/status/0/CurrentOrUse}" class="availableText">
-                                <layoutData>
-                                    <FlexItemData growFactor="1" />
-                                </layoutData>
-                            </Text>
-                            <Text text="{reservationTimeHeader>/time/0/mainTime}" class="availableTextReservation">
-                                <layoutData>
-                                    <FlexItemData growFactor="1" />
-                                </layoutData>
-                            </Text>
-                        </items>
-                    </FlexBox>
-                    <HBox class="flexBoxMainClass">
-                        <VBox class="nextOrCurrentVBox">
-                            <Table id="roomDetailsTableClosest" inset="false" class="roomDetailsTableClosest">
-                                <columns>
-                                    <Column width="23.7%" text="text"></Column>
-                                    <Column width="29.3%" demandPopin="true"></Column>
-                                </columns>
-                                <items>
-                                    <ColumnListItem>
-                                        <cells>
-                                            <ObjectIdentifier title="{ActualStatus>/status/0/CurrentOrNext}" class="roomDetailsNextCurrent"/>
-                                            <ObjectIdentifier title="{reservationTime>/value/0/subject}" class="roomDetailsNextDesc"/>
-                                        </cells>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
-                            <ProgressIndicator id="progressBar" class="progressBar" percentValue="{ActualStatus>/status/0/ProgressBar}" displayValue="{ActualStatus>/status/0/ProgressBar}%" showValue="true" state="Success" width="100%"/>
-                            <HBox id="quickReservationHBox">
-                                <Image src="./resources/images/button_15mins.png" class="endNowAndQuickRes" press="onImageQuickRes1"/>
-                                <Image src="./resources/images/button_30mins.png" class="endNowAndQuickRes" press="onImageQuickRes2"/>
-                                <Image src="./resources/images/button_45mins.png" class="endNowAndQuickRes" press="onImageQuickRes3"/>
+                <html:div class="navbar" id="myTopnav">
+                    <Label class="roomTitle" text="{roomName>/value/0/roomName}"/>
+                    <html:a id="openMenuLink" href="javascript:void(0);" style="font-size:4vh;" class="icon">&#9776;</html:a>
+                    <Label id="oClock" class="headerClock"/>
+                </html:div>
+                <html:div id="parent" class="parent">
+                    <html:div class="w3-sidebar w3-bar-block w3-card w3-animate-right sideBar" id="rightMenu">
+                        <html:a id="loginButton" class="w3-bar-item w3-button" style="border-bottom:1px solid #313030;">Login</html:a>
+                        <html:a id="settingsButton" class="w3-bar-item w3-button" style="border-bottom:1px solid #313030;">Settings</html:a>
+                        <VBox id="settingsBox" visible="false">
+                            <Select id="selectRoomId" class="selectButton" forceSelection="false" items="{
+                                        path: 'allRooms>/value'
+                                    }" change="onRoomChange">
+                                <core:Item key="{allRooms>userPrincipalName}" text="{allRooms>displayName}" />
+                            </Select>
+                            <HBox>
+                                <Input id="urlInput" type="Text" placeholder="Background image url" />
+                                <core:Icon src="sap-icon://add-process" class="saveImage" press="onUrlSave" />
                             </HBox>
                         </VBox>
-                        <Image id="endNowAndQuickRes" src="" class="endNowAndQuickRes" press="onEndNowAndQuickRes"/>
-                    </HBox>
-                    <ScrollContainer id="roomDetailsScrollContainer" height='26%' vertical='true' class="roomDetailsTableMain">
-                        <VBox id="roomDetailsTableFindAnother" visible="false">
-                            <PlanningCalendar id="PC1" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false">
+                    </html:div>
+                    <html:div id="child" class="child-1">
+                        <html:div class="mainAddButton">
+                            <Text id="availableReservation" text="{ActualStatus>/status/0/CurrentOrUse}" class="ifAvailableText"/>
+                            <Image id="15minReservation" src="./resources/images/15mins.png" class="quickReservationOtherButton" visible="false" press="onQuick15"/>
+                        </html:div>
+                        <html:div class="mainAddButton">
+                            <Image id="plusReservation" src="./resources/images/plus.png" class="quickReservationMainButton" press="onEndNowAndQuickRes"/>
+                        </html:div>
+                        <html:div class="mainAddButton">
+                            <Image id="45minReservation" src="./resources/images/45mins.png" class="quickReservationOtherButton" visible="false" press="onQuick45"/>
+                            <Text id="timeReservation" text="{reservationTimeHeader>/time/0/mainTime}" class="ifAvailableText"/>
+                        </html:div>
+                        <html:div id="footer" class="cancelFooter">
+                            <Link text="Cancel" class="cancelButton" press="onCancelButton"/>
+                        </html:div>
+                    </html:div>
+                    <html:div id="child2" class="child-2">
+                        <ScrollContainer vertical='true'>
+                            <List id="reservationsList" headerText="Reservations" visible="true" class="childMainView" items="{path: 'reservationTime>/value/'}">
+                                <items>
+                                    <ObjectListItem title="{reservationTime>subject}" type="Active" press="onListItemPress" number="{reservationTime>reservationTime}">
+                                        <attributes>
+                                            <ObjectAttribute text="{reservationTime>organizer}" />
+                                        </attributes>
+                                    </ObjectListItem>
+                                </items>
+                            </List>
+                            <List id="attendeesList" headerText="Attendees" visible="false" class="childMainView" items="{path: 'reservationTime>/value/0/attendees/'}">
+                                <items>
+                                    <ObjectListItem title="{reservationTime>name}" type="Active" press="onListItemPress" number="{reservationTime>phone}">
+                                        <attributes>
+                                            <ObjectAttribute text="{reservationTime>address}" />
+                                        </attributes>
+                                    </ObjectListItem>
+                                </items>
+                            </List>
+                            <PlanningCalendar id="calendarView" class="childMainView" startDate="{path: 'allRoomsOccupancy>/0/value/0/startTime'}" rows="{path: 'allRoomsOccupancy>/'}" appointmentsVisualization="Filled" appointmentSelect="handleAppointmentSelect" showEmptyIntervalHeaders="false" visible="false">
                                 <rows>
                                     <PlanningCalendarRow icon="sap-icon://meeting-room" title="{path: 'allRoomsOccupancy>emailAddress/'}" text="{path: 'allRoomsOccupancy>available/'}" appointments="{path : 'allRoomsOccupancy>value/', templateShareable: 'true'}" intervalHeaders="{path: 'reservationTime>value', templateShareable: 'true'}">
                                         <appointments>
@@ -77,79 +78,23 @@
                                     </PlanningCalendarRow>
                                 </rows>
                             </PlanningCalendar>
-                        </VBox>
-                        <HBox id="roomDetailsTableAll">
-                            <Table id="roomDetailsTableReservations" inset="false" items="{path: 'reservationTime>/value/'}" class="roomDetailsTableAll">
-                                <columns>
-                                    <Column width="20%">
-                                        <Text text="Organizer" class="roomDetailsColumnDesc"/>
-                                    </Column>
-                                    <Column width="30%" demandPopin="true">
-                                        <Text text="Subject" class="roomDetailsColumnDesc"/>
-                                    </Column>
-                                    <Column width="30%" demandPopin="true">
-                                        <Text text="ReservationTime" class="roomDetailsColumnDesc"/>
-                                    </Column>
-                                </columns>
-                                <items>
-                                    <ColumnListItem>
-                                        <cells>
-                                            <Text text="{reservationTime>organizer}" class="roomDetailsTableDesc"/>
-                                            <Text text="{reservationTime>subject}" class="roomDetailsTableDesc"/>
-                                            <Text text="{reservationTime>reservationTime}" class="roomDetailsTableDesc"/>
-                                        </cells>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
+                        </ScrollContainer>
+                        <HBox class="hboxIcons">
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon src="" class="grayIcon selectedIcon"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="reservationsIcon" src="sap-icon://check-availability" class="grayIcon" press="onReservationPress"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="attendeesIcon" src="sap-icon://group" class="grayIcon" press="onAttendeesPress"/>
+                            </html:div>
+                            <html:div class="roomDetailsImageAdd">
+                                <core:Icon id="calendarIcon" src="sap-icon://calendar" class="grayIcon" press="onCalendarPress"/>
+                            </html:div>
                         </HBox>
-                        <Table id="roomDetailsTablePeople" inset="false" items="{path: 'reservationTime>/value/0/attendees/'}" visible="false">
-                            <columns>
-                                <Column width="25%" text="text">
-                                    <Text text="Name" class="roomDetailsColumnDesc"/>
-                                </Column>
-                                <Column width="25%" demandPopin="true">
-                                    <Text text="Phone" class="roomDetailsColumnDesc"/>
-                                </Column>
-                                <Column width="30%" demandPopin="true">
-                                    <Text text="Email address" class="roomDetailsColumnDesc"/>
-                                </Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem>
-                                    <cells>
-                                        <Text text="{reservationTime>name}" class="roomDetailsTableDesc"/>
-                                        <Text text="{reservationTime>phone}" class="roomDetailsTableDesc"/>
-                                        <Text text="{reservationTime>address}" class="roomDetailsTableDesc" />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
-                        <!-- <Table id="roomDetailsTableFindAnother" inset="false" items="{path: 'reservationDetailsFindAnother>/'}" visible="false"><columns><Column width="20%" text="text"><Text text="Name" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Location" class="roomDetailsColumnDesc"/></Column><Column width="30%" demandPopin="true"><Text text="Principal name" class="roomDetailsColumnDesc"/></Column></columns><items><ColumnListItem><cells><Text text="{reservationDetailsFindAnother>displayName}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>officeLocation}" class="roomDetailsTableDesc"/><Text text="{reservationDetailsFindAnother>userPrincipalName}" class="roomDetailsTableDesc"/></cells></ColumnListItem></items></Table> -->
-                        <VBox id="detailsHBox" width="100%" visible="false" justifyContent="Center" alignContent="Center" alignItems="Center" class="login_form">
-                            <items>
-                                <Button icon="./resources/images/windows.png" class="saveButton" text="Login/Logout" type="Emphasized" press="onOutlookLoginPress"/>
-                                <VBox>
-                                    <Select id="selectRoomId" class="selectButton" forceSelection="false" items="{
-                                        path: 'allRooms>/value'
-                                    }">
-                                        <core:Item key="{allRooms>userPrincipalName}" text="{allRooms>displayName}" />
-                                    </Select>
-                                </VBox>
-                                <Button class="saveButton" text="Save" type="Emphasized" press="onSavePressButton"/>
-                            </items>
-                        </VBox>
-                    </ScrollContainer>
-                    <core:Icon id="calendarImage" src="sap-icon://calendar" class="whiteIcon roomDetailsImageMain" press="onRoomDetailsCalendarOpen"/>
-                    <core:Icon id="peopleImage" src="sap-icon://group" class="grayIcon roomDetailsImageMain" press="onRoomDetailsPeopleOpen"/>
-                    <core:Icon id="findAnotherImage" src="sap-icon://check-availability" class="grayIcon roomDetailsImageMain" press="onRoomDetailsFindOpen"/>
-                    <core:Icon id="openReservationImage" src="sap-icon://action-settings" class="grayIcon roomDetailsImageAdd" press="onRoomDetailsAddOpen"/>
-                    <HBox class="imageDescHBox">
-                        <Text id="calendarText" text="" class="roomDisplayImageCalendarDescription roomDisplayChangeTextColor"/>
-                        <Text id="peopleText" text="" class="roomDisplayImageAttendeesDescription" />
-                        <Text id="findAnotherText" text="" class="roomDisplayImageFreeRoomDescription" />
-                        <Text id="openReservationText" text="" class="roomDisplayImageAddResDescription" />
-                    </HBox>
-                </content>
+                    </html:div>
+                </html:div>
             </Page>
         </pages>
     </App>
