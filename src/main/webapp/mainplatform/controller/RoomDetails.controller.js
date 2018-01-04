@@ -641,7 +641,7 @@ sap.ui.define([
                 });
 
             } else {
-                window.location.replace('http://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+                window.location.replace('https://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
             }
         },
 
