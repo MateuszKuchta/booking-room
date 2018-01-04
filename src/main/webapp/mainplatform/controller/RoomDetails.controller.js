@@ -296,17 +296,20 @@ sap.ui.define([
                         window.thisRD.getView().byId("attendeesIcon").setSrc("");
                         window.thisRD.getView().byId("calendarIcon").setSrc("");
                     } else {
-                        window.thisRD.getView().byId("reservationsList").setVisible(true);
-                        window.thisRD.getView().byId("attendeesList").setVisible(false);
-                        window.thisRD.getView().byId("calendarView").setVisible(false);
+                        if (window.thisRD.getView().byId("reservationsList").getVisible() === false && window.thisRD.getView().byId("attendeesList").getVisible() === false && window.thisRD.getView().byId("calendarView").getVisible() === false ) {
+                            window.thisRD.getView().byId("reservationsList").setVisible(true);
+                            window.thisRD.getView().byId("attendeesList").setVisible(false);
+                            window.thisRD.getView().byId("calendarView").setVisible(false);
 
-                        window.thisRD.getView().byId("reservationsIcon").setSrc("sap-icon://check-availability");
-                        window.thisRD.getView().byId("attendeesIcon").setSrc("sap-icon://group");
-                        window.thisRD.getView().byId("calendarIcon").setSrc("sap-icon://calendar");
+                            window.thisRD.getView().byId("reservationsIcon").setSrc("sap-icon://check-availability");
+                            window.thisRD.getView().byId("attendeesIcon").setSrc("sap-icon://group");
+                            window.thisRD.getView().byId("calendarIcon").setSrc("sap-icon://calendar");
 
-                        window.thisRD.getView().byId("attendeesIcon").removeStyleClass("selectedIcon");
-                        window.thisRD.getView().byId("calendarIcon").removeStyleClass("selectedIcon");
-                        window.thisRD.getView().byId("reservationsIcon").addStyleClass("selectedIcon");
+                            window.thisRD.getView().byId("attendeesIcon").removeStyleClass("selectedIcon");
+                            window.thisRD.getView().byId("calendarIcon").removeStyleClass("selectedIcon");
+                            window.thisRD.getView().byId("reservationsIcon").addStyleClass("selectedIcon");
+                        }
+
                     }
 
                 },
@@ -404,7 +407,7 @@ sap.ui.define([
                     } else {
                         window.thisRD.addReservationText(0);
                         jsonStatusModel.oData.status["0"].CurrentOrUse = "No reservations";
-                        
+
                         jQuery("#__xmlview1--child").removeClass("almostFreeRoom");
                         jQuery("#__xmlview1--child").removeClass("inUseRoom");
                         jQuery("#__xmlview1--child").addClass("freeRoom");
