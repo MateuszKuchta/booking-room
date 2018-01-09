@@ -379,28 +379,30 @@ sap.ui.define([
                         jQuery("#__xmlview1--child").removeClass("freeRoom");
                         jQuery("#__xmlview1--child").removeClass("almostFreeRoom");
                         jQuery("#__xmlview1--child").removeClass("inUseRoom");
-
                         if (start <= actual) {
                             jQuery("#__xmlview1--child").addClass("inUseRoom");
                             if (window.thisRD.getView().byId("15minReservation").getVisible())
                                 window.thisRD.onQuickReservation(0);
                             window.thisRD.getView().byId("plusReservation").setSrc("./resources/images/end.png");
                             jsonStatusModel.oData.status["0"].CurrentOrUse = "In use";
-
                         } else {
+                            console.log("else");
                             var checkIfLessThan15 = start - actual;
                             if (new Date(checkIfLessThan15).getTime() <= new Date(0).setMinutes(new Date(0).getMinutes() + 15)) {
+                                console.log("ponizej");
                                 jQuery("#__xmlview1--child").addClass("almostFreeRoom");
                                 if (window.thisRD.getView().byId("15minReservation").getVisible())
                                     window.thisRD.onQuickReservation(0);
                                 window.thisRD.getView().byId("plusReservation").setSrc("./resources/images/plus-orange.png");
                             } else {
+                                console.log("bardziej else");
                                 jQuery("#__xmlview1--child").addClass("freeRoom");
                                 if ((window.thisRD.getView().byId("plusReservation").getSrc() !== "./resources/images/plus.png") && (window.thisRD.getView().byId("plusReservation").getSrc() !== "./resources/images/30mins.png")) {
-                                    if (window.thisRD.getView().byId("15minReservation").getVisible())
-                                        window.thisRD.onQuickReservation(0);
+                                    if (window.thisRD.getView().byId("15minReservation").getVisible() || window.thisRD.getView().byId("plusReservation").getSrc() === "./resources/images/end.png")
+                                       window.thisRD.onQuickReservation(0);
+                                    console.log("w bardziej");
                                 }
-
+                                console.log("w");
                             }
                             jsonStatusModel.oData.status["0"].CurrentOrUse = "Available";
                         }
@@ -644,7 +646,7 @@ sap.ui.define([
                 });
 
             } else {
-                window.location.replace('https://' + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
+                window.location.replace("https://" + window.location.host + '/room-reservation/login?prefer=' + Intl.DateTimeFormat().resolvedOptions().timeZone);
             }
         },
 
